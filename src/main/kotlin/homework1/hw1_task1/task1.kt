@@ -10,7 +10,8 @@ fun listReverse(startIndexes: Int, endIndexes: Int, inputList: MutableList<Int>?
     inputList.subList(startIndexes, inputList.size).reverse()
     inputList.reverse()
 }
-fun main(args: Array<String>) {
+
+fun main() {
     val scan = Scanner(System.`in`)
     println("Введите длину начала и длину конца")
     val startIndexes = scan.nextInt()
