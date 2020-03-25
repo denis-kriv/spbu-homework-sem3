@@ -1,5 +1,7 @@
 package homework3.hw3_task1
 
+import kotlin.math.max
+
 fun <K, T> smallLeftTurn(item: AvlTree<K, T>) {
     if (!(item.parent.isNullOrEmpty())) {
         item.rightChild!!.parent = item.parent
@@ -116,10 +118,36 @@ class AvlTree<K, T>(val key: K, val value: T) : Map<K, T> {
         }
 
         while (!(itemForAdd.parent.isNullOrEmpty())) {
-            if (itemForAdd.leftChild.isNullOrEmpty() || itemForAdd.rightChild.isNullOrEmpty()) {
-                itemForAdd.size = 2
-            } else {
-                itemForAdd.size = 
+            itemForAdd.balance()
+        }
+    }
+
+    private fun balance() {
+        if (this.rightChild.isNullOrEmpty() && this.leftChild.isNullOrEmpty()) {
+            this.size = 1
+        } else if (this.rightChild.isNullOrEmpty() || this.leftChild.isNullOrEmpty()) {
+            this.size = 2
+            if (this.rightChild.isNullOrEmpty() && this.leftChild!!.size > 1) {
+                if (this.leftChild!!.leftChild.isNullOrEmpty()) {
+
+                } else if (this.leftChild!!.rightChild.isNullOrEmpty()) {
+
+                } else if (this.leftChild!!.leftChild!!.size - this.leftChild!!.rightChild!!.size > 1) {
+
+                } else if (this.leftChild!!.leftChild!!.size - this.leftChild!!.rightChild!!.size < -1) {
+
+                }
+            }
+            if (this.leftChild.isNullOrEmpty() && this.rightChild!!.size > 1) {
+
+            }
+        } else {
+            this.size = max(this.leftChild!!.size, this.rightChild!!.size) + 1
+            if (this.leftChild!!.size > this.rightChild!!.size + 1) {
+
+            }
+            if (this.leftChild!!.size > this.rightChild!!.size + 1) {
+
             }
         }
     }
