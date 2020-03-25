@@ -85,4 +85,43 @@ class AvlTree<K, T>(val key: K, val value: T) : Map<K, T> {
         return true
     }
 
+    fun addItem(addsItem: AvlTree<K, T>) {
+        var itemForAdd = this
+
+        while (!(itemForAdd.parent.isNullOrEmpty())) {
+            itemForAdd = itemForAdd.parent!!
+        }
+
+        while (true) {
+            val pairForAdd: Pair<K, T> = addsItem.key to addsItem.value
+            itemForAdd.entries.plus(pairForAdd)
+            itemForAdd.keys.plus(addsItem.key)
+            itemForAdd.values.plus(addsItem.value)
+            if (equals(itemForAdd.key) < equals(addsItem.key)) {
+                if (itemForAdd.leftChild.isNullOrEmpty()) {
+                    itemForAdd.leftChild = addsItem
+                    break
+                }
+                itemForAdd = itemForAdd.leftChild!!
+                continue
+            }
+            if (equals(itemForAdd.key) > equals(addsItem.key)) {
+                if (itemForAdd.rightChild.isNullOrEmpty()) {
+                    itemForAdd.rightChild = addsItem
+                    break
+                }
+                itemForAdd = itemForAdd.rightChild!!
+                continue
+            }
+        }
+
+        while (!(itemForAdd.parent.isNullOrEmpty())) {
+            if (itemForAdd.leftChild.isNullOrEmpty() || itemForAdd.rightChild.isNullOrEmpty()) {
+                itemForAdd.size = 2
+            } else {
+                itemForAdd.size = 
+            }
+        }
+    }
+
 }
