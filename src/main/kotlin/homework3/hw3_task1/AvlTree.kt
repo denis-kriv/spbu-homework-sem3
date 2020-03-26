@@ -50,7 +50,7 @@ fun <K, T> bigRightTurn(item: AvlTree<K, T>) {
     smallRightTurn(item)
 }
 
-class AvlTree<K, T>(val key: K, val value: T) : Map<K, T> {
+class AvlTree<K, T>(val key: K, private val value: T) : Map<K, T> {
     override val entries: Set<Map.Entry<K, T>> = setOf()
     override val keys: Set<K> = setOf()
     override var size: Int = 0
@@ -118,38 +118,120 @@ class AvlTree<K, T>(val key: K, val value: T) : Map<K, T> {
         }
 
         while (!(itemForAdd.parent.isNullOrEmpty())) {
+            itemForAdd.resize()
             itemForAdd.balance()
         }
     }
 
-    private fun balance() {
+    fun delete(key: K) {
+        var deletesItem = this
+        var itemForBalance = this
+        while (true) {
+            if (deletesItem.parent.isNullOrEmpty()) break
+            deletesItem = deletesItem.parent!!
+        }
+        while (true) {
+            if (equals(deletesItem.key) == key) break
+            if (equals(deletesItem.key) < equals(key)) {
+                deletesItem = deletesItem.rightChild!!
+            }
+            if (equals(deletesItem.key) > equals(key)) {
+                deletesItem = deletesItem.leftChild!!
+            }
+        }
+        if (deletesItem.parent.isNullOrEmpty()) {
+            if (deletesItem.leftChild.isNullOrEmpty() && deletesItem.rightChild.isNullOrEmpty()) {
+                return
+            } else if (deletesItem.leftChild.isNullOrEmpty() || deletesItem.rightChild.isNullOrEmpty()) {
+                if (deletesItem.leftChild.isNullOrEmpty()) {
+                    deletesItem.rightChild!!.parent = null
+                    deletesItem.rightChild = null
+                } else {
+                    deletesItem.leftChild!!.parent = null
+                    deletesItem.leftChild = null
+                }
+            } else {
+                var itemForSwap = deletesItem.leftChild!!
+                while (!(itemForSwap.rightChild.isNullOrEmpty())) {
+                    itemForSwap = itemForSwap.rightChild!!
+                }
+                itemForBalance = itemForSwap.parent!!
+                itemForSwap.rightChild = deletesItem.rightChild
+                itemForSwap.leftChild = deletesItem.leftChild
+                itemForSwap.leftChild = itemForSwap
+                itemForSwap.rightChild = itemForSwap
+            }
+        }
+        if (!(deletesItem.parent.isNullOrEmpty())) {
+            if (deletesItem.leftChild.isNullOrEmpty() && deletesItem.rightChild.isNullOrEmpty()) {
+                return
+            } else if (deletesItem.leftChild.isNullOrEmpty() || deletesItem.rightChild.isNullOrEmpty()) {
+                if (deletesItem.leftChild.isNullOrEmpty()) {
+                    if (equals(deletesItem.parent!!.key) < equals(deletesItem.key)) {
+                        deletesItem.parent!!.parent
+                    } else {
+
+                    }
+                } else {
+                    if (equals(deletesItem.parent!!.key) < equals(deletesItem.key)) {
+
+                    } else {
+
+                    }
+                }
+            } else {
+                var itemForSwap = deletesItem.leftChild!!
+                while (!(itemForSwap.rightChild.isNullOrEmpty())) {
+                    itemForSwap = itemForSwap.rightChild!!
+                }
+                itemForBalance = itemForSwap.parent!!
+                itemForSwap.rightChild = deletesItem.rightChild
+                itemForSwap.leftChild = deletesItem.leftChild
+                itemForSwap.leftChild = itemForSwap
+                itemForSwap.rightChild = itemForSwap
+            }
+        }
+
+
+    }
+
+    private fun resize() {
         if (this.rightChild.isNullOrEmpty() && this.leftChild.isNullOrEmpty()) {
             this.size = 1
         } else if (this.rightChild.isNullOrEmpty() || this.leftChild.isNullOrEmpty()) {
             this.size = 2
-            if (this.rightChild.isNullOrEmpty() && this.leftChild!!.size > 1) {
-                if (this.leftChild!!.leftChild.isNullOrEmpty()) {
-
-                } else if (this.leftChild!!.rightChild.isNullOrEmpty()) {
-
-                } else if (this.leftChild!!.leftChild!!.size - this.leftChild!!.rightChild!!.size > 1) {
-
-                } else if (this.leftChild!!.leftChild!!.size - this.leftChild!!.rightChild!!.size < -1) {
-
-                }
-            }
-            if (this.leftChild.isNullOrEmpty() && this.rightChild!!.size > 1) {
-
-            }
         } else {
             this.size = max(this.leftChild!!.size, this.rightChild!!.size) + 1
-            if (this.leftChild!!.size > this.rightChild!!.size + 1) {
-
-            }
-            if (this.leftChild!!.size > this.rightChild!!.size + 1) {
-
-            }
         }
     }
 
+    private fun balance() {
+        if (this.rightChild.isNullOrEmpty() && this.leftChild.isNullOrEmpty()) return
+        val rightSize = this.rightChild?.size ?: 0
+        val leftSize = this.leftChild?.size ?: 0
+        if (leftSize > rightSize + 1) {
+            val leftChildRightSize = this.rightChild!!.rightChild?.size ?: 0
+            val leftChildLeftSize = this.rightChild!!.leftChild?.size ?: 0
+            if (leftChildRightSize <= leftChildLeftSize) {
+                smallRightTurn(this)
+                return
+            }
+            if (leftChildRightSize > leftChildLeftSize) {
+                bigRightTurn(this)
+                return
+            }
+        }
+        if (rightSize > leftSize + 1) {
+            val rightChildRightSize = this.rightChild!!.rightChild?.size ?: 0
+            val rightChildLeftSize = this.rightChild!!.leftChild?.size ?: 0
+            if (rightChildLeftSize <= rightChildRightSize) {
+                smallLeftTurn(this)
+                return
+            }
+            if (rightChildLeftSize > rightChildRightSize) {
+                bigLeftTurn(this)
+                return
+            }
+        }
+    }
 }
