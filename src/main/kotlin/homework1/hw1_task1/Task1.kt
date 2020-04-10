@@ -5,7 +5,7 @@ import java.util.Scanner
 
 fun listReverse(startIndexes: Int, endIndexes: Int, inputList: MutableList<Int>?) {
     if (startIndexes + endIndexes != inputList?.size) {
-        throw ArithmeticException("Введены некорректные данные");
+        throw ArithmeticException("Введены некорректные данные")
     }
     inputList.subList(0, startIndexes).reverse()
     inputList.subList(startIndexes, inputList.size).reverse()
