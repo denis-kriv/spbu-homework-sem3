@@ -1,6 +1,6 @@
 package homework1Tests
 
-import homework1.hw1_task1.listReverse
+import homework1.task1.listReverse
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import java.lang.Exception

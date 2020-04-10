@@ -1,4 +1,4 @@
-package homework1.hw1_task1
+package homework1.task1
 import java.lang.ArithmeticException
 import java.lang.NumberFormatException
 import java.util.Scanner
