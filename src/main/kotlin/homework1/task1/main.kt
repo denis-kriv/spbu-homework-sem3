@@ -1,4 +1,5 @@
 package homework1.task1
+
 import java.lang.ArithmeticException
 import java.lang.NumberFormatException
 import java.util.Scanner
