@@ -1,10 +1,11 @@
 package homework1.hw1_task1
+import java.lang.ArithmeticException
 import java.lang.NumberFormatException
-import java.util.*
+import java.util.Scanner
 
 fun listReverse(startIndexes: Int, endIndexes: Int, inputList: MutableList<Int>?) {
-    if (inputList.isNullOrEmpty() || startIndexes + endIndexes != inputList.size) {
-        throw Exception()
+    if (startIndexes + endIndexes != inputList?.size) {
+        throw ArithmeticException("Введены некорректные данные");
     }
     inputList.subList(0, startIndexes).reverse()
     inputList.subList(startIndexes, inputList.size).reverse()
@@ -26,8 +27,8 @@ fun main() {
     }
     try {
         listReverse(startIndexes, endIndexes, inputList)
-    } catch (e: Exception) {
-        print("Введены некорректные данные")
+    } catch (e: ArithmeticException) {
+        print(e.message)
         return
     }
     println("Полученный массив:")
