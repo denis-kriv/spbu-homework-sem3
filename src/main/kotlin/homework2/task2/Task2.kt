@@ -1,5 +1,6 @@
-package homework2.hw2_task2
-import java.util.*
+package homework2.task2
+
+import java.util.Scanner
 
 inline fun <reified T> deleteRepeatElements(mutableArray: Array<T>): Array<T> {
     val mapOfUniqueElements = mutableMapOf<Int, T>()
@@ -16,7 +17,7 @@ inline fun <reified T> deleteRepeatElements(mutableArray: Array<T>): Array<T> {
 
 fun main() {
     val scan = Scanner(System.`in`)
-    println("Введите массив")               //Реализация на примере массива слов
+    println("Введите массив")
     val inputArray = scan.nextLine().split(" ").toTypedArray()
     val resultArray = deleteRepeatElements(inputArray)
     println("Полученный массив:")

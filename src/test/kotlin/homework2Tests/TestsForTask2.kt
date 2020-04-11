@@ -1,5 +1,6 @@
 package homework2Tests
-import homework2.hw2_task2.deleteRepeatElements
+
+import homework2.task2.deleteRepeatElements
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 
