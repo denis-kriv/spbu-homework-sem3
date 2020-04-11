@@ -1,5 +1,6 @@
-package homework1.hw1_task3
-import java.util.*
+package homework1.task3
+
+import java.util.Scanner
 
 fun countOfSubstrings(firstString: String, secondString: String): Int {
     if (firstString.length < secondString.length) {
@@ -14,8 +15,7 @@ fun countOfSubstrings(firstString: String, secondString: String): Int {
     if (firstString.length > secondString.length) {
         var result = 0
         for (i in 0..firstString.length - secondString.length) {
-            if (firstString.substring(i, i + secondString.length) == secondString)
-                result++
+            if (firstString.substring(i, i + secondString.length) == secondString) result++
         }
         return result
     }

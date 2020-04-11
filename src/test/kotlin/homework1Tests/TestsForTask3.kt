@@ -1,6 +1,6 @@
 package homework1Tests
 
-import homework1.hw1_task3.countOfSubstrings
+import homework1.task3.countOfSubstrings
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
