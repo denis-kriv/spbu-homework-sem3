@@ -1,5 +1,6 @@
-package homework1.hw1_task5
-import java.util.*
+package homework1.task5
+
+import java.util.Scanner
 import java.io.File
 
 fun countOfStrings(filePath: String): Int {
