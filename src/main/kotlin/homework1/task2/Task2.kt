@@ -1,8 +1,9 @@
-package homework1.hw1_task2
-import java.util.*
+package homework1.task2
+
+import java.util.Scanner
 
 fun factorial(n: Int): Int {
-    if (n < 0) throw Exception()
+    if (n < 0) throw ArithmeticException("Введено отрицательное число")
     var result = 1
     for (i in 1..n) {
         result *= i
@@ -11,7 +12,7 @@ fun factorial(n: Int): Int {
 }
 
 fun recursionFactorial(n: Int): Int {
-    if (n < 0) throw Exception()
+    if (n < 0) throw ArithmeticException("Введено отрицательное число")
     if (n == 1 || n == 0) return 1
     return n * recursionFactorial(n - 1)
 }
@@ -23,7 +24,7 @@ fun main() {
     try {
         println("Итеративный факториал введенного числа: ${factorial(digit)}")
         println("Рекурсивный факториал введенного числа:  ${recursionFactorial(digit)}")
-    } catch (e: Exception) {
-        print("Введено отрицательное число")
+    } catch (e: ArithmeticException) {
+        print(e.message)
     }
 }
