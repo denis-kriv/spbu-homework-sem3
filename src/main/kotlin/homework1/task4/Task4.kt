@@ -1,5 +1,6 @@
-package homework1.hw1_task4
-import java.util.*
+package homework1.task4
+
+import java.util.Scanner
 
 fun isPolyndrom(checkedString: String): Boolean {
     if (checkedString == checkedString.reversed()) return true

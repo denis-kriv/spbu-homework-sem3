@@ -1,5 +1,6 @@
-package homework1.hw1_task4
+package homework1Tests
 
+import homework1.task4.isPolyndrom
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
