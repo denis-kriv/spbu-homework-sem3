@@ -4,7 +4,6 @@ import java.util.Scanner
 
 fun stringWithoutSubStr(startString: String): Int {
     var isCannotAdd = false
-    //Считаем сколько 'x' идут подряд
     var quantityOfSymbols = 0
     var result = 0
     for (i in startString) {
