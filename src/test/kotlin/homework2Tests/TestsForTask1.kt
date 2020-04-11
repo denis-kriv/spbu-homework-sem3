@@ -1,5 +1,6 @@
-package homework2.hw1_task1
+package homework2Tests
 
+import homework2.task1.stringWithoutSubStr
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*

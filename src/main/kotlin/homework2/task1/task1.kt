@@ -1,28 +1,24 @@
-package homework2.hw1_task1
-import java.util.*
+package homework2.task1
+
+import java.util.Scanner
 
 fun stringWithoutSubStr(startString: String): Int {
     var isCannotAdd = false
-    var quantityOfSymbols = 0 //Считаем сколько 'x' идут подряд
+    //Считаем сколько 'x' идут подряд
+    var quantityOfSymbols = 0
     var result = 0
     for (i in startString) {
         if (quantityOfSymbols == 2) isCannotAdd = true
-        if (i == 'x' && !isCannotAdd) {
-            quantityOfSymbols++
-            continue
-        }
-        if (i == 'x' && isCannotAdd) {
-            result++
-            continue
-        }
+        if (i == 'x' && !isCannotAdd) quantityOfSymbols++
+        if (i == 'x' && isCannotAdd) result++
         if (i != 'x') {
             quantityOfSymbols = 0
             isCannotAdd = false
-            continue
         }
     }
     return result
 }
+
 fun main() {
     val scan = Scanner(System.`in`)
     println("Введите исходную строку")
