@@ -68,7 +68,7 @@ fun <K : Comparable<K>, T> reBalance(item: AvlTreeItem<K, T>) {
 }
 
 class AvlTreeItem<K : Comparable<K>, T>(val key: K, val value: T) : Map<K, T> {
-    override val entries: Set<Map.Entry<K, T>> = setOf()
+    override var entries: Set<Map.Entry<K, T>> = setOf()
     override val keys: Set<K> = setOf()
     override var size: Int = 1
     override val values: Collection<T> = listOf()
