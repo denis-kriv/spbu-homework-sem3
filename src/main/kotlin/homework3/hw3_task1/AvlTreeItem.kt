@@ -19,16 +19,7 @@ fun <K : Comparable<K>, T> smallLeftTurn(item: AvlTreeItem<K, T>, tree: AvlTree<
         item.rightChild = null
     }
     item.parent!!.leftChild = item
-    item.size = maxOf(item.rightChild?.size ?: 0, item.leftChild?.size ?: 0) + 1
-    item.balanceCoefficient = (item.rightChild?.size ?: 0) - (item.leftChild?.size ?: 0)
-    item.parent!!.size = maxOf(item.parent!!.rightChild?.size ?: 0, item.parent!!.leftChild?.size ?: 0) + 1
-    item.parent!!.balanceCoefficient = (item.parent!!.rightChild?.size ?: 0) - (item.parent!!.leftChild?.size ?: 0)
-    if (item.parent!!.parent != null) {
-        item.parent!!.parent!!.size =
-            maxOf(item.parent!!.parent!!.rightChild?.size ?: 0, item.parent!!.parent!!.leftChild?.size ?: 0) + 1
-        item.parent!!.parent!!.balanceCoefficient =
-            (item.parent!!.parent!!.rightChild?.size ?: 0) - (item.parent!!.parent!!.leftChild?.size ?: 0)
-    }
+    reBalance(item)
 }
 
 fun <K : Comparable<K>, T> smallRightTurn(item: AvlTreeItem<K, T>, tree: AvlTree<K, T>) {
@@ -50,16 +41,7 @@ fun <K : Comparable<K>, T> smallRightTurn(item: AvlTreeItem<K, T>, tree: AvlTree
         item.leftChild = null
     }
     item.parent!!.rightChild = item
-    item.size = maxOf(item.rightChild?.size ?: 0, item.leftChild?.size ?: 0) + 1
-    item.balanceCoefficient = (item.rightChild?.size ?: 0) - (item.leftChild?.size ?: 0)
-    item.parent!!.size = maxOf(item.parent!!.rightChild?.size ?: 0, item.parent!!.leftChild?.size ?: 0) + 1
-    item.parent!!.balanceCoefficient = (item.parent!!.rightChild?.size ?: 0) - (item.parent!!.leftChild?.size ?: 0)
-    if (item.parent!!.parent != null) {
-        item.parent!!.parent!!.size =
-            maxOf(item.parent!!.parent!!.rightChild?.size ?: 0, item.parent!!.parent!!.leftChild?.size ?: 0) + 1
-        item.parent!!.parent!!.balanceCoefficient =
-            (item.parent!!.parent!!.rightChild?.size ?: 0) - (item.parent!!.parent!!.leftChild?.size ?: 0)
-    }
+    reBalance(item)
 }
 
 fun <K : Comparable<K>, T> bigLeftTurn(item: AvlTreeItem<K, T>, tree: AvlTree<K, T>) {
@@ -70,6 +52,19 @@ fun <K : Comparable<K>, T> bigLeftTurn(item: AvlTreeItem<K, T>, tree: AvlTree<K,
 fun <K : Comparable<K>, T> bigRightTurn(item: AvlTreeItem<K, T>, tree: AvlTree<K, T>) {
     smallLeftTurn(item.leftChild!!, tree)
     smallRightTurn(item, tree)
+}
+
+fun <K : Comparable<K>, T> reBalance(item: AvlTreeItem<K, T>) {
+    item.size = maxOf(item.rightChild?.size ?: 0, item.leftChild?.size ?: 0) + 1
+    item.balanceCoefficient = (item.rightChild?.size ?: 0) - (item.leftChild?.size ?: 0)
+    item.parent!!.size = maxOf(item.parent!!.rightChild?.size ?: 0, item.parent!!.leftChild?.size ?: 0) + 1
+    item.parent!!.balanceCoefficient = (item.parent!!.rightChild?.size ?: 0) - (item.parent!!.leftChild?.size ?: 0)
+    if (item.parent!!.parent != null) {
+        item.parent!!.parent!!.size =
+            maxOf(item.parent!!.parent!!.rightChild?.size ?: 0, item.parent!!.parent!!.leftChild?.size ?: 0) + 1
+        item.parent!!.parent!!.balanceCoefficient =
+            (item.parent!!.parent!!.rightChild?.size ?: 0) - (item.parent!!.parent!!.leftChild?.size ?: 0)
+    }
 }
 
 class AvlTreeItem<K : Comparable<K>, T>(val key: K, val value: T) : Map<K, T> {
