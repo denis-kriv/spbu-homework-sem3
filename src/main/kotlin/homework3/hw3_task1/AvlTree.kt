@@ -1,19 +1,19 @@
 package homework3.hw3_task1
 
-fun <K : Comparable<K>, T> addItem(addsItem: AvlTreeItem<K, T>, itemForAdd: AvlTreeItem<K, T>) {
+fun <K : Comparable<K>, T> addItem(addsItem: AvlTreeItem<K, T>, itemForAdd: AvlTreeItem<K, T>, tree: AvlTree<K, T>) {
     if (itemForAdd.key < addsItem.key) {
         if (itemForAdd.rightChild == null) {
             itemForAdd.rightChild = addsItem
             addsItem.parent = itemForAdd
         } else {
-            addItem(addsItem, itemForAdd.rightChild!!)
+            addItem(addsItem, itemForAdd.rightChild!!, tree)
         }
     } else if (itemForAdd.key > addsItem.key) {
         if (itemForAdd.leftChild == null) {
             itemForAdd.leftChild = addsItem
             addsItem.parent = itemForAdd
         } else {
-            addItem(addsItem, itemForAdd.leftChild!!)
+            addItem(addsItem, itemForAdd.leftChild!!, tree)
         }
     }
     itemForAdd.entries.plus(Pair(addsItem.key, addsItem.value))
@@ -21,14 +21,14 @@ fun <K : Comparable<K>, T> addItem(addsItem: AvlTreeItem<K, T>, itemForAdd: AvlT
     itemForAdd.keys.plus(addsItem.key)
     itemForAdd.size = maxOf(itemForAdd.rightChild?.size ?: 0, itemForAdd.leftChild?.size ?: 0) + 1
     itemForAdd.balanceCoefficient = (itemForAdd.rightChild?.size ?: 0) - (itemForAdd.leftChild?.size ?: 0)
-    itemForAdd.balance()
+    itemForAdd.balance(tree)
 }
 
-private fun <K : Comparable<K>, T> deleteItem(key: K, item: AvlTreeItem<K, T>) {
+private fun <K : Comparable<K>, T> deleteItem(key: K, item: AvlTreeItem<K, T>, tree: AvlTree<K, T>) {
     if (item.key < key) {
-        deleteItem(key, item.rightChild!!)
+        deleteItem(key, item.rightChild!!, tree)
     } else if (item.key > key) {
-        deleteItem(key, item.leftChild!!)
+        deleteItem(key, item.leftChild!!, tree)
     } else {
         if (item.leftChild == null && item.rightChild == null) {
             if (item.parent!!.key < item.key) {
@@ -54,15 +54,16 @@ private fun <K : Comparable<K>, T> deleteItem(key: K, item: AvlTreeItem<K, T>) {
 
         }
     }
-    item.balance()
+    item.balance(tree)
 }
 
-class AvlTree<K : Comparable<K>, T>(val head: AvlTreeItem<K, T>) {
+class AvlTree<K : Comparable<K>, T>(var head: AvlTreeItem<K, T>) {
     fun plus(addsItem: AvlTreeItem<K, T>) {
-        addItem(addsItem, head)
+        if (head.containsKey(addsItem.key)) throw Exception("Key exists")
+        addItem(addsItem, head, this)
     }
 
     fun minus(key: K) {
-        deleteItem(key, head)
+        deleteItem(key, head, this)
     }
 }
