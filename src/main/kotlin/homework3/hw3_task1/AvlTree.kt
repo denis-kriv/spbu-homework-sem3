@@ -35,16 +35,16 @@ fun <K : Comparable<K>, T> delete(key: K, item: AvlTreeItem<K, T>, tree: AvlTree
         } else if (item.leftChild == null || item.rightChild == null) {
             deleteWithOneChild(item)
         } else {
-            deleteWithTwoChildren(item.leftChild!!, item, tree)
-            item.leftChild!!.parent!!.balance(tree)
+            val itemForSwap = swap(item.leftChild!!, item)
+            delete(key, itemForSwap, tree)
         }
     }
-    /*item.entries.minus(Pair<K, T>())
-    item.values.plus(addsItem.value)
-    item.keys.plus(addsItem.key)
+    //item.entries.minus(Pair<K, T>(key, tree.head[key]!!))
+    item.values.plus(tree.head[key])
+    item.keys.plus(tree.head[key])
     item.size = maxOf(item.rightChild?.size ?: 0, item.leftChild?.size ?: 0) + 1
-    item.balanceCoefficient = (item.rightChild?.size ?: 0) - (item.leftChild?.size ?: 0)*/
-    item.parent!!.balance(tree)
+    item.balanceCoefficient = (item.rightChild?.size ?: 0) - (item.leftChild?.size ?: 0)
+    item.balance(tree)
 }
 
 fun <K : Comparable<K>, T> deleteList(item: AvlTreeItem<K, T>) {
@@ -53,36 +53,50 @@ fun <K : Comparable<K>, T> deleteList(item: AvlTreeItem<K, T>) {
 
 fun <K : Comparable<K>, T> deleteWithOneChild(item: AvlTreeItem<K, T>) {
     if (item.parent!!.key > item.key) {
-        item.parent!!.leftChild = if (item.leftChild == null) item.rightChild else item.leftChild
+        if (item.leftChild == null) {
+            item.parent!!.leftChild = item.rightChild
+            item.rightChild!!.parent = item.parent
+        } else {
+            item.parent!!.leftChild = item.leftChild
+            item.leftChild!!.parent = item.parent
+        }
     } else {
-        item.parent!!.rightChild = if (item.leftChild == null) item.rightChild else item.leftChild
+        if (item.leftChild == null) {
+            item.parent!!.rightChild = item.rightChild
+            item.rightChild!!.parent = item.parent
+        } else {
+            item.parent!!.rightChild = item.leftChild
+            item.leftChild!!.parent = item.parent
+        }
     }
 }
 
-fun <K : Comparable<K>, T> deleteWithTwoChildren(
-    itemForSwap: AvlTreeItem<K, T>,
-    item: AvlTreeItem<K, T>,
-    tree: AvlTree<K, T>
-) {
+fun <K : Comparable<K>, T> swap(itemForSwap: AvlTreeItem<K, T>, item: AvlTreeItem<K, T>): AvlTreeItem<K, T> {
     if (itemForSwap.rightChild != null) {
-        deleteWithTwoChildren(itemForSwap.rightChild!!, item, tree)
-        itemForSwap.size = maxOf(itemForSwap.rightChild?.size ?: 0, itemForSwap.leftChild?.size ?: 0) + 1
-        itemForSwap.balanceCoefficient = (itemForSwap.rightChild?.size ?: 0) - (itemForSwap.leftChild?.size ?: 0)
-        itemForSwap.balance(tree)
+        return swap(itemForSwap.rightChild!!, item)
     } else {
-        itemForSwap.parent!!.rightChild = null
-        itemForSwap.parent = item.parent
+        val helpItem = itemForSwap.parent
         if (item.parent!!.key > item.key) {
             item.parent!!.leftChild = itemForSwap
         } else {
             item.parent!!.rightChild = itemForSwap
         }
+        itemForSwap.parent = item.parent
+        helpItem!!.rightChild = item
+        item.parent = helpItem
         itemForSwap.leftChild = item.leftChild
         item.leftChild!!.parent = itemForSwap
         itemForSwap.rightChild = item.rightChild
         item.rightChild!!.parent = itemForSwap
-        //entries...
+        item.leftChild = null
+        item.rightChild = null
+        itemForSwap.entries.plus(item.entries)
+        itemForSwap.keys.plus(item.keys)
+        itemForSwap.values.plus(item.values)
+        itemForSwap.size = item.size
+        itemForSwap.balanceCoefficient = item.balanceCoefficient
     }
+    return itemForSwap
 }
 
 class AvlTree<K : Comparable<K>, T>(var head: AvlTreeItem<K, T>) {
