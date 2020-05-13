@@ -1,4 +1,4 @@
-package homework1.task5
+package homeworks.homework1.task5
 
 import java.util.Scanner
 import java.io.File
