@@ -1,7 +1,7 @@
 package homework1Tests
 
-import homework1.task2.factorial
-import homework1.task2.recursionFactorial
+import homeworks.homework1.task2.factorial
+import homeworks.homework1.task2.recursionFactorial
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
