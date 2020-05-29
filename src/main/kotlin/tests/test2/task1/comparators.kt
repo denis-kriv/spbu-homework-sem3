@@ -12,8 +12,10 @@ class ComparatorForInt : Comparator<Int> {
 
 class ComparatorForString : Comparator<String> {
     override fun compare(value1: String, value2: String): Int {
-        if (value1.length > value2.length) return 1
-        if (value1.length < value2.length) return -1
-        return 0
+        return when {
+            value1.length > value2.length -> 1
+            value1.length < value2.length -> -1
+            else -> 0
+        }
     }
 }
