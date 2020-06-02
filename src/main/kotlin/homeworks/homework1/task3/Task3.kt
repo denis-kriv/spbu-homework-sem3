@@ -4,14 +4,8 @@ import java.util.Scanner
 
 fun countOfSubstrings(firstString: String, secondString: String): Int {
     var result = 0
-    if (firstString.length < secondString.length) result = 0
-    if (firstString.length == secondString.length) {
-        if (firstString == secondString) result = 1
-    }
-    if (firstString.length > secondString.length) {
-        for (i in 0..firstString.length - secondString.length) {
-            if (firstString.substring(i, i + secondString.length) == secondString) result++
-        }
+    for (i in 0..firstString.length - secondString.length) {
+        if (firstString.substring(i, i + secondString.length) == secondString) result++
     }
     return result
 }
