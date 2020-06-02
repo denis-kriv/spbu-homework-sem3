@@ -4,6 +4,8 @@ import  homeworks.homework1.task5.countOfStrings
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.assertThrows
+import java.io.FileNotFoundException
 
 internal class TestsForTask5 {
 
@@ -40,5 +42,11 @@ internal class TestsForTask5 {
         val pathToFile = "src/test/kotlin/homework1Tests/testsForTask5/Test5.txt"
         val result = 1
         assertEquals(result, countOfStrings(pathToFile))
+    }
+
+    @Test
+    fun testForNonexistentFile() {
+        val pathToFile = "example"
+        assertThrows<FileNotFoundException>{ countOfStrings(pathToFile) }
     }
 }
