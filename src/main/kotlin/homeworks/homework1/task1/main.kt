@@ -21,7 +21,7 @@ fun main() {
     println("Введите ${startIndexes + endIndexes} элементов массива")
     val inputList: MutableList<Int>?
     try {
-        inputList = (readLine()?.split(" ")?.map { it.toInt() })?.toMutableList()
+        inputList = ((readLine()?.split(" ") ?: emptyList()).map { it.toInt() }).toMutableList()
     } catch (e: NumberFormatException) {
         println("В массиве нет элементов")
         return

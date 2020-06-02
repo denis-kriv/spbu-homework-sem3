@@ -3,7 +3,8 @@ package homework1Tests
 import homeworks.homework1.task1.listReverse
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
-import java.lang.Exception
+import org.junit.jupiter.api.assertThrows
+import java.lang.ArithmeticException
 
 internal class TestsForTask1 {
 
@@ -82,8 +83,6 @@ internal class TestsForTask1 {
         val testList: MutableList<Int> = mutableListOf(1, 2, 3)
         val startIndexes = 0
         val endIndexes = 0
-        assertThrows(Exception::class.java) {
-            listReverse(startIndexes, endIndexes, testList)
-        }
+        assertThrows<ArithmeticException> { listReverse(startIndexes, endIndexes, testList) }
     }
 }
