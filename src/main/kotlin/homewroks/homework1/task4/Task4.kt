@@ -3,8 +3,7 @@ package homewroks.homework1.task4
 import java.util.Scanner
 
 fun isPolyndrom(checkedString: String): Boolean {
-    if (checkedString == checkedString.reversed()) return true
-    return false
+    return checkedString == checkedString.reversed()
 }
 
 fun main() {
