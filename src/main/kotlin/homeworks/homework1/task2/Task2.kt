@@ -2,7 +2,7 @@ package homeworks.homework1.task2
 
 import java.util.Scanner
 
-fun factorial(n: Int): Int {
+fun iterativeFactorial(n: Int): Int {
     if (n < 0) throw ArithmeticException("Введено отрицательное число")
     var result = 1
     for (i in 1..n) {
@@ -22,7 +22,7 @@ fun main() {
     println("Введите число")
     val digit = scan.nextInt()
     try {
-        println("Итеративный факториал введенного числа: ${factorial(digit)}")
+        println("Итеративный факториал введенного числа: ${iterativeFactorial(digit)}")
         println("Рекурсивный факториал введенного числа:  ${recursionFactorial(digit)}")
     } catch (e: ArithmeticException) {
         print(e.message)

@@ -1,10 +1,11 @@
 package homework1Tests
 
-import homeworks.homework1.task2.factorial
+import homeworks.homework1.task2.iterativeFactorial
 import homeworks.homework1.task2.recursionFactorial
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.assertThrows
 
 internal class TestsForTask2 {
 
@@ -12,29 +13,27 @@ internal class TestsForTask2 {
     fun testForFactorialWhenValueIsZero() {
         val result = 1
         val testValue = 0
-        assertEquals(result, factorial(testValue))
+        assertEquals(result, iterativeFactorial(testValue))
     }
 
     @Test
     fun testForFactorialWhenValueIsOne() {
         val result = 1
         val testValue = 1
-        assertEquals(result, factorial(testValue))
+        assertEquals(result, iterativeFactorial(testValue))
     }
 
     @Test
     fun testForFactorialWhenValueIsFive() {
         val result = 120
         val testValue = 5
-        assertEquals(result, factorial(testValue))
+        assertEquals(result, iterativeFactorial(testValue))
     }
 
     @Test
     fun testForFactorialWhenInputIsNotCorrect() {
         val testValue = -1
-        assertThrows(Exception::class.java) {
-            factorial(testValue)
-        }
+        assertThrows<ArithmeticException> { iterativeFactorial(testValue) }
     }
 
     @Test
@@ -61,8 +60,6 @@ internal class TestsForTask2 {
     @Test
     fun testForRecursionFactorialWhenInputIsNotCorrect() {
         val testValue = -5
-        assertThrows(Exception::class.java) {
-            recursionFactorial(testValue)
-        }
+        assertThrows<ArithmeticException> { recursionFactorial(testValue) }
     }
 }
