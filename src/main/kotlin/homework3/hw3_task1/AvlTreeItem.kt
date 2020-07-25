@@ -1,6 +1,7 @@
 package homework3.hw3_task1
 
 class AvlTreeItem<K : Comparable<K>, T>(val key: K, val value: T) {
+
     var height = 1
     var leftChild: AvlTreeItem<K, T>? = null
     var rightChild: AvlTreeItem<K, T>? = null
