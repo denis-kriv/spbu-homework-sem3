@@ -42,5 +42,9 @@ class AvlTree<K : Comparable<K>, T>(var head: AvlTreeItem<K, T>?) : Map<K, T> {
         this.head = this.insert(this.head, insertingItem)
     }
 
+    private fun findMinKey(item: AvlTreeItem<K, T>) : AvlTreeItem<K, T> {
+        return if (item.leftChild == null) item else findMinKey(item.leftChild!!)
+    }
+
 
 }
