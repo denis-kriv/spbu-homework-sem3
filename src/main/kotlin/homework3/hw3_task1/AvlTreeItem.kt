@@ -1,122 +1,53 @@
 package homework3.hw3_task1
 
-fun <K : Comparable<K>, T> smallLeftTurn(item: AvlTreeItem<K, T>, tree: AvlTree<K, T>) {
-    if (item.parent != null) {
-        item.rightChild!!.parent = item.parent
-        if (item.key > item.parent!!.key) {
-            item.parent!!.rightChild = item.rightChild
-        } else {
-            item.parent!!.leftChild = item.rightChild
-        }
-    } else {
-        tree.head = item.rightChild!!
-    }
-    item.parent = item.rightChild!!
-    if ((item.parent!!.leftChild != null)) {
-        item.rightChild = item.parent!!.leftChild
-        item.rightChild!!.parent = item
-    } else {
-        item.rightChild = null
-    }
-    item.parent!!.leftChild = item
-    reBalance(item)
-}
-
-fun <K : Comparable<K>, T> smallRightTurn(item: AvlTreeItem<K, T>, tree: AvlTree<K, T>) {
-    if (item.parent != null) {
-        item.leftChild!!.parent = item.parent
-        if (item.key > item.parent!!.key) {
-            item.parent!!.rightChild = item.leftChild
-        } else {
-            item.parent!!.leftChild = item.leftChild
-        }
-    } else {
-        tree.head = item.leftChild!!
-    }
-    item.parent = item.leftChild!!
-    if ((item.parent!!.rightChild != null)) {
-        item.leftChild = item.parent!!.rightChild
-        item.leftChild!!.parent = item
-    } else {
-        item.leftChild = null
-    }
-    item.parent!!.rightChild = item
-    reBalance(item)
-}
-
-fun <K : Comparable<K>, T> bigLeftTurn(item: AvlTreeItem<K, T>, tree: AvlTree<K, T>) {
-    smallRightTurn(item.rightChild!!, tree)
-    smallLeftTurn(item, tree)
-}
-
-fun <K : Comparable<K>, T> bigRightTurn(item: AvlTreeItem<K, T>, tree: AvlTree<K, T>) {
-    smallLeftTurn(item.leftChild!!, tree)
-    smallRightTurn(item, tree)
-}
-
-fun <K : Comparable<K>, T> reBalance(item: AvlTreeItem<K, T>) {
-    item.size = maxOf(item.rightChild?.size ?: 0, item.leftChild?.size ?: 0) + 1
-    item.balanceCoefficient = (item.rightChild?.size ?: 0) - (item.leftChild?.size ?: 0)
-    item.parent!!.size = maxOf(item.parent!!.rightChild?.size ?: 0, item.parent!!.leftChild?.size ?: 0) + 1
-    item.parent!!.balanceCoefficient = (item.parent!!.rightChild?.size ?: 0) - (item.parent!!.leftChild?.size ?: 0)
-    if (item.parent!!.parent != null) {
-        item.parent!!.parent!!.size =
-            maxOf(item.parent!!.parent!!.rightChild?.size ?: 0, item.parent!!.parent!!.leftChild?.size ?: 0) + 1
-        item.parent!!.parent!!.balanceCoefficient =
-            (item.parent!!.parent!!.rightChild?.size ?: 0) - (item.parent!!.parent!!.leftChild?.size ?: 0)
-    }
-}
-
-class AvlTreeItem<K : Comparable<K>, T>(val key: K, val value: T) : Map<K, T> {
-    override val entries: Set<Map.Entry<K, T>> = setOf()
-    override val keys: Set<K> = setOf()
-    override var size: Int = 1
-    override val values: Collection<T> = listOf()
-
-    var parent: AvlTreeItem<K, T>? = null
+class AvlTreeItem<K : Comparable<K>, T>(val key: K, val value: T) {
+    var height = 1
     var leftChild: AvlTreeItem<K, T>? = null
     var rightChild: AvlTreeItem<K, T>? = null
-    var balanceCoefficient: Int = 0
 
-    init {
-        val pairForAdd: Pair<K, T> = key to value
-        entries.plus(pairForAdd)
-        keys.plus(key)
-        values.plus(value)
+
+    private fun balanceFactor(): Int {
+        return (this.rightChild?.height ?: 0) - (this.leftChild?.height ?: 0)
     }
 
-    override fun containsKey(key: K): Boolean {
-        keys.forEach { if (equals(it) == equals(key)) return true }
-        return false
+    private fun fixHeight() {
+        val leftHeight = this.leftChild?.height ?: 0
+        val rightHeight = this.rightChild?.height ?: 0
+        this.height = maxOf(leftHeight, rightHeight) + 1
     }
 
-    override fun containsValue(value: T): Boolean {
-        entries.forEach { if (equals(it) == equals(value)) return true }
-        return false
+    private fun rotateRight(): AvlTreeItem<K, T> {
+        val item: AvlTreeItem<K, T> = this.leftChild!!
+        this.leftChild = item.rightChild
+        item.rightChild = this
+        this.fixHeight()
+        item.fixHeight()
+        return item
     }
 
-    override fun get(key: K): T? {
-        entries.forEach { if (it.key == key) return it.value }
-        return null
+    private fun rotateLeft(): AvlTreeItem<K, T> {
+        val item: AvlTreeItem<K, T> = this.rightChild!!
+        this.rightChild = item.leftChild
+        item.leftChild = this
+        this.fixHeight()
+        item.fixHeight()
+        return item
     }
 
-    override fun isEmpty(): Boolean {
-        return (rightChild == null && leftChild == null)
-    }
-
-    fun balance(tree: AvlTree<K, T>) {
-        if (balanceCoefficient == 2) {
-            if (rightChild!!.balanceCoefficient >= 0) {
-                smallLeftTurn(this, tree)
-            } else if (rightChild!!.balanceCoefficient < 0) {
-                bigLeftTurn(this, tree)
+    fun balance(): AvlTreeItem<K, T> {
+        this.fixHeight()
+        if (this.balanceFactor() == 2) {
+            if (this.rightChild!!.balanceFactor() < 0) {
+                this.rightChild = this.rightChild!!.rotateRight()
             }
-        } else if (balanceCoefficient == -2) {
-            if (leftChild!!.balanceCoefficient <= 0) {
-                smallRightTurn(this, tree)
-            } else if (leftChild!!.balanceCoefficient > 0) {
-                bigRightTurn(this, tree)
-            }
+            return this.rotateLeft()
         }
+        if (this.balanceFactor() == -2) {
+            if (this.leftChild!!.balanceFactor() > 0) {
+                this.rightChild = this.rightChild!!.rotateLeft()
+            }
+            return this.rotateRight()
+        }
+        return this
     }
 }
