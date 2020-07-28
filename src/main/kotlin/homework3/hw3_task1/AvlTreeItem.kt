@@ -6,7 +6,6 @@ class AvlTreeItem<K : Comparable<K>, T>(val key: K, val value: T) {
     var leftChild: AvlTreeItem<K, T>? = null
     var rightChild: AvlTreeItem<K, T>? = null
 
-
     private fun balanceFactor(): Int {
         return (this.rightChild?.height ?: 0) - (this.leftChild?.height ?: 0)
     }

@@ -44,4 +44,34 @@ class AvlTree<K : Comparable<K>, T>(var head: AvlTreeItem<K, T>?) : Map<K, T> {
     private fun findMinKey(item: AvlTreeItem<K, T>): AvlTreeItem<K, T> {
         return if (item.leftChild == null) item else findMinKey(item.leftChild!!)
     }
+
+    private fun removeMinKey(item: AvlTreeItem<K, T>): AvlTreeItem<K, T>? {
+        if (item.leftChild == null) return item.rightChild
+        item.leftChild = removeMinKey(item.leftChild!!)
+        return item.balance()
+    }
+
+    private fun remove(item: AvlTreeItem<K, T>?, key: K): AvlTreeItem<K, T>? {
+        if (item == null) return null
+        when {
+            key < item.key -> {
+                item.leftChild = remove(item.leftChild, key)
+            }
+            key > item.key -> {
+                item.rightChild = remove(item.rightChild, key)
+            }
+            else -> {
+                if (item.rightChild == null) return item.leftChild
+                var minKey = findMinKey(item.rightChild!!)
+                minKey.rightChild = removeMinKey(item.rightChild!!)
+                minKey.leftChild = item.leftChild
+                return minKey.balance()
+            }
+        }
+        return item.balance()
+    }
+
+    fun minus(key: K): AvlTreeItem<K, T>? {
+        return remove(head, key)
+    }
 }
