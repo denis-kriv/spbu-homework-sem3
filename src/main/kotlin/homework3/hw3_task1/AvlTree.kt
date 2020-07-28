@@ -11,7 +11,6 @@ class AvlTree<K : Comparable<K>, T>(var head: AvlTreeItem<K, T>?) : Map<K, T> {
     override val values: Collection<T>
         get() = TODO("Not yet implemented")
 
-
     override fun containsKey(key: K): Boolean {
         TODO("Not yet implemented")
     }
@@ -33,7 +32,7 @@ class AvlTree<K : Comparable<K>, T>(var head: AvlTreeItem<K, T>?) : Map<K, T> {
         if (insertingItem.first < treeHead.key) {
             treeHead.leftChild = insert(treeHead.leftChild!!, insertingItem)
         } else {
-            treeHead.leftChild = insert(treeHead.leftChild!!, insertingItem)
+            treeHead.rightChild = insert(treeHead.rightChild!!, insertingItem)
         }
         return treeHead.balance()
     }
@@ -42,9 +41,7 @@ class AvlTree<K : Comparable<K>, T>(var head: AvlTreeItem<K, T>?) : Map<K, T> {
         this.head = this.insert(this.head, insertingItem)
     }
 
-    private fun findMinKey(item: AvlTreeItem<K, T>) : AvlTreeItem<K, T> {
+    private fun findMinKey(item: AvlTreeItem<K, T>): AvlTreeItem<K, T> {
         return if (item.leftChild == null) item else findMinKey(item.leftChild!!)
     }
-
-
 }
