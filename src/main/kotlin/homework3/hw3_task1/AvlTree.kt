@@ -1,30 +1,21 @@
 package homework3.hw3_task1
 
+import java.lang.Exception
+
 class AvlTree<K : Comparable<K>, T>(var head: AvlTreeItem<K, T>?) : Map<K, T> {
 
-    override val entries: Set<Map.Entry<K, T>>
-        get() = TODO("Not yet implemented")
-    override val keys: Set<K>
-        get() = TODO("Not yet implemented")
-    override val size: Int
-        get() = TODO("Not yet implemented")
-    override val values: Collection<T>
-        get() = TODO("Not yet implemented")
+    override val entries: Set<Map.Entry<K, T>> = ((if (head == null) setOf() else setOf(head!!.key, head!!.value)) as Set<Map.Entry<K, T>>)
+    override val keys: Set<K> = if (head == null) setOf() else setOf(head!!.key)
+    override val size: Int = if (head == null) 0 else 1
+    override val values: Collection<T> = if (head == null) listOf() else listOf(head!!.value)
 
-    override fun containsKey(key: K): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    override fun containsValue(value: T): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    override fun get(key: K): T? {
-        TODO("Not yet implemented")
-    }
-
-    override fun isEmpty(): Boolean {
-        TODO("Not yet implemented")
+    private fun getValueByKey(key: K, item: AvlTreeItem<K, T>?): T? {
+        if (item == null) return null
+        return when {
+            item.key > key -> getValueByKey(key, item.rightChild)
+            item.key < key -> getValueByKey(key, item.leftChild)
+            else -> item.value
+        }
     }
 
     private fun insert(treeHead: AvlTreeItem<K, T>?, insertingItem: Pair<K, T>): AvlTreeItem<K, T> {
@@ -35,10 +26,6 @@ class AvlTree<K : Comparable<K>, T>(var head: AvlTreeItem<K, T>?) : Map<K, T> {
             treeHead.rightChild = insert(treeHead.rightChild!!, insertingItem)
         }
         return treeHead.balance()
-    }
-
-    fun plus(insertingItem: Pair<K, T>) {
-        this.head = this.insert(this.head, insertingItem)
     }
 
     private fun findMinKey(item: AvlTreeItem<K, T>): AvlTreeItem<K, T> {
@@ -52,7 +39,7 @@ class AvlTree<K : Comparable<K>, T>(var head: AvlTreeItem<K, T>?) : Map<K, T> {
     }
 
     private fun remove(item: AvlTreeItem<K, T>?, key: K): AvlTreeItem<K, T>? {
-        if (item == null) return null
+        if (item == null) throw Exception()
         when {
             key < item.key -> {
                 item.leftChild = remove(item.leftChild, key)
@@ -62,7 +49,7 @@ class AvlTree<K : Comparable<K>, T>(var head: AvlTreeItem<K, T>?) : Map<K, T> {
             }
             else -> {
                 if (item.rightChild == null) return item.leftChild
-                var minKey = findMinKey(item.rightChild!!)
+                val minKey = findMinKey(item.rightChild!!)
                 minKey.rightChild = removeMinKey(item.rightChild!!)
                 minKey.leftChild = item.leftChild
                 return minKey.balance()
@@ -71,7 +58,32 @@ class AvlTree<K : Comparable<K>, T>(var head: AvlTreeItem<K, T>?) : Map<K, T> {
         return item.balance()
     }
 
+    override fun containsKey(key: K): Boolean {
+        if (this.head == null) throw Exception("")
+        return keys.contains(key)
+    }
+
+    override fun containsValue(value: T): Boolean {
+        if (this.head == null) throw Exception("")
+        return values.contains(value)
+    }
+
+    override fun get(key: K): T? {
+        if (this.head == null) throw Exception("")
+        return getValueByKey(key, head)
+    }
+
+    override fun isEmpty(): Boolean {
+        return this.head == null
+    }
+
+    fun plus(insertingItem: Pair<K, T>) {
+        if (keys.contains(insertingItem.first)) throw Exception("")
+        head = insert(head, insertingItem)
+    }
+
     fun minus(key: K): AvlTreeItem<K, T>? {
+        if (head == null) throw Exception("")
         return remove(head, key)
     }
 }
