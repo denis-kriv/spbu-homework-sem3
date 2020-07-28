@@ -1,4 +1,4 @@
-package homework3.hw3_task1
+package homeworks.homework3
 
 class AvlTreeItem<K : Comparable<K>, T>(val key: K, val value: T) {
 

@@ -1,4 +1,4 @@
-package homework3.hw3_task1
+package homeworks.homework3
 
 import java.lang.Exception
 
@@ -19,7 +19,10 @@ class AvlTree<K : Comparable<K>, T>(var head: AvlTreeItem<K, T>?) : Map<K, T> {
     }
 
     private fun insert(treeHead: AvlTreeItem<K, T>?, insertingItem: Pair<K, T>): AvlTreeItem<K, T> {
-        if (treeHead == null) return AvlTreeItem(insertingItem.first, insertingItem.second)
+        if (treeHead == null) return AvlTreeItem(
+            insertingItem.first,
+            insertingItem.second
+        )
         if (insertingItem.first < treeHead.key) {
             treeHead.leftChild = insert(treeHead.leftChild!!, insertingItem)
         } else {
@@ -82,8 +85,8 @@ class AvlTree<K : Comparable<K>, T>(var head: AvlTreeItem<K, T>?) : Map<K, T> {
         head = insert(head, insertingItem)
     }
 
-    fun minus(key: K): AvlTreeItem<K, T>? {
+    fun minus(key: K) {
         if (head == null) throw Exception("")
-        return remove(head, key)
+        this.head = remove(this.head, key)
     }
 }
