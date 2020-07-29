@@ -2,32 +2,33 @@ package homeworks.homework3
 
 import java.lang.Exception
 
-class AvlTree<K : Comparable<K>, T>(var head: AvlTreeItem<K, T>?) : Map<K, T> {
+class AvlTree<K : Comparable<K>, T>(key: K, value: T) : Map<K, T> {
 
-    override val entries: Set<Map.Entry<K, T>> = ((if (head == null) setOf() else setOf(head!!.key, head!!.value)) as Set<Map.Entry<K, T>>)
-    override val keys: Set<K> = if (head == null) setOf() else setOf(head!!.key)
-    override val size: Int = if (head == null) 0 else 1
-    override val values: Collection<T> = if (head == null) listOf() else listOf(head!!.value)
+    override var entries: Set<Map.Entry<K, T>> = mapOf(key to value).entries
+    override var keys: Set<K> = setOf(key)
+    override var size: Int = 1
+    override var values: Collection<T> = listOf(value)
+    private var head: AvlTreeItem<K, T>? = AvlTreeItem(key, value)
 
     private fun getValueByKey(key: K, item: AvlTreeItem<K, T>?): T? {
         if (item == null) return null
+
         return when {
-            item.key > key -> getValueByKey(key, item.rightChild)
-            item.key < key -> getValueByKey(key, item.leftChild)
+            key > item.key -> getValueByKey(key, item.rightChild)
+            key < item.key -> getValueByKey(key, item.leftChild)
             else -> item.value
         }
     }
 
     private fun insert(treeHead: AvlTreeItem<K, T>?, insertingItem: Pair<K, T>): AvlTreeItem<K, T> {
-        if (treeHead == null) return AvlTreeItem(
-            insertingItem.first,
-            insertingItem.second
-        )
+        if (treeHead == null) return AvlTreeItem(insertingItem.first, insertingItem.second)
+
         if (insertingItem.first < treeHead.key) {
-            treeHead.leftChild = insert(treeHead.leftChild!!, insertingItem)
+            treeHead.leftChild = insert(treeHead.leftChild, insertingItem)
         } else {
-            treeHead.rightChild = insert(treeHead.rightChild!!, insertingItem)
+            treeHead.rightChild = insert(treeHead.rightChild, insertingItem)
         }
+
         return treeHead.balance()
     }
 
@@ -37,12 +38,15 @@ class AvlTree<K : Comparable<K>, T>(var head: AvlTreeItem<K, T>?) : Map<K, T> {
 
     private fun removeMinKey(item: AvlTreeItem<K, T>): AvlTreeItem<K, T>? {
         if (item.leftChild == null) return item.rightChild
+
         item.leftChild = removeMinKey(item.leftChild!!)
+
         return item.balance()
     }
 
     private fun remove(item: AvlTreeItem<K, T>?, key: K): AvlTreeItem<K, T>? {
-        if (item == null) throw Exception()
+        if (item == null) throw NoSuchElementException("Element with this key does not exist.")
+
         when {
             key < item.key -> {
                 item.leftChild = remove(item.leftChild, key)
@@ -58,22 +62,20 @@ class AvlTree<K : Comparable<K>, T>(var head: AvlTreeItem<K, T>?) : Map<K, T> {
                 return minKey.balance()
             }
         }
+
         return item.balance()
     }
 
     override fun containsKey(key: K): Boolean {
-        if (this.head == null) throw Exception("")
-        return keys.contains(key)
+        return this.keys.contains(key)
     }
 
     override fun containsValue(value: T): Boolean {
-        if (this.head == null) throw Exception("")
-        return values.contains(value)
+        return this.values.contains(value)
     }
 
     override fun get(key: K): T? {
-        if (this.head == null) throw Exception("")
-        return getValueByKey(key, head)
+        return getValueByKey(key, this.head)
     }
 
     override fun isEmpty(): Boolean {
@@ -81,12 +83,28 @@ class AvlTree<K : Comparable<K>, T>(var head: AvlTreeItem<K, T>?) : Map<K, T> {
     }
 
     fun plus(insertingItem: Pair<K, T>) {
-        if (keys.contains(insertingItem.first)) throw Exception("")
-        head = insert(head, insertingItem)
+        if (this.keys.contains(insertingItem.first)) throw Exception("Element with this key is already exist.")
+
+        this.head = insert(this.head, insertingItem)
+
+        this.keys = this.keys.plus(insertingItem.first)
+        this.values = this.values.plus(insertingItem.second)
+        this.entries = this.entries.plus(mapOf(insertingItem.first to insertingItem.second).entries)
+        this.size++
     }
 
     fun minus(key: K) {
-        if (head == null) throw Exception("")
+        if (this.head == null) throw NullPointerException("Head is null.")
+
         this.head = remove(this.head, key)
+
+        this.entries.forEach {
+            if (it.key == key) {
+                this.values = this.values.minus(it.value)
+                this.keys = this.keys.minus(it.key)
+                this.entries = this.entries.minus(mapOf(it.key to it.value).entries)
+                this.size--
+            }
+        }
     }
 }
