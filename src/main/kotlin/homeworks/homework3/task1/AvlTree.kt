@@ -1,6 +1,4 @@
-package homeworks.homework3
-
-import java.lang.Exception
+package homeworks.homework3.task1
 
 private fun <K : Comparable<K>, T> getValueByKey(key: K, item: AvlTreeItem<K, T>?): T? {
     if (item == null) return null
@@ -13,7 +11,10 @@ private fun <K : Comparable<K>, T> getValueByKey(key: K, item: AvlTreeItem<K, T>
 }
 
 private fun <K : Comparable<K>, T> insert(treeHead: AvlTreeItem<K, T>?, insertingItem: Pair<K, T>): AvlTreeItem<K, T> {
-    if (treeHead == null) return AvlTreeItem(insertingItem.first, insertingItem.second)
+    if (treeHead == null) return AvlTreeItem(
+        insertingItem.first,
+        insertingItem.second
+    )
 
     if (insertingItem.first < treeHead.key) {
         treeHead.leftChild = insert(treeHead.leftChild, insertingItem)
@@ -64,7 +65,8 @@ class AvlTree<K : Comparable<K>, T>(key: K, value: T) : Map<K, T> {
     override var keys: Set<K> = setOf(key)
     override var size: Int = 1
     override var values: Collection<T> = listOf(value)
-    private var head: AvlTreeItem<K, T>? = AvlTreeItem(key, value)
+    private var head: AvlTreeItem<K, T>? =
+        AvlTreeItem(key, value)
 
     override fun containsKey(key: K): Boolean {
         return this.keys.contains(key)

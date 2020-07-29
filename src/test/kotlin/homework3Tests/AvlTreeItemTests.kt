@@ -1,6 +1,6 @@
 package homework3Tests
 
-import homeworks.homework3.AvlTreeItem
+import homeworks.homework3.task1.AvlTreeItem
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 
