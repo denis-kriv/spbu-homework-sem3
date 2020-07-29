@@ -47,23 +47,23 @@ class AvlTree<K : Comparable<K>, T>(key: K, value: T) : Map<K, T> {
     private fun remove(item: AvlTreeItem<K, T>?, key: K): AvlTreeItem<K, T>? {
         if (item == null) throw NoSuchElementException("Element with this key does not exist.")
 
-        when {
+        return when {
             key < item.key -> {
                 item.leftChild = remove(item.leftChild, key)
+                item.balance()
             }
             key > item.key -> {
                 item.rightChild = remove(item.rightChild, key)
+                item.balance()
             }
             else -> {
                 if (item.rightChild == null) return item.leftChild
                 val minKey = findMinKey(item.rightChild!!)
                 minKey.rightChild = removeMinKey(item.rightChild!!)
                 minKey.leftChild = item.leftChild
-                return minKey.balance()
+                minKey.balance()
             }
         }
-
-        return item.balance()
     }
 
     override fun containsKey(key: K): Boolean {

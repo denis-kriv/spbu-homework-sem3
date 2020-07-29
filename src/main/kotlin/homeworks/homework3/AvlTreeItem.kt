@@ -41,20 +41,18 @@ class AvlTreeItem<K : Comparable<K>, T>(val key: K, val value: T) {
     fun balance(): AvlTreeItem<K, T> {
         this.fixHeight()
 
-        if (this.balanceFactor() == 2) {
-            if (this.rightChild!!.balanceFactor() < 0) {
-                this.rightChild = this.rightChild!!.rotateRight()
+        return when {
+            this.balanceFactor() == 2 -> {
+                if (this.balanceFactor() < 0) this.rightChild = this.rightChild!!.rotateRight()
+                this.rotateLeft()
             }
-            return this.rotateLeft()
-        }
-
-        if (this.balanceFactor() == -2) {
-            if (this.leftChild!!.balanceFactor() > 0) {
-                this.rightChild = this.rightChild!!.rotateLeft()
+            this.balanceFactor() == -2 -> {
+                if (this.leftChild!!.balanceFactor() > 0) this.rightChild = this.rightChild!!.rotateLeft()
+                this.rotateRight()
             }
-            return this.rotateRight()
+            else -> {
+                this
+            }
         }
-
-        return this
     }
 }
