@@ -2,7 +2,7 @@ package homeworks.homework3
 
 import java.lang.Exception
 
-private fun<K: Comparable<K>, T> getValueByKey(key: K, item: AvlTreeItem<K, T>?): T? {
+private fun <K : Comparable<K>, T> getValueByKey(key: K, item: AvlTreeItem<K, T>?): T? {
     if (item == null) return null
 
     return when {
@@ -12,7 +12,7 @@ private fun<K: Comparable<K>, T> getValueByKey(key: K, item: AvlTreeItem<K, T>?)
     }
 }
 
-private fun<K: Comparable<K>, T> insert(treeHead: AvlTreeItem<K, T>?, insertingItem: Pair<K, T>): AvlTreeItem<K, T> {
+private fun <K : Comparable<K>, T> insert(treeHead: AvlTreeItem<K, T>?, insertingItem: Pair<K, T>): AvlTreeItem<K, T> {
     if (treeHead == null) return AvlTreeItem(insertingItem.first, insertingItem.second)
 
     if (insertingItem.first < treeHead.key) {
@@ -24,11 +24,11 @@ private fun<K: Comparable<K>, T> insert(treeHead: AvlTreeItem<K, T>?, insertingI
     return treeHead.balance()
 }
 
-private fun<K: Comparable<K>, T> findMinKey(item: AvlTreeItem<K, T>): AvlTreeItem<K, T> {
+private fun <K : Comparable<K>, T> findMinKey(item: AvlTreeItem<K, T>): AvlTreeItem<K, T> {
     return if (item.leftChild == null) item else findMinKey(item.leftChild!!)
 }
 
-private fun<K: Comparable<K>, T> removeMinKey(item: AvlTreeItem<K, T>): AvlTreeItem<K, T>? {
+private fun <K : Comparable<K>, T> removeMinKey(item: AvlTreeItem<K, T>): AvlTreeItem<K, T>? {
     if (item.leftChild == null) return item.rightChild
 
     item.leftChild = removeMinKey(item.leftChild!!)
@@ -36,7 +36,7 @@ private fun<K: Comparable<K>, T> removeMinKey(item: AvlTreeItem<K, T>): AvlTreeI
     return item.balance()
 }
 
-private fun<K: Comparable<K>, T> remove(item: AvlTreeItem<K, T>?, key: K): AvlTreeItem<K, T>? {
+private fun <K : Comparable<K>, T> remove(item: AvlTreeItem<K, T>?, key: K): AvlTreeItem<K, T>? {
     if (item == null) throw NoSuchElementException("Element with this key does not exist.")
 
     return when {
