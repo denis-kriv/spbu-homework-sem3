@@ -68,7 +68,7 @@ class AvlTreeTests {
     @Test
     fun plusShouldThrowsExceptionWhenKeyExist() {
         val tree = AvlTree(1, 1)
-        assertThrows<Exception> { tree.plus(1 to 2) }
+        assertThrows<CloneNotSupportedException> { tree.plus(1 to 2) }
     }
 
     @Test

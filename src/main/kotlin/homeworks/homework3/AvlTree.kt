@@ -83,7 +83,8 @@ class AvlTree<K : Comparable<K>, T>(key: K, value: T) : Map<K, T> {
     }
 
     fun plus(insertingItem: Pair<K, T>) {
-        if (this.keys.contains(insertingItem.first)) throw Exception("Element with this key is already exist.")
+        if (this.keys.contains(insertingItem.first))
+            throw CloneNotSupportedException("Element with this key is already exist.")
 
         this.head = insert(this.head, insertingItem)
 
