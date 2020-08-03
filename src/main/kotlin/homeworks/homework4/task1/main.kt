@@ -90,9 +90,9 @@ private fun actionPlusFromFile(table: HashTable) {
         table.plusFromFile(readLine())
 
         println("Successful.")
-    }catch (ex: NullPointerException) {
+    } catch (ex: NullPointerException) {
         println(ex.message)
-    }catch (ex: NoSuchFileException) {
+    } catch (ex: NoSuchFileException) {
         println(ex.message)
     } finally {
         println("Press any key to continue.")
@@ -120,19 +120,21 @@ private fun actionChooseHashFunction(table: HashTable) {
 
 fun main() {
     val table = HashTable()
+    var isStopped = false
 
-    loop@ while (true) {
+    while (true) {
         var input: Actions
+        if (isStopped) break
 
         try {
             input = readNumberOfAction()
-        } catch (ex: NullPointerException) {
-            println(ex.message)
+        } catch (nullException: NullPointerException) {
+            println(nullException.message)
             println("Press any key to continue.")
             readLine()
             continue
-        } catch (ex: IllegalArgumentException) {
-            println(ex.message)
+        } catch (illegalException: IllegalArgumentException) {
+            println(illegalException.message)
             println("Press any key to continue.")
             readLine()
             continue
@@ -147,7 +149,7 @@ fun main() {
             Actions.ChooseHashFunction -> actionChooseHashFunction(table)
             Actions.Stop -> {
                 println("Program is stopped.")
-                break@loop
+                isStopped = true
             }
         }
     }
