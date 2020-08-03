@@ -1,23 +1,28 @@
 package homeworks.homework4.task1
 
-import java.lang.Character.isDigit
+import homeworks.homework4.task1.enums.Actions
+import java.lang.IllegalArgumentException
 
-private fun readNumberOfAction(): Int {
-    println("Press:")
-    println("0: for add an element in table.")
-    println("1: for remove an element from table.")
-    println("2: for find out an index of element.")
-    println("3: for get statistics of table.")
-    println("4: for add elements from file.")
-    println("5: for choose hash function.")
-    println("6: for stop program.")
+private fun readNumberOfAction(): Actions {
+    println("Enter:")
+    println("Plus: for add an element in table.")
+    println("Minus: for remove an element from table.")
+    println("GetIndex: for find out an index of element.")
+    println("GetStatistics: for get statistics of table.")
+    println("PlusFromFile: for add elements from file.")
+    println("ChooseHashFunction: for choose hash function.")
+    println("Stop: for stop program.")
 
     val input = readLine() ?: throw NullPointerException("String is empty.")
 
-    return if (input.all { isDigit(it) }) input.toInt() else throw ArithmeticException("String is not number.")
+     try {
+         return Actions.valueOf(input)
+     } catch (exception: IllegalArgumentException) {
+         throw IllegalArgumentException("String is not correct.")
+     }
 }
 
-private fun action0(table: HashTable) {
+private fun actionPlus(table: HashTable) {
     try {
         println("Enter an element value.")
 
@@ -35,7 +40,7 @@ private fun action0(table: HashTable) {
     }
 }
 
-private fun action1(table: HashTable) {
+private fun actionMinus(table: HashTable) {
     try {
         println("Enter an element value.")
 
@@ -53,7 +58,7 @@ private fun action1(table: HashTable) {
     }
 }
 
-private fun action2(table: HashTable) {
+private fun actionGetIndex(table: HashTable) {
     try {
         println("Enter an element value.")
 
@@ -69,7 +74,7 @@ private fun action2(table: HashTable) {
     }
 }
 
-private fun action3(table: HashTable) {
+private fun actionGetStatistics(table: HashTable) {
     val output = table.getStatistics()
 
     println("Size: ${output[0]}")
@@ -81,7 +86,7 @@ private fun action3(table: HashTable) {
     readLine()
 }
 
-private fun action4(table: HashTable) {
+private fun actionPlusFromFile(table: HashTable) {
     try {
         println("Enter a file path.")
 
@@ -99,9 +104,10 @@ private fun action4(table: HashTable) {
     }
 }
 
-private fun action5(table: HashTable) {
+private fun actionChooseHashFunction(table: HashTable) {
     try {
-        println("Enter an element value.")
+        println("Enter a deg for hash function:")
+        println("Enter a deg for hash function.")
 
         table.chooseHashFunction(readLine())
 
@@ -109,7 +115,7 @@ private fun action5(table: HashTable) {
 
     } catch (exception: NullPointerException) {
         println(exception.message)
-    } catch (exception: ArithmeticException) {
+    } catch (exception: IllegalArgumentException) {
         println(exception.message)
     }finally {
         println("Press any key to continue.")
@@ -121,38 +127,32 @@ fun main() {
     val table = HashTable()
 
     loop@ while (true) {
-        var number = 0
+        var input: Actions
 
         try {
-            number = readNumberOfAction()
+            input = readNumberOfAction()
         } catch (exception: NullPointerException) {
             println(exception.message)
             println("Press any key to continue.")
             readLine()
             continue
-        } catch (exception: ArithmeticException) {
+        } catch (exception: IllegalArgumentException) {
             println(exception.message)
             println("Press any key to continue.")
             readLine()
             continue
         }
 
-        when (number) {
-            0 -> action0(table)
-            1 -> action1(table)
-            2 -> action2(table)
-            3 -> action3(table)
-            4 -> action4(table)
-            5 -> action5(table)
-            6 -> {
+        when (input) {
+            Actions.Plus -> actionPlus(table)
+            Actions.Minus -> actionMinus(table)
+            Actions.GetIndex -> actionGetIndex(table)
+            Actions.GetStatistics -> actionGetStatistics(table)
+            Actions.PlusFromFile -> actionPlusFromFile(table)
+            Actions.ChooseHashFunction -> actionChooseHashFunction(table)
+            Actions.Stop -> {
                 println("Program is stopped.")
                 break@loop
-            }
-            else -> {
-                println("Action with this number is not exist.")
-
-                println("Press any key to continue.")
-                readLine()
             }
         }
     }

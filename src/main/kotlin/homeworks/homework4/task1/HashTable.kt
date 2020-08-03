@@ -1,7 +1,10 @@
 package homeworks.homework4.task1
 
+import homeworks.homework4.task1.enums.Actions
+import homeworks.homework4.task1.enums.HashModules
 import homeworks.homework4.task1.interfaces.IHashTable
 import java.io.File
+import java.lang.IllegalArgumentException
 import java.util.NoSuchElementException
 
 private fun getSize(table: HashTable): String {
@@ -40,8 +43,8 @@ private fun updateItems(table: HashTable): Array<MutableList<String>> {
 
 class HashTable : IHashTable {
 
-    var items: Array<MutableList<String>> = arrayOf()
-    var hashFunction = HashFunctions(0)
+    var items = Array<MutableList<String>>(2048) { mutableListOf() }
+    var hashFunction = HashFunctions(HashModules.HASH3)
     var itemsQuantity = 0
 
     override fun plus(value: String?) {
@@ -103,14 +106,13 @@ class HashTable : IHashTable {
         }
     }
 
-    override fun chooseHashFunction(number: String?) {
-        if (number.isNullOrBlank()) throw NullPointerException("String is empty.")
-
-        if (number.all { Character.isDigit(it) }) {
-            hashFunction = HashFunctions(number.toInt())
+    override fun chooseHashFunction(value: String?) {
+        if (value.isNullOrBlank()) throw NullPointerException("String is empty.")
+        try {
+            hashFunction = HashFunctions(HashModules.valueOf(value))
             items = updateItems(this)
-        } else {
-            throw ArithmeticException("String is not number.")
+        } catch (exception: IllegalArgumentException) {
+            throw IllegalArgumentException("String is not correct.")
         }
     }
 }

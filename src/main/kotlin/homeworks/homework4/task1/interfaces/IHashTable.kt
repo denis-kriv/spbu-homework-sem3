@@ -6,5 +6,5 @@ interface IHashTable {
     fun getIndex(value: String?): Int
     fun getStatistics(): List<String>
     fun plusFromFile(fileName: String?)
-    fun chooseHashFunction(number: String?)
+    fun chooseHashFunction(value: String?)
 }
