@@ -90,12 +90,12 @@ private fun actionGetIndex(table: HashTable) {
 }
 
 private fun actionGetStatistics(table: HashTable) {
-    val output = table.getStatistics()
+    val statistics = table.getStatistics()
 
-    println("Size: ${output[0]}")
-    println("Conflicts: ${output[1]}")
-    println("Max length in line: ${output[2]}")
-    println("Load factor: ${output[3]}")
+    println("Size: ${statistics.size}")
+    println("Conflicts: ${statistics.conflicts}")
+    println("Max length in line: ${statistics.maxLength}")
+    println("Load factor: ${statistics.loadFactor}")
 
     println("Press any key to continue.")
     readLine()

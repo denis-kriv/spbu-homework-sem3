@@ -5,29 +5,30 @@ import homeworks.homework4.task1.interfaces.IHashTable
 import java.io.File
 import java.lang.IllegalArgumentException
 import java.util.NoSuchElementException
+import homeworks.homework4.task1.models.Statistics
 
-private fun getSize(table: HashTable): String {
-    return table.items.size.toString()
+private fun getSize(table: HashTable): Int {
+    return table.items.size
 }
 
-private fun getConflicts(table: HashTable): String {
+private fun getConflicts(table: HashTable): Int {
     var conflicts = 0
     table.items.forEach {
         if (it.size > 1) conflicts++
     }
-    return conflicts.toString()
+    return conflicts
 }
 
-private fun getMaxLength(table: HashTable): String {
+private fun getMaxLength(table: HashTable): Int {
     var maxLength = 0
     table.items.forEach {
         if (it.size > maxLength) maxLength = it.size
     }
-    return maxLength.toString()
+    return maxLength
 }
 
-private fun getLoadFactor(table: HashTable): String {
-    return (table.items.size / table.itemsQuantity).toString()
+private fun getLoadFactor(table: HashTable): Int {
+    return (table.items.size / table.itemsQuantity)
 }
 
 private fun updateItems(table: HashTable): Array<MutableList<String>> {
@@ -89,8 +90,12 @@ class HashTable : IHashTable {
         throw NoSuchElementException("Element is not exist.")
     }
 
-    override fun getStatistics(): List<String> {
-        return listOf(getSize(this), getConflicts(this), getMaxLength(this), getLoadFactor(this))
+    override fun getStatistics(): Statistics {
+        return Statistics(
+            getSize(this),
+            getConflicts(this),
+            getMaxLength(this),
+            getLoadFactor(this))
     }
 
     override fun plusFromFile(fileName: String?) {
