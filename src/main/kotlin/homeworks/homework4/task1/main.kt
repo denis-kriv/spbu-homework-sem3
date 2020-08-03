@@ -2,6 +2,7 @@ package homeworks.homework4.task1
 
 import homeworks.homework4.task1.enums.Actions
 import java.lang.IllegalArgumentException
+import java.lang.NullPointerException
 
 private fun readNumberOfAction(): Actions {
     println("Enter:")
@@ -27,12 +28,12 @@ private fun handleInputData(): Actions? {
 
     try {
         value = readNumberOfAction()
-    } catch (nullException: NullPointerException) {
-        println(nullException.message)
+    } catch (ex: NullPointerException) {
+        println(ex.message)
         println("Press any key to continue.")
         readLine()
-    } catch (illegalException: IllegalArgumentException) {
-        println(illegalException.message)
+    } catch (ex: IllegalArgumentException) {
+        println(ex.message)
         println("Press any key to continue.")
         readLine()
     }
