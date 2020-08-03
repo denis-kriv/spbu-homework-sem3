@@ -48,7 +48,7 @@ private fun actionPlus(table: HashTable) {
         table.plus(readLine())
 
         println("Successful.")
-    } catch (ex: NullPointerException) {
+    } catch (ex: KotlinNullPointerException) {
         println(ex.message)
     } catch (ex: CloneNotSupportedException) {
         println(ex.message)
