@@ -2,7 +2,6 @@ package homeworks.homework4.task1
 
 import homeworks.homework4.task1.enums.Actions
 import java.lang.IllegalArgumentException
-import java.lang.NullPointerException
 
 private fun readNumberOfAction(): Actions {
     println("Enter:")
@@ -14,7 +13,7 @@ private fun readNumberOfAction(): Actions {
     println("ChooseHashFunction: for choose hash function.")
     println("Stop: for stop program.")
 
-    val input = readLine() ?: throw NullPointerException("String is empty.")
+    val input = readLine() ?: throw KotlinNullPointerException("String is empty.")
 
      try {
          return Actions.valueOf(input)
@@ -28,7 +27,7 @@ private fun handleInputData(): Actions? {
 
     try {
         value = readNumberOfAction()
-    } catch (ex: NullPointerException) {
+    } catch (ex: KotlinNullPointerException) {
         println(ex.message)
         println("Press any key to continue.")
         readLine()
@@ -65,7 +64,7 @@ private fun actionMinus(table: HashTable) {
         table.minus(readLine())
 
         println("Successful.")
-    } catch (ex: NullPointerException) {
+    } catch (ex: KotlinNullPointerException) {
         println(ex.message)
     } catch (ex: NoSuchElementException) {
         println(ex.message)
@@ -80,7 +79,7 @@ private fun actionGetIndex(table: HashTable) {
         println("Enter an element value.")
 
         println(table.getIndex(readLine()))
-    } catch (ex: NullPointerException) {
+    } catch (ex: KotlinNullPointerException) {
         println(ex.message)
     } catch (ex: NoSuchElementException) {
         println(ex.message)
@@ -109,7 +108,7 @@ private fun actionPlusFromFile(table: HashTable) {
         table.plusFromFile(readLine())
 
         println("Successful.")
-    } catch (ex: NullPointerException) {
+    } catch (ex: KotlinNullPointerException) {
         println(ex.message)
     } catch (ex: NoSuchFileException) {
         println(ex.message)
@@ -127,7 +126,7 @@ private fun actionChooseHashFunction(table: HashTable) {
         table.chooseHashFunction(readLine())
 
         println("Successful.")
-    } catch (ex: NullPointerException) {
+    } catch (ex: KotlinNullPointerException) {
         println(ex.message)
     } catch (ex: IllegalArgumentException) {
         println(ex.message)

@@ -47,7 +47,7 @@ class HashTable : IHashTable {
     var itemsQuantity = 0
 
     override fun plus(value: String?) {
-        if (value.isNullOrBlank()) throw NullPointerException("String is empty.")
+        if (value.isNullOrBlank()) throw KotlinNullPointerException("String is empty.")
 
         for (it in items[hashFunction.getHash(value)]) {
             if (it == value) {
@@ -60,7 +60,7 @@ class HashTable : IHashTable {
     }
 
     override fun minus(value: String?) {
-        if (value.isNullOrBlank()) throw NullPointerException("String is empty.")
+        if (value.isNullOrBlank()) throw KotlinNullPointerException("String is empty.")
 
         var isExist = false
 
@@ -80,7 +80,7 @@ class HashTable : IHashTable {
     }
 
     override fun getIndex(value: String?): Int {
-        if (value.isNullOrBlank()) throw NullPointerException("String is empty.")
+        if (value.isNullOrBlank()) throw KotlinNullPointerException("String is empty.")
 
         items[hashFunction.getHash(value)].forEach {
             if (it == value) return hashFunction.getHash(value)
@@ -94,7 +94,7 @@ class HashTable : IHashTable {
     }
 
     override fun plusFromFile(fileName: String?) {
-        if (fileName.isNullOrBlank()) throw NullPointerException("String is empty.")
+        if (fileName.isNullOrBlank()) throw KotlinNullPointerException("String is empty.")
 
         val file = File(fileName)
         if (!file.exists()) throw NoSuchFileException(file, null, "File is not exist")
@@ -106,7 +106,7 @@ class HashTable : IHashTable {
     }
 
     override fun chooseHashFunction(value: String?) {
-        if (value.isNullOrBlank()) throw NullPointerException("String is empty.")
+        if (value.isNullOrBlank()) throw KotlinNullPointerException("String is empty.")
         try {
             hashFunction = HashFunctions(HashModules.valueOf(value))
             items = updateItems(this)
