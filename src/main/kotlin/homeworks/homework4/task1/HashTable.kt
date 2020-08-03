@@ -2,7 +2,6 @@ package homeworks.homework4.task1
 
 import homeworks.homework4.task1.interfaces.IHashTable
 import java.io.File
-import java.lang.Exception
 import java.util.NoSuchElementException
 
 private fun getSize(table: HashTable): String {
@@ -96,7 +95,7 @@ class HashTable : IHashTable {
         if (fileName.isNullOrBlank()) throw NullPointerException("String is empty.")
 
         val file = File(fileName)
-        if (!file.exists()) throw NoSuchFileException(file, null ,"File is not exist")
+        if (!file.exists()) throw NoSuchFileException(file, null, "File is not exist")
 
         file.forEachLine {
             items[hashFunction.getHash(it)].add(it)
@@ -110,7 +109,7 @@ class HashTable : IHashTable {
         if (number.all { Character.isDigit(it) }) {
             hashFunction = HashFunctions(number.toInt())
             items = updateItems(this)
-        } else  {
+        } else {
             throw ArithmeticException("String is not number.")
         }
     }
