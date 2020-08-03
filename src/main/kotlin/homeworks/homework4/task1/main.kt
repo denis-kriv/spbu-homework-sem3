@@ -17,7 +17,7 @@ private fun readNumberOfAction(): Actions {
 
      try {
          return Actions.valueOf(input)
-     } catch (exception: IllegalArgumentException) {
+     } catch (ex: IllegalArgumentException) {
          throw IllegalArgumentException("String is not correct.")
      }
 }
@@ -29,11 +29,10 @@ private fun actionPlus(table: HashTable) {
         table.plus(readLine())
 
         println("Successful.")
-
-    } catch (exception: NullPointerException) {
-        println(exception.message)
-    } catch (exception: CloneNotSupportedException) {
-        println(exception.message)
+    } catch (ex: NullPointerException) {
+        println(ex.message)
+    } catch (ex: CloneNotSupportedException) {
+        println(ex.message)
     } finally {
         println("Press any key to continue.")
         readLine()
@@ -47,12 +46,11 @@ private fun actionMinus(table: HashTable) {
         table.minus(readLine())
 
         println("Successful.")
-
-    } catch (exception: NullPointerException) {
-        println(exception.message)
-    } catch (exception: NoSuchElementException) {
-        println(exception.message)
-    }finally {
+    } catch (ex: NullPointerException) {
+        println(ex.message)
+    } catch (ex: NoSuchElementException) {
+        println(ex.message)
+    } finally {
         println("Press any key to continue.")
         readLine()
     }
@@ -63,12 +61,11 @@ private fun actionGetIndex(table: HashTable) {
         println("Enter an element value.")
 
         println(table.getIndex(readLine()))
-
-    } catch (exception: NullPointerException) {
-        println(exception.message)
-    } catch (exception: NoSuchElementException) {
-        println(exception.message)
-    }finally {
+    } catch (ex: NullPointerException) {
+        println(ex.message)
+    } catch (ex: NoSuchElementException) {
+        println(ex.message)
+    } finally {
         println("Press any key to continue.")
         readLine()
     }
@@ -93,12 +90,11 @@ private fun actionPlusFromFile(table: HashTable) {
         table.plusFromFile(readLine())
 
         println("Successful.")
-
-    }catch (exception: NullPointerException) {
-        println(exception.message)
-    }catch (exception: NoSuchFileException) {
-        println(exception.message)
-    }finally {
+    }catch (ex: NullPointerException) {
+        println(ex.message)
+    }catch (ex: NoSuchFileException) {
+        println(ex.message)
+    } finally {
         println("Press any key to continue.")
         readLine()
     }
@@ -112,12 +108,11 @@ private fun actionChooseHashFunction(table: HashTable) {
         table.chooseHashFunction(readLine())
 
         println("Successful.")
-
-    } catch (exception: NullPointerException) {
-        println(exception.message)
-    } catch (exception: IllegalArgumentException) {
-        println(exception.message)
-    }finally {
+    } catch (ex: NullPointerException) {
+        println(ex.message)
+    } catch (ex: IllegalArgumentException) {
+        println(ex.message)
+    } finally {
         println("Press any key to continue.")
         readLine()
     }
@@ -131,13 +126,13 @@ fun main() {
 
         try {
             input = readNumberOfAction()
-        } catch (exception: NullPointerException) {
-            println(exception.message)
+        } catch (ex: NullPointerException) {
+            println(ex.message)
             println("Press any key to continue.")
             readLine()
             continue
-        } catch (exception: IllegalArgumentException) {
-            println(exception.message)
+        } catch (ex: IllegalArgumentException) {
+            println(ex.message)
             println("Press any key to continue.")
             readLine()
             continue

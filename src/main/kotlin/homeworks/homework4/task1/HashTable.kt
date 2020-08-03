@@ -1,6 +1,5 @@
 package homeworks.homework4.task1
 
-import homeworks.homework4.task1.enums.Actions
 import homeworks.homework4.task1.enums.HashModules
 import homeworks.homework4.task1.interfaces.IHashTable
 import java.io.File
