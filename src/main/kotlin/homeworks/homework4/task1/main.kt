@@ -22,6 +22,24 @@ private fun readNumberOfAction(): Actions {
      }
 }
 
+private fun handleInputData(): Actions? {
+    var value: Actions? = null
+
+    try {
+        value = readNumberOfAction()
+    } catch (nullException: NullPointerException) {
+        println(nullException.message)
+        println("Press any key to continue.")
+        readLine()
+    } catch (illegalException: IllegalArgumentException) {
+        println(illegalException.message)
+        println("Press any key to continue.")
+        readLine()
+    }
+
+    return value
+}
+
 private fun actionPlus(table: HashTable) {
     try {
         println("Enter an element value.")
@@ -122,23 +140,8 @@ fun main() {
     val table = HashTable()
     var isStopped = false
 
-    while (true) {
-        var input: Actions
-        if (isStopped) break
-
-        try {
-            input = readNumberOfAction()
-        } catch (nullException: NullPointerException) {
-            println(nullException.message)
-            println("Press any key to continue.")
-            readLine()
-            continue
-        } catch (illegalException: IllegalArgumentException) {
-            println(illegalException.message)
-            println("Press any key to continue.")
-            readLine()
-            continue
-        }
+    while (!isStopped) {
+        val input = handleInputData() ?: continue
 
         when (input) {
             Actions.Plus -> actionPlus(table)
