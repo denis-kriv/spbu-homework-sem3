@@ -111,6 +111,8 @@ private fun actionPlusFromFile(table: HashTable) {
         println(ex.message)
     } catch (ex: NoSuchFileException) {
         println(ex.message)
+    } catch (ex: CloneNotSupportedException) {
+        println(ex.message)
     } finally {
         println("Press enter to continue.")
         readLine()

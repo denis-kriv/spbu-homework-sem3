@@ -4,6 +4,8 @@ import homeworks.homework4.task1.enums.HashKeys
 
 class HashFunctions(value: HashKeys, val module: Int) {
 
+    var key = value.key
+
     var getHash = when (value) {
         HashKeys.Hash3 -> fun(value: String): Int {
             var result = 0

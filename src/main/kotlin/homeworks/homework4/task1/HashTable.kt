@@ -1,12 +1,12 @@
 package homeworks.homework4.task1
 
-import homeworks.homework4.task1.enums.Actions
 import homeworks.homework4.task1.enums.HashKeys
 import homeworks.homework4.task1.interfaces.IHashTable
 import java.io.File
 import java.lang.IllegalArgumentException
 import java.util.NoSuchElementException
 import homeworks.homework4.task1.models.Statistics
+import kotlin.math.roundToInt
 
 private fun getSize(table: HashTable): Int {
     return table.items.size
@@ -28,15 +28,16 @@ private fun getMaxLength(table: HashTable): Int {
     return maxLength
 }
 
-private fun getLoadFactor(table: HashTable): Int {
-    return (table.items.size / table.itemsQuantity)
+private fun getLoadFactor(table: HashTable): Double {
+    val result = (table.itemsQuantity.toFloat() / table.items.size.toFloat())
+    return (((result * 1000).roundToInt().toFloat())/1000.0)
 }
 
 private fun updateItems(table: HashTable): Array<MutableList<String>> {
-    val updatedItems: Array<MutableList<String>> = arrayOf()
+    val updatedItems = Array<MutableList<String>>(table.hashFunction.module) { mutableListOf() }
     table.items.forEach {
-        it.forEach {
-            updatedItems[table.hashFunction.getHash(it)].add(it)
+        for (i in it) {
+            updatedItems[table.hashFunction.getHash(i)].add(i)
         }
     }
     return updatedItems
@@ -49,7 +50,7 @@ class HashTable : IHashTable {
     var itemsQuantity = 0
 
     override fun plus(value: String?) {
-        if (value.isNullOrBlank()) throw KotlinNullPointerException("String is empty.")
+        if (value.isNullOrBlank()) throw KotlinNullPointerException("Element is empty.")
 
         for (it in items[hashFunction.getHash(value)]) {
             if (it == value) {
@@ -62,7 +63,7 @@ class HashTable : IHashTable {
     }
 
     override fun minus(value: String?) {
-        if (value.isNullOrBlank()) throw KotlinNullPointerException("String is empty.")
+        if (value.isNullOrBlank()) throw KotlinNullPointerException("Element is empty.")
 
         var isExist = false
 
@@ -82,7 +83,7 @@ class HashTable : IHashTable {
     }
 
     override fun getIndex(value: String?): Int {
-        if (value.isNullOrBlank()) throw KotlinNullPointerException("String is empty.")
+        if (value.isNullOrBlank()) throw KotlinNullPointerException("Element is empty.")
 
         items[hashFunction.getHash(value)].forEach {
             if (it == value) return hashFunction.getHash(value)
@@ -106,7 +107,7 @@ class HashTable : IHashTable {
         if (!file.exists()) throw NoSuchFileException(file, null, "File is not exist")
 
         file.forEachLine {
-            items[hashFunction.getHash(it)].add(it)
+            plus(it)
             itemsQuantity++
         }
     }
@@ -115,7 +116,7 @@ class HashTable : IHashTable {
         if (value.isNullOrBlank()) throw KotlinNullPointerException("String is empty.")
 
         var isCorrect = false
-        for (it in Actions.values()) {
+        for (it in HashKeys.values()) {
             if (it.name == value) {
                 hashFunction = HashFunctions(HashKeys.valueOf(value), 2048)
                 items = updateItems(this)
