@@ -30,11 +30,13 @@ private fun getMaxLength(table: HashTable): Int {
 
 private fun getLoadFactor(table: HashTable): Double {
     val result = (table.itemsQuantity.toFloat() / table.items.size.toFloat())
-    return (((result * 1000).roundToInt().toFloat())/1000.0)
+    val count = 1000
+
+    return (((result * count).roundToInt().toDouble()) / count)
 }
 
 private fun updateItems(table: HashTable): Array<MutableList<String>> {
-    val updatedItems = Array<MutableList<String>>(table.hashFunction.module) { mutableListOf() }
+    val updatedItems = Array<MutableList<String>>(HashFunctions.module) { mutableListOf() }
     table.items.forEach {
         for (i in it) {
             updatedItems[table.hashFunction.getHash(i)].add(i)
@@ -45,8 +47,8 @@ private fun updateItems(table: HashTable): Array<MutableList<String>> {
 
 class HashTable : IHashTable {
 
-    var hashFunction = HashFunctions(HashKeys.Hash3, 2048)
-    var items = Array<MutableList<String>>(hashFunction.module) { mutableListOf() }
+    var hashFunction = HashFunctions(HashKeys.Hash3)
+    var items = Array<MutableList<String>>(HashFunctions.module) { mutableListOf() }
     var itemsQuantity = 0
 
     override fun plus(value: String?) {
@@ -118,7 +120,7 @@ class HashTable : IHashTable {
         var isCorrect = false
         for (it in HashKeys.values()) {
             if (it.name == value) {
-                hashFunction = HashFunctions(HashKeys.valueOf(value), 2048)
+                hashFunction = HashFunctions(HashKeys.valueOf(value))
                 items = updateItems(this)
                 isCorrect = true
                 break
