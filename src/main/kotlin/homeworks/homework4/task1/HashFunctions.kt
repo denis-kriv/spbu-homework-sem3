@@ -7,7 +7,7 @@ class HashFunctions(value: HashModules) {
     private val module = 2048
 
     var getHash = when (value) {
-        HashModules.HASH3 -> fun(value: String): Int {
+        HashModules.Hash3 -> fun(value: String): Int {
             var result = 0
             var deg = 1
             value.forEach {
@@ -17,7 +17,7 @@ class HashFunctions(value: HashModules) {
             return result % module
         }
 
-        HashModules.HASH5 -> fun(value: String): Int {
+        HashModules.Hash5 -> fun(value: String): Int {
             var result = 0
             var deg = 1
             value.forEach {
@@ -27,7 +27,7 @@ class HashFunctions(value: HashModules) {
             return result % module
         }
 
-        HashModules.HASH7 -> fun(value: String): Int {
+        HashModules.Hash7 -> fun(value: String): Int {
             var result = 0
             var deg = 1
             value.forEach {
@@ -37,7 +37,7 @@ class HashFunctions(value: HashModules) {
             return result % module
         }
 
-        HashModules.HASH11 -> fun(value: String): Int {
+        HashModules.Hash11 -> fun(value: String): Int {
             var result = 0
             var deg = 1
             value.forEach {

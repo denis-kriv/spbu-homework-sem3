@@ -44,7 +44,7 @@ private fun updateItems(table: HashTable): Array<MutableList<String>> {
 class HashTable : IHashTable {
 
     var items = Array<MutableList<String>>(2048) { mutableListOf() }
-    var hashFunction = HashFunctions(HashModules.HASH3)
+    var hashFunction = HashFunctions(HashModules.Hash3)
     var itemsQuantity = 0
 
     override fun plus(value: String?) {

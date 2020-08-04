@@ -1,3 +1,3 @@
 package homeworks.homework4.task1.enums
 
-enum class HashModules { HASH3, HASH5, HASH7, HASH11 }
+enum class HashModules { Hash3, Hash5, Hash7, Hash11 }

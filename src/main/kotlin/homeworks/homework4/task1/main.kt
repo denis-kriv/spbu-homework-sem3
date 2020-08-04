@@ -120,8 +120,11 @@ private fun actionPlusFromFile(table: HashTable) {
 
 private fun actionChooseHashFunction(table: HashTable) {
     try {
-        println("Enter a deg for hash function:")
-        println("Enter a deg for hash function.")
+        println("Enter:")
+        println("Hash3: for choose hash function with key 3.")
+        println("Hash5: for choose hash function with key 3.")
+        println("Hash7: for choose hash function with key 3.")
+        println("Hash11: for choose hash function with key 3.")
 
         table.chooseHashFunction(readLine())
 
