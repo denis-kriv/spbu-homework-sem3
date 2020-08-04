@@ -44,7 +44,7 @@ private fun updateItems(table: HashTable): Array<MutableList<String>> {
 
 class HashTable : IHashTable {
 
-    var hashFunction = HashFunctions(HashKeys.Hash3)
+    var hashFunction = HashFunctions(HashKeys.Hash3, 2048)
     var items = Array<MutableList<String>>(hashFunction.module) { mutableListOf() }
     var itemsQuantity = 0
 
@@ -117,7 +117,7 @@ class HashTable : IHashTable {
         var isCorrect = false
         for (it in Actions.values()) {
             if (it.name == value) {
-                hashFunction = HashFunctions(HashKeys.valueOf(value))
+                hashFunction = HashFunctions(HashKeys.valueOf(value), 2048)
                 items = updateItems(this)
                 isCorrect = true
                 break

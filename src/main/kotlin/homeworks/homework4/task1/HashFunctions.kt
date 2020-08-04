@@ -2,9 +2,7 @@ package homeworks.homework4.task1
 
 import homeworks.homework4.task1.enums.HashKeys
 
-class HashFunctions(value: HashKeys) {
-    
-    val module = 2048
+class HashFunctions(value: HashKeys, val module: Int) {
 
     var getHash = when (value) {
         HashKeys.Hash3 -> fun(value: String): Int {
