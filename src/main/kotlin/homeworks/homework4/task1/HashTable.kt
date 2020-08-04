@@ -1,6 +1,7 @@
 package homeworks.homework4.task1
 
-import homeworks.homework4.task1.enums.HashModules
+import homeworks.homework4.task1.enums.Actions
+import homeworks.homework4.task1.enums.HashKeys
 import homeworks.homework4.task1.interfaces.IHashTable
 import java.io.File
 import java.lang.IllegalArgumentException
@@ -43,8 +44,8 @@ private fun updateItems(table: HashTable): Array<MutableList<String>> {
 
 class HashTable : IHashTable {
 
-    var items = Array<MutableList<String>>(2048) { mutableListOf() }
-    var hashFunction = HashFunctions(HashModules.Hash3)
+    var hashFunction = HashFunctions(HashKeys.Hash3)
+    var items = Array<MutableList<String>>(hashFunction.module) { mutableListOf() }
     var itemsQuantity = 0
 
     override fun plus(value: String?) {
@@ -112,11 +113,16 @@ class HashTable : IHashTable {
 
     override fun chooseHashFunction(value: String?) {
         if (value.isNullOrBlank()) throw KotlinNullPointerException("String is empty.")
-        try {
-            hashFunction = HashFunctions(HashModules.valueOf(value))
-            items = updateItems(this)
-        } catch (exception: IllegalArgumentException) {
-            throw IllegalArgumentException("String is not correct.")
+
+        var isCorrect = false
+        for (it in Actions.values()) {
+            if (it.name == value) {
+                hashFunction = HashFunctions(HashKeys.valueOf(value))
+                items = updateItems(this)
+                isCorrect = true
+                break
+            }
         }
+        if (!isCorrect) throw IllegalArgumentException("String is not correct.")
     }
 }

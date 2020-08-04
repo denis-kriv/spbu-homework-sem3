@@ -1,48 +1,48 @@
 package homeworks.homework4.task1
 
-import homeworks.homework4.task1.enums.HashModules
+import homeworks.homework4.task1.enums.HashKeys
 
-class HashFunctions(value: HashModules) {
+class HashFunctions(value: HashKeys) {
     
-    private val module = 2048
+    val module = 2048
 
     var getHash = when (value) {
-        HashModules.Hash3 -> fun(value: String): Int {
+        HashKeys.Hash3 -> fun(value: String): Int {
             var result = 0
             var deg = 1
             value.forEach {
                 result += (it.hashCode() * deg) % module
-                deg *= 3
+                deg *= HashKeys.Hash3.key
             }
             return result % module
         }
 
-        HashModules.Hash5 -> fun(value: String): Int {
+        HashKeys.Hash5 -> fun(value: String): Int {
             var result = 0
             var deg = 1
             value.forEach {
                 result += it.hashCode() * deg % module
-                deg *= 5
+                deg *= HashKeys.Hash5.key
             }
             return result % module
         }
 
-        HashModules.Hash7 -> fun(value: String): Int {
+        HashKeys.Hash7 -> fun(value: String): Int {
             var result = 0
             var deg = 1
             value.forEach {
                 result += it.hashCode() * deg % module
-                deg *= 7
+                deg *= HashKeys.Hash7.key
             }
             return result % module
         }
 
-        HashModules.Hash11 -> fun(value: String): Int {
+        HashKeys.Hash11 -> fun(value: String): Int {
             var result = 0
             var deg = 1
             value.forEach {
                 result += it.hashCode() * deg % module
-                deg *= 11
+                deg *= HashKeys.Hash11.key
             }
             return result % module
         }
