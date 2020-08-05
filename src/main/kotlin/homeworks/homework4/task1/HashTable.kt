@@ -8,6 +8,10 @@ import java.util.NoSuchElementException
 import homeworks.homework4.task1.models.Statistics
 import kotlin.math.roundToInt
 
+private object Constants {
+    const val quantityOfSymbolAfterDot = 1000
+}
+
 private fun getSize(table: HashTable): Int {
     return table.items.size
 }
@@ -31,10 +35,7 @@ private fun getMaxLength(table: HashTable): Int {
 private fun getLoadFactor(table: HashTable): Double {
     val result = (table.itemsQuantity.toDouble() / table.items.size.toDouble())
 
-    return (((result * Count.count).roundToInt().toDouble()) / Count.count)
-}
-private object Count {
-    const val count = 1000
+    return (((result * Constants.quantityOfSymbolAfterDot).roundToInt().toDouble()) / Constants.quantityOfSymbolAfterDot)
 }
 
 private fun updateItems(table: HashTable): Array<MutableList<String>> {
