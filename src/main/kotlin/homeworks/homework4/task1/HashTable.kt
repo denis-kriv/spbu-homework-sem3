@@ -9,7 +9,7 @@ import homeworks.homework4.task1.models.Statistics
 import kotlin.math.roundToInt
 
 private object Constants {
-    const val quantityOfSymbolAfterDot = 1000
+    const val symbolsQuantity = 1000
 }
 
 private fun getSize(table: HashTable): Int {
@@ -35,7 +35,7 @@ private fun getMaxLength(table: HashTable): Int {
 private fun getLoadFactor(table: HashTable): Double {
     val result = (table.itemsQuantity.toDouble() / table.items.size.toDouble())
 
-    return (((result * Constants.quantityOfSymbolAfterDot).roundToInt().toDouble()) / Constants.quantityOfSymbolAfterDot)
+    return (((result * Constants.symbolsQuantity).roundToInt().toDouble()) / Constants.symbolsQuantity)
 }
 
 private fun updateItems(table: HashTable): Array<MutableList<String>> {
