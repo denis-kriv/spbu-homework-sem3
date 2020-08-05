@@ -29,10 +29,12 @@ private fun getMaxLength(table: HashTable): Int {
 }
 
 private fun getLoadFactor(table: HashTable): Double {
-    val result = (table.itemsQuantity.toFloat() / table.items.size.toFloat())
-    val count = 1000
+    val result = (table.itemsQuantity.toDouble() / table.items.size.toDouble())
 
-    return (((result * count).roundToInt().toDouble()) / count)
+    return (((result * Count.count).roundToInt().toDouble()) / Count.count)
+}
+private object Count {
+    const val count = 1000
 }
 
 private fun updateItems(table: HashTable): Array<MutableList<String>> {

@@ -13,21 +13,21 @@ class HashFunctionsTests {
 
     @Test
     fun getHashWithKey3ShouldReturnsDifferentIndexesForTwoRandomStrings() {
-        val hashFunction = HashFunctions(HashKeys.Hash3, 2048)
+        val hashFunction = HashFunctions(HashKeys.Hash3)
 
         assertFalse(hashFunction.getHash(randomString1) == hashFunction.getHash(randomString2))
     }
 
     @Test
     fun getHashWithKey3ShouldReturnsOneIndexForOneString() {
-        val hashFunction = HashFunctions(HashKeys.Hash3, 2048)
+        val hashFunction = HashFunctions(HashKeys.Hash3)
 
         assertEquals(hashFunction.getHash(randomString1), hashFunction.getHash(randomString1))
     }
 
     @Test
     fun getHashWithKey3ShouldCreatesCollisionForTwoSpecialStrings() {
-        val hashFunction = HashFunctions(HashKeys.Hash3, 2048)
+        val hashFunction = HashFunctions(HashKeys.Hash3)
 
         val specialString1 = "ddd"
         val specialString2 = "pcc"
@@ -37,21 +37,21 @@ class HashFunctionsTests {
 
     @Test
     fun getHashWithKey5ShouldReturnsDifferentIndexesForTwoRandomStrings() {
-        val hashFunction = HashFunctions(HashKeys.Hash5, 2048)
+        val hashFunction = HashFunctions(HashKeys.Hash5)
 
         assertFalse(hashFunction.getHash(randomString1) == hashFunction.getHash(randomString2))
     }
 
     @Test
     fun getHashWithKey5ShouldReturnsOneIndexForOneString() {
-        val hashFunction = HashFunctions(HashKeys.Hash5, 2048)
+        val hashFunction = HashFunctions(HashKeys.Hash5)
 
         assertEquals(hashFunction.getHash(randomString1), hashFunction.getHash(randomString1))
     }
 
     @Test
     fun getHashWithKey5ShouldCreatesCollisionForTwoSpecialStrings() {
-        val hashFunction = HashFunctions(HashKeys.Hash5, 2048)
+        val hashFunction = HashFunctions(HashKeys.Hash5)
 
         val specialString1 = "222"
         val specialString2 = "P11"
@@ -61,21 +61,21 @@ class HashFunctionsTests {
 
     @Test
     fun getHashWithKey7ShouldReturnsDifferentIndexesForTwoRandomStrings() {
-        val hashFunction = HashFunctions(HashKeys.Hash7, 2048)
+        val hashFunction = HashFunctions(HashKeys.Hash7)
 
         assertFalse(hashFunction.getHash(randomString1) == hashFunction.getHash(randomString2))
     }
 
     @Test
     fun getHashWithKey7ShouldReturnsOneIndexForOneString() {
-        val hashFunction = HashFunctions(HashKeys.Hash7, 2048)
+        val hashFunction = HashFunctions(HashKeys.Hash7)
 
         assertEquals(hashFunction.getHash(randomString1), hashFunction.getHash(randomString1))
     }
 
     @Test
     fun getHashWithKey7ShouldCreatesCollisionForTwoSpecialStrings() {
-        val hashFunction = HashFunctions(HashKeys.Hash7, 2048)
+        val hashFunction = HashFunctions(HashKeys.Hash7)
 
         val specialString1 = "222"
         val specialString2 = "j11"
@@ -85,21 +85,21 @@ class HashFunctionsTests {
 
     @Test
     fun getHashWithKey11ShouldReturnsDifferentIndexesForTwoRandomStrings() {
-        val hashFunction = HashFunctions(HashKeys.Hash11, 2048)
+        val hashFunction = HashFunctions(HashKeys.Hash11)
 
         assertFalse(hashFunction.getHash(randomString1) == hashFunction.getHash(randomString2))
     }
 
     @Test
     fun getHashWithKey11ShouldReturnsOneIndexForOneString() {
-        val hashFunction = HashFunctions(HashKeys.Hash11, 2048)
+        val hashFunction = HashFunctions(HashKeys.Hash11)
 
         assertEquals(hashFunction.getHash(randomString1), hashFunction.getHash(randomString1))
     }
 
     @Test
     fun getHashWithKey11ShouldCreatesCollisionForTwoSpecialStrings() {
-        val hashFunction = HashFunctions(HashKeys.Hash11, 2048)
+        val hashFunction = HashFunctions(HashKeys.Hash11)
 
         val specialString1 = "dd"
         val specialString2 = "oc"
