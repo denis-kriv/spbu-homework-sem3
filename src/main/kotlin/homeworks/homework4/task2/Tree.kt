@@ -15,7 +15,7 @@ private fun leftRight(input: List<String>): Pair<List<String>, List<String>> {
         if (balance == 0) return Pair(input.subList(0, k), input.subList(k + 1, input.lastIndex))
     }
 
-    throw Exception("String is not correct.")
+    throw IllegalArgumentException("String is not correct.")
 }
 
 private fun fillTree(input: List<String>): TreeItem {
@@ -31,22 +31,21 @@ private fun fillTree(input: List<String>): TreeItem {
         )
     }
 
-    throw Exception("String is not correct.")
+    throw IllegalArgumentException("String is not correct.")
 }
 
 private fun read(path: String?): List<String> {
     if (path.isNullOrBlank()) throw KotlinNullPointerException("String is empty.")
 
     val file = File(path)
-    if (!file.exists()) throw java.lang.Exception("File does not exist.")
+    if (!file.exists()) throw NoSuchFileException(file, null, "File does not exist.")
 
     return file.readText().split(" ")
 }
 
 class Tree(path: String?) {
 
-    private val head: TreeItem =
-        fillTree(read(path))
+    private val head: TreeItem = fillTree(read(path))
 
     fun print() {
         println(head)
