@@ -9,10 +9,10 @@ import java.io.File
 private fun leftRight(input: List<String>): Pair<List<String>, List<String>> {
     var balance = 0
 
-    for ((k, i) in input.withIndex()) {
-        if (i == "(") balance--
-        if (i == ")") balance++
-        if (balance == 0) return Pair(input.subList(0, k), input.subList(k + 1, input.lastIndex))
+    for ((index, it) in input.withIndex()) {
+        if (it == "(") balance--
+        if (it == ")") balance++
+        if (balance == 0) return Pair(input.subList(0, index + 1), input.subList(index + 1, input.lastIndex + 1))
     }
 
     throw IllegalArgumentException("String is not correct.")
@@ -21,14 +21,10 @@ private fun leftRight(input: List<String>): Pair<List<String>, List<String>> {
 private fun fillTree(input: List<String>): TreeItem {
     if (input[0].toIntOrNull() != null) return Operand(input[0].toInt())
 
-    val children = leftRight(input.subList(2, input.lastIndex - 1))
+    val children = leftRight(input.subList(2, input.lastIndex))
 
     Operators.values().forEach {
-        if (it.value == input[1]) return Operator(
-            it,
-            fillTree(children.first),
-            fillTree(children.second)
-        )
+        if (it.value == input[1]) return Operator(it, fillTree(children.first), fillTree(children.second))
     }
 
     throw IllegalArgumentException("String is not correct.")
@@ -40,7 +36,26 @@ private fun read(path: String?): List<String> {
     val file = File(path)
     if (!file.exists()) throw NoSuchFileException(file, null, "File does not exist.")
 
-    return file.readText().split(" ")
+    val input = StringBuilder(file.readText())
+    var index = 0
+
+    while(true) {
+        if (input[index] == '(') {
+            input.insert(index + 1, " ")
+            index++
+        }
+
+        if (input[index] == ')') {
+            input.insert(index, " ")
+            index++
+        }
+
+        index++
+
+        if (input.length <= index) break
+    }
+
+    return input.split(" ")
 }
 
 class Tree(path: String?) {
