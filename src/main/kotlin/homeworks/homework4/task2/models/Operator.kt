@@ -9,9 +9,11 @@ enum class Operators(val value: String) {
     Dividing("/")
 }
 
-class Operator(private val type: Operators,
-               private val leftChild: TreeItem,
-               private val rightChild: TreeItem) : TreeItem {
+class Operator(
+    private val type: Operators,
+    private val leftChild: TreeItem,
+    private val rightChild: TreeItem
+) : TreeItem {
 
     override fun toInt(): Int {
         return when (type) {

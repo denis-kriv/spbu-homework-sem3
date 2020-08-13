@@ -39,7 +39,7 @@ private fun read(path: String?): List<String> {
     val input = StringBuilder(file.readText())
     var index = 0
 
-    while(true) {
+    while (true) {
         if (input[index] == '(') {
             input.insert(index + 1, " ")
             index++
