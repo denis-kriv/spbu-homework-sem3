@@ -111,7 +111,7 @@ internal class OperatorTests {
     }
 
     @Test
-    fun toIntForDividingShouldThrowsExceptionWhenLeftChildPositivelyAndRightChildIsZero() {
+    fun toIntForDividingShouldThrowsArithmeticExceptionWhenLeftChildPositivelyAndRightChildIsZero() {
         val left = Operand(1001)
         val right = Operand(0)
 
@@ -151,7 +151,7 @@ internal class OperatorTests {
     }
 
     @Test
-    fun toIntForDividingShouldThrowsExceptionWhenLeftChildIsZeroAndRightChildIsZero() {
+    fun toIntForDividingShouldThrowsArithmeticExceptionWhenLeftChildIsZeroAndRightChildIsZero() {
         val left = Operand(0)
         val right = Operand(0)
 
@@ -171,7 +171,7 @@ internal class OperatorTests {
     }
 
     @Test
-    fun toIntForDividingShouldThrowsExceptionWhenLeftChildNegativelyAndRightChildIsZero() {
+    fun toIntForDividingShouldThrowsArithmeticExceptionWhenLeftChildNegativelyAndRightChildIsZero() {
         val left = Operand(-1000)
         val right = Operand(0)
 
