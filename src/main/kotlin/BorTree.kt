@@ -1,9 +1,10 @@
 import interfaces.IBorTree
 import models.TreeItem
+import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
 import java.io.Serializable
-import java.util.*
+import java.util.Scanner
 
 private fun plus(item: TreeItem, element: String): Boolean {
     if (element == item.value) {
@@ -142,7 +143,7 @@ class BorTree : IBorTree, Serializable {
             val word = scanner.next()
 
             if (word.length < 2 || word[0] != '\'' || word[word.lastIndex] != '\'') {
-                throw Exception("String is not correct.")
+                throw IOException("String is not correct.")
             }
 
             if (word.length == 2) {
