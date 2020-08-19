@@ -1,5 +1,9 @@
 import interfaces.IBorTree
 import models.TreeItem
+import java.io.InputStream
+import java.io.OutputStream
+import java.io.Serializable
+import java.util.*
 
 private fun plus(item: TreeItem, element: String): Boolean {
     if (element == item.value) {
@@ -82,9 +86,25 @@ private fun quantityWithThisPrefix(item: TreeItem, prefix: String): Int {
     return if (test == null) 0 else quantityWithThisPrefix(test, prefix.substring(1))
 }
 
-class BorTree() : IBorTree {
+private fun getAllWords(item: TreeItem, prefix: String): MutableList<String> {
+    val result = if (item.isTerminal) mutableListOf("$prefix${item.value}") else mutableListOf()
+
+    item.children.forEach {
+        result.addAll(getAllWords(it, "$prefix${item.value}"))
+    }
+
+    return result
+}
+
+class BorTree : IBorTree, Serializable {
 
     private val head: TreeItem = TreeItem("")
+
+    private fun clear() {
+        head.children.clear()
+        head.isTerminal = false
+        head.size = 0
+    }
 
     override fun add(element: String): Boolean {
         return plus(head, element)
@@ -104,5 +124,35 @@ class BorTree() : IBorTree {
 
     override fun howManyStartWithPrefix(prefix: String): Int {
         return quantityWithThisPrefix(head, prefix)
+    }
+
+    fun serialize(output: OutputStream) {
+        val words = getAllWords(head, "")
+
+        output.write((words.joinToString(" ") { "'$it'" }).toByteArray())
+        output.close()
+    }
+
+    fun deserialize(input: InputStream) {
+        val inputString = input.bufferedReader().readLine() ?: throw KotlinNullPointerException("Input is null.")
+        val scanner = Scanner(inputString)
+        clear()
+
+        while (scanner.hasNext()) {
+            val word = scanner.next()
+
+            if (word.length < 2 || word[0] != '\'' || word[word.lastIndex] != '\'') {
+                throw Exception("String is not correct.")
+            }
+
+            if (word.length == 2) {
+                add("")
+                continue
+            }
+
+            add(word.substring(1, word.lastIndex))
+        }
+
+        input.close()
     }
 }
