@@ -130,6 +130,8 @@ class BorTree : IBorTree, Serializable {
     fun serialize(output: OutputStream) {
         val words = getAllWords(head, "")
 
+        if (words.isEmpty()) throw IOException("Tree is empty.")
+
         output.write((words.joinToString(" ") { "'$it'" }).toByteArray())
         output.close()
     }
