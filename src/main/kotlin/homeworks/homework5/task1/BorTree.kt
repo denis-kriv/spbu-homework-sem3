@@ -1,5 +1,7 @@
-import interfaces.IBorTree
-import models.TreeItem
+package homeworks.homework5.task1
+
+import homeworks.homework5.task1.interfaces.IBorTree
+import homeworks.homework5.task1.models.TreeItem
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
@@ -12,23 +14,28 @@ private fun plus(item: TreeItem, element: String): Boolean {
 
         val isExist = item.isTerminal
         item.isTerminal = true
+
         return !isExist
     }
 
-    var test: TreeItem? = null
+    var currentItem: TreeItem? = null
+    val index = if (item.value == "") 0 else 1
+
     for (i in item.children) {
-        if (i.value == element[0].toString()) {
-            test = i
+        if (i.value == element[index].toString()) {
+            currentItem = i
             break
         }
     }
-    if (test == null) {
-        test = TreeItem(element[0].toString())
-        item.children.add(test)
+
+    if (currentItem == null) {
+        currentItem = TreeItem(element[index].toString())
+        item.children.add(currentItem)
     }
 
-    val result = plus(test, element.substring(1))
+    val result = plus(currentItem, element.substring(index))
     if (result) item.size++
+
     return result
 }
 
@@ -36,11 +43,10 @@ private fun isExist(item: TreeItem, element: String): Boolean {
     if (item.value == element) return item.isTerminal
 
     var result = false
+    val index = if (item.value == "") 0 else 1
 
     for (i in item.children) {
-        if (i.value == element[0].toString()) {
-            result = isExist(i, element.substring(1))
-        }
+        if (i.value == element[index].toString()) result = isExist(i, element.substring(index))
     }
 
     return result
@@ -52,39 +58,44 @@ private fun minus(item: TreeItem, element: String): Boolean {
 
         val isExist = item.isTerminal
         item.isTerminal = false
+
         return isExist
     }
 
-    var test: TreeItem? = null
+    var currentItem: TreeItem? = null
+    val index = if (item.value == "") 0 else 1
+
     for (i in item.children) {
-        if (i.value == element[0].toString()) {
-            test = i
+        if (i.value == element[index].toString()) {
+            currentItem = i
             break
         }
     }
 
-    return if (test != null) {
-        val result = minus(test, element.substring(1))
+    return if (currentItem != null) {
+        val result = minus(currentItem, element.substring(index))
         if (result) item.size--
+
         result
     } else false
 }
 
 private fun quantityWithThisPrefix(item: TreeItem, prefix: String): Int {
     if (prefix == item.value) {
-        return item.children.size
+        return item.size
     }
 
-    var test: TreeItem? = null
+    var currentItem: TreeItem? = null
+    val index = if (item.value == "") 0 else 1
 
     for (i in item.children) {
-        if (i.value == prefix[0].toString()) {
-            test = i
+        if (i.value == prefix[index].toString()) {
+            currentItem = i
             break
         }
     }
 
-    return if (test == null) 0 else quantityWithThisPrefix(test, prefix.substring(1))
+    return if (currentItem == null) 0 else quantityWithThisPrefix(currentItem, prefix.substring(index))
 }
 
 private fun getAllWords(item: TreeItem, prefix: String): MutableList<String> {
@@ -139,6 +150,7 @@ class BorTree : IBorTree, Serializable {
     fun deserialize(input: InputStream) {
         val inputString = input.bufferedReader().readLine() ?: throw KotlinNullPointerException("Input is null.")
         val scanner = Scanner(inputString)
+
         clear()
 
         while (scanner.hasNext()) {

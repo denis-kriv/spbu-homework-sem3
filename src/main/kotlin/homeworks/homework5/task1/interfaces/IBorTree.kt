@@ -1,4 +1,4 @@
-package interfaces
+package homeworks.homework5.task1.interfaces
 
 interface IBorTree {
     fun add(element: String): Boolean

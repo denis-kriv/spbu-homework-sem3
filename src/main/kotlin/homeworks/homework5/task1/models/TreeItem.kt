@@ -1,4 +1,4 @@
-package models
+package homeworks.homework5.task1.models
 
 class TreeItem(val value: String) {
 
