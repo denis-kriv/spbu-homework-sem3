@@ -281,5 +281,16 @@ class BorTreeTests {
         val stream = FileInputStream("src/test/kotlin/homeworks/homework5/task1/data/deserializeCorrectFile.txt")
 
         assertDoesNotThrow { tree.deserialize(stream) }
+
+        assertTrue(tree.contains(""))
+        assertTrue(tree.contains("e"))
+        assertTrue(tree.contains("exa"))
+        assertTrue(tree.contains("examp"))
+        assertTrue(tree.contains("example"))
+        assertTrue(tree.contains("exceptions"))
+        assertTrue(tree.contains("excep"))
+        assertTrue(tree.contains("kotlin"))
+        assertTrue(tree.contains("kotl"))
+        assertTrue(tree.contains("ko"))
     }
 }
