@@ -7,6 +7,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.io.FileOutputStream
 
+private const val resultsQuantity = 10
+private const val minSizeForArray = 100000
+private const val maxSizeForArray = 1000000
+
 private fun <T : Comparable<T>> partition(array: Array<T>, indexBegin: Int, indexEnd: Int): Int {
     var lowerIndex = indexBegin
     var topIndex = indexEnd
@@ -49,7 +53,7 @@ private suspend fun <T : Comparable<T>> asyncQuickSort(array: Array<T>, indexBeg
 }
 
 private fun calculate(): String {
-    val size = Random.nextInt(1000, 10000)
+    val size = Random.nextInt(minSizeForArray, maxSizeForArray)
     val array = Array(size) { Random.nextInt() }
 
     val arrayForSimpleSort = array.clone()
@@ -73,7 +77,7 @@ fun main() {
     val file = File("src/main/kotlin/homeworks/homework6/task1/data/results.txt")
     val output = FileOutputStream(file)
 
-    for (i in 1..10) {
+    for (i in 1..resultsQuantity) {
         output.write(calculate().toByteArray())
     }
 
