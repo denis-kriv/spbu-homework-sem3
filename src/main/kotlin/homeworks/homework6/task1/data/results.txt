@@ -1,0 +1,10 @@
+Simple sort: 318 || Async sort: 410 
+Simple sort: 299 || Async sort: 373 
+Simple sort: 145 || Async sort: 164 
+Simple sort: 24 || Async sort: 35 
+Simple sort: 101 || Async sort: 131 
+Simple sort: 41 || Async sort: 59 
+Simple sort: 241 || Async sort: 512 
+Simple sort: 134 || Async sort: 179 
+Simple sort: 100 || Async sort: 136 
+Simple sort: 76 || Async sort: 97 
