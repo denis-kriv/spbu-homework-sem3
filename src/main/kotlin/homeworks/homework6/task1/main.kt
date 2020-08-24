@@ -49,7 +49,7 @@ private suspend fun <T : Comparable<T>> asyncQuickSort(array: Array<T>, indexBeg
 }
 
 private fun calculate(): String {
-    val size = Random.nextInt(100000, 1000000)
+    val size = Random.nextInt(1000, 10000)
     val array = Array(size) { Random.nextInt() }
 
     val arrayForSimpleSort = array.clone()
