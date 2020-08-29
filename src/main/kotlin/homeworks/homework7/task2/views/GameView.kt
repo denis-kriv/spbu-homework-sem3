@@ -21,7 +21,7 @@ class GameView : View() {
     override val root = vbox {
         addClass(GameStyle.mainBlock)
 
-        val status = label("Status")
+        val status = label(controller.getStatus())
 
         vbox {
             addClass(GameStyle.gameFieldBlock)
