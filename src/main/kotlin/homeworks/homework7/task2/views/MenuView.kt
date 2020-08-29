@@ -1,5 +1,6 @@
 package homeworks.homework7.task2.views
 
+import homeworks.homework7.task2.controllers.TicTacToeController
 import homeworks.homework7.task2.styles.MenuStyle
 import javafx.beans.property.SimpleObjectProperty
 import javafx.collections.FXCollections.observableArrayList
@@ -14,10 +15,11 @@ import tornadofx.action
 
 class MenuView : View("Menu") {
 
-    private val difficultyLevelsList: ObservableList<String> = observableArrayList("Easy", "Hard")
-    private val signsList: ObservableList<Char> = observableArrayList('X', '0')
-    private val difficulty = SimpleObjectProperty<String>()
+    private val signsList: List<Char> = listOf('X', '0')
+    private val difficultyLevelsList: List<String> = listOf("Easy", "Hard")
     private val sign = SimpleObjectProperty<Char>()
+    private val difficulty = SimpleObjectProperty<String>()
+    private val controller: TicTacToeController by inject()
 
     override val root = vbox {
         addClass(MenuStyle.mainBlock)
@@ -38,10 +40,11 @@ class MenuView : View("Menu") {
             combobox(difficulty, difficultyLevelsList) { selectionModel.selectFirst() }
         }
 
-        //TODO: add action
         button("Play") {
             action {
-                action { replaceWith<GameView>() }
+                controller.startGame(sign.value, difficulty.value)
+
+                replaceWith<GameView>()
             }
         }
     }
