@@ -40,7 +40,9 @@ class MenuView : View("Menu") {
 
         //TODO: add action
         button("Play") {
-            action { }
+            action {
+                action { replaceWith<GameView>() }
+            }
         }
     }
 }
