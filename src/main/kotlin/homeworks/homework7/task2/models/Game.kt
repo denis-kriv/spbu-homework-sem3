@@ -29,10 +29,9 @@ private fun checkDiagonal(): Boolean {
 
     if (playerWin || botWin) {
         Game.status.value = if (playerWin) "Player win" else "Bot win"
-        return true
     }
 
-    return false
+    return playerWin || botWin
 }
 
 private fun checkVertical(): Boolean {
@@ -88,12 +87,14 @@ private fun checkIfDraw(): Boolean {
 }
 
 object Game {
+    private const val size = 3
+
     var playerSign: String = "X"
     var botSign: String = "0"
     var difficulty: String = "Easy"
     var status: SimpleObjectProperty<String> = SimpleObjectProperty("In Progress")
     var isEnd: Boolean = false
-    var buttons: Array<Array<String>> = Array(3) { Array(3) { " " } }
+    var buttons: Array<Array<String>> = Array(size) { Array(size) { " " } }
 
     fun checkResult() {
         isEnd = checkDiagonal() || checkVertical() || checkContour() || checkIfDraw()

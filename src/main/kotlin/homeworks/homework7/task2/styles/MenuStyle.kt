@@ -10,16 +10,19 @@ class MenuStyle : Stylesheet() {
     companion object {
         val mainBlock by cssclass()
         val choiceBlock by cssclass()
+
+        private const val mainBlockSpacing = 5
+        private const val choiceBlockSpacing = 1
     }
 
     init {
         mainBlock {
-            spacing = 5.mm
+            spacing = mainBlockSpacing.mm
             alignment = Pos.CENTER
         }
 
         choiceBlock {
-            spacing = 1.mm
+            spacing = choiceBlockSpacing.mm
             alignment = Pos.CENTER
         }
     }
