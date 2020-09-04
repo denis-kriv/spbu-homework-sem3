@@ -3,62 +3,37 @@ package homeworks.homework7.task2.views
 import homeworks.homework7.task2.controllers.TicTacToeController
 import homeworks.homework7.task2.models.Game
 import homeworks.homework7.task2.styles.GameStyle
-import javafx.scene.control.Button
-import tornadofx.View
-import tornadofx.vbox
-import tornadofx.label
-import tornadofx.addClass
-import tornadofx.hbox
-import tornadofx.button
-import tornadofx.action
-
+import tornadofx.*
 
 class GameView : View() {
 
     private val controller: TicTacToeController by inject()
-    private var buttons: MutableList<Button> = mutableListOf()
 
     override val root = vbox {
         addClass(GameStyle.mainBlock)
 
-        val status = label(controller.getStatus())
+        label(Game.status)
 
         vbox {
             addClass(GameStyle.gameFieldBlock)
 
-            var index = Pair(0, 0)
-
-            List(3) {
+            Array(3) { i ->
                 hbox {
                     addClass(GameStyle.gameFieldBlock)
 
-                    List(3) {
-                        val item = button("  ") {
-                            action {
-                                if (controller.handlePlayerMove(index)) {
-                                    this.text = Game.sign.toString()
+                    Array(3) { j ->
+                        button {
+                            id = "$i-$j"
 
-                                    status.text = controller.getStatus()
-                                }
-                            }
+                            action { controller.playerMove(Pair(i, j)) }
                         }
-
-                        buttons.add(item)
-
-                        index = Pair(index.first + 1, index.second)
                     }
                 }
-
-                index = Pair(index.first, index.second + 1)
             }
         }
 
         button("Menu") {
             action {
-                buttons.forEach { it.text = "  " }
-
-                controller.endGame()
-
                 replaceWith<MenuView>()
             }
         }
