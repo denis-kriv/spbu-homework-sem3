@@ -22,15 +22,15 @@ private fun easyMove(buttons: List<Pair<Int, Int>>) {
     Game.updateButton(location, Game.botSign)
 }
 
-private fun playerWinBlockContour(): Boolean {
+private fun moveContour(sign: String): Boolean {
     for (i in 0..2) {
         var location = Pair(0, 0)
-        var quantityOfPlayerSigns = 0
+        var quantityOfSigns = 0
         var quantityOfEmptyButtons = 0
 
         loop@ for (j in 0..2) {
             when (Game.buttons[i][j]) {
-                Game.playerSign -> quantityOfPlayerSigns++
+                sign -> quantityOfSigns++
 
                 " " -> {
                     location = Pair(i, j)
@@ -41,7 +41,7 @@ private fun playerWinBlockContour(): Boolean {
             }
         }
 
-        if (quantityOfEmptyButtons == 1 && quantityOfPlayerSigns == 2) {
+        if (quantityOfEmptyButtons == 1 && quantityOfSigns == 2) {
             Game.updateButton(location, Game.botSign)
             return true
         }
@@ -50,15 +50,15 @@ private fun playerWinBlockContour(): Boolean {
     return false
 }
 
-private fun playerWinBlockVertical(): Boolean {
+private fun moveVertical(sign: String): Boolean {
     for (i in 0..2) {
         var location = Pair(0, 0)
-        var quantityOfPlayerSigns = 0
+        var quantityOfSigns = 0
         var quantityOfEmptyButtons = 0
 
         loop@ for (j in 0..2) {
             when (Game.buttons[j][i]) {
-                Game.playerSign -> quantityOfPlayerSigns++
+                sign -> quantityOfSigns++
 
                 " " -> {
                     location = Pair(j, i)
@@ -69,7 +69,7 @@ private fun playerWinBlockVertical(): Boolean {
             }
         }
 
-        if (quantityOfEmptyButtons == 1 && quantityOfPlayerSigns == 2) {
+        if (quantityOfEmptyButtons == 1 && quantityOfSigns == 2) {
             Game.updateButton(location, Game.botSign)
             return true
         }
@@ -78,14 +78,14 @@ private fun playerWinBlockVertical(): Boolean {
     return false
 }
 
-private fun playerWinBlockDiagonal(): Boolean {
+private fun moveDiagonal(sign: String): Boolean {
     var location = Pair(0, 0)
-    var quantityOfPlayerSigns = 0
+    var quantityOfSigns = 0
     var quantityOfEmptyButtons = 0
 
     loop@ for (i in 0..2) {
         when (Game.buttons[i][i]) {
-            Game.playerSign -> quantityOfPlayerSigns++
+            sign -> quantityOfSigns++
 
             " " -> {
                 location = Pair(i, i)
@@ -96,18 +96,18 @@ private fun playerWinBlockDiagonal(): Boolean {
         }
     }
 
-    if (quantityOfEmptyButtons == 1 && quantityOfPlayerSigns == 2) {
+    if (quantityOfEmptyButtons == 1 && quantityOfSigns == 2) {
         Game.updateButton(location, Game.botSign)
         return true
     }
 
     location = Pair(0, 0)
-    quantityOfPlayerSigns = 0
+    quantityOfSigns = 0
     quantityOfEmptyButtons = 0
 
     loop@ for (i in 0..2) {
         when (Game.buttons[i][2 - i]) {
-            Game.playerSign -> quantityOfPlayerSigns++
+            Game.botSign -> quantityOfSigns++
 
             " " -> {
                 location = Pair(i, 2 - i)
@@ -118,128 +118,23 @@ private fun playerWinBlockDiagonal(): Boolean {
         }
     }
 
-    if (quantityOfEmptyButtons == 1 && quantityOfPlayerSigns == 2) {
+    if (quantityOfEmptyButtons == 1 && quantityOfSigns == 2) {
         Game.updateButton(location, Game.botSign)
         return true
     }
 
     return false
-}
-
-private fun playerWinBlock(): Boolean {
-    return playerWinBlockContour() || playerWinBlockVertical() || playerWinBlockDiagonal()
-}
-
-private fun botWinMoveContour(): Boolean {
-    for (i in 0..2) {
-        var location = Pair(0, 0)
-        var quantityOfBotSigns = 0
-        var quantityOfEmptyButtons = 0
-
-        loop@ for (j in 0..2) {
-            when (Game.buttons[i][j]) {
-                Game.botSign -> quantityOfBotSigns++
-
-                " " -> {
-                    location = Pair(i, j)
-                    quantityOfEmptyButtons++
-                }
-
-                else -> break@loop
-            }
-        }
-
-        if (quantityOfEmptyButtons == 1 && quantityOfBotSigns == 2) {
-            Game.updateButton(location, Game.botSign)
-            return true
-        }
-    }
-
-    return false
-}
-
-private fun botWinMoveVertical(): Boolean {
-    for (i in 0..2) {
-        var location = Pair(0, 0)
-        var quantityOfBotSigns = 0
-        var quantityOfEmptyButtons = 0
-
-        loop@ for (j in 0..2) {
-            when (Game.buttons[j][i]) {
-                Game.botSign -> quantityOfBotSigns++
-
-                " " -> {
-                    location = Pair(j, i)
-                    quantityOfEmptyButtons++
-                }
-
-                else -> break@loop
-            }
-        }
-
-        if (quantityOfEmptyButtons == 1 && quantityOfBotSigns == 2) {
-            Game.updateButton(location, Game.botSign)
-            return true
-        }
-    }
-
-    return false
-}
-
-private fun botWinMoveDiagonal(): Boolean {
-    var location = Pair(0, 0)
-    var quantityOfBotSigns = 0
-    var quantityOfEmptyButtons = 0
-
-    loop@ for (i in 0..2) {
-        when (Game.buttons[i][i]) {
-            Game.botSign -> quantityOfBotSigns++
-
-            " " -> {
-                location = Pair(i, i)
-                quantityOfEmptyButtons++
-            }
-
-            else -> break@loop
-        }
-    }
-
-    if (quantityOfEmptyButtons == 1 && quantityOfBotSigns == 2) {
-        Game.updateButton(location, Game.botSign)
-        return true
-    }
-
-    location = Pair(0, 0)
-    quantityOfBotSigns = 0
-    quantityOfEmptyButtons = 0
-
-    loop@ for (i in 0..2) {
-        when (Game.buttons[i][2 - i]) {
-            Game.botSign -> quantityOfBotSigns++
-
-            " " -> {
-                location = Pair(i, 2 - i)
-                quantityOfEmptyButtons++
-            }
-
-            else -> break@loop
-        }
-    }
-
-    if (quantityOfEmptyButtons == 1 && quantityOfBotSigns == 2) {
-        Game.updateButton(location, Game.botSign)
-        return true
-    }
-
-    return false
-}
-
-private fun botWinMove(): Boolean {
-    return botWinMoveContour() || botWinMoveVertical() || botWinMoveDiagonal()
 }
 
 private fun hardMove(buttons: List<Pair<Int, Int>>) {
-    if (botWinMove() || playerWinBlock()) return
+    if (
+        moveContour(Game.botSign) ||
+        moveVertical(Game.botSign) ||
+        moveDiagonal(Game.botSign) ||
+        moveContour(Game.playerSign) ||
+        moveVertical(Game.playerSign) ||
+        moveDiagonal(Game.playerSign)
+    ) return
 
     if (buttons.contains(Pair(1, 1))) Game.updateButton(Pair(1, 1), Game.botSign) else easyMove(buttons)
 }
