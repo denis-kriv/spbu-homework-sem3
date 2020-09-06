@@ -1,4 +1,4 @@
-package semester3.homework1.task1.models
+package homeworks.semester3.homework1.task1.models
 
 import kotlin.random.Random
 

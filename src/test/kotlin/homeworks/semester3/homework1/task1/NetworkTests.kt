@@ -1,12 +1,12 @@
-package semester3.homework1.task1
+package homeworks.semester3.homework1.task1
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
-import semester3.homework1.task1.models.Computer
-import semester3.homework1.task1.models.Network
-import semester3.homework1.task1.models.OperationSystem
+import homeworks.semester3.homework1.task1.models.Computer
+import homeworks.semester3.homework1.task1.models.Network
+import homeworks.semester3.homework1.task1.models.OperationSystem
 
 internal class NetworkTests {
 
@@ -55,7 +55,11 @@ internal class NetworkTests {
             infectedComputer1, infectedComputer2, infectedComputer3
         )
 
-        assertThrows<IndexOutOfBoundsException> { Network(computers) }
+        assertThrows<IndexOutOfBoundsException> {
+            Network(
+                computers
+            )
+        }
     }
 
     @Test

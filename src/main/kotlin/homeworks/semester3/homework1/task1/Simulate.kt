@@ -1,6 +1,6 @@
-package semester3.homework1.task1
+package homeworks.semester3.homework1.task1
 
-import semester3.homework1.task1.models.Network
+import homeworks.semester3.homework1.task1.models.Network
 
 fun simulate(network: Network) {
     while (true) {
