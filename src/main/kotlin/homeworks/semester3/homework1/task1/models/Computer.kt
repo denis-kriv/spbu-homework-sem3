@@ -1,5 +1,6 @@
 package homeworks.semester3.homework1.task1.models
 
+import java.lang.Exception
 import kotlin.random.Random
 
 private object Constants {
@@ -14,12 +15,16 @@ enum class OperationSystem(val probability: Double) {
     Mac(Constants.macProbability)
 }
 
-class Computer(private val system: OperationSystem, internal val links: Set<Int>, isInfected: Boolean) {
+class Computer(private val system: OperationSystem, isInfected: Boolean) {
 
     internal var isInfected: Boolean = isInfected
         private set
 
-    internal fun tryToInfect() {
+    internal fun tryToInfect(): Boolean {
+        if (isInfected) throw Exception()
+
         if (Random.nextDouble() < system.probability) isInfected = true
+
+        return isInfected
     }
 }

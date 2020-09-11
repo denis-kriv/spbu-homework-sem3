@@ -1,33 +1,42 @@
 package homeworks.semester3.homework1.task1.models
 
-import java.lang.IndexOutOfBoundsException
+class Network(private val computers: List<Computer>, private val links: List<List<Int>>) {
 
-class Network(private val computers: Set<Computer>) {
+    private val infectedComputers: MutableList<Int> = mutableListOf()
 
     init {
-        computers.forEach {
-            it.links.forEach { i ->
-                if (i < 0 || i >= computers.size) {
-                    throw IndexOutOfBoundsException("Computer with index $i does not exist")
-                }
+        if (computers.distinct().size != computers.size) throw Exception()
+
+        if (links.size > computers.size) throw Exception()
+
+        links.forEach {
+            if (it.distinct().size != it.size) throw Exception()
+
+            it.forEach { i ->
+                if (i > computers.lastIndex) throw Exception()
+
+                if (i == links.indexOf(it)) throw Exception()
             }
         }
+
+        computers.forEach { if (it.isInfected) infectedComputers.add(computers.indexOf(it)) }
     }
 
     fun infect() {
-        val willBeInfect: MutableList<Int> = mutableListOf()
+        val wasInfected = mutableListOf<Int>()
 
-        computers.forEach { if (it.isInfected) willBeInfect.addAll(it.links) }
+        infectedComputers.forEach {
+            links[it].forEach { i ->
+                val computer = computers[i]
 
-        willBeInfect.forEach { computers.elementAt(it).tryToInfect() }
+                if (!computer.isInfected && computer.tryToInfect()) wasInfected.add(i)
+            }
+        }
+
+        infectedComputers.addAll(wasInfected)
     }
 
-    fun getStatistics(): Pair<Int, Int> {
-        var quantityOfInfected = 0
-        var quantityOfHealth = 0
-
-        computers.forEach { if (it.isInfected) quantityOfInfected++ else quantityOfHealth++ }
-
-        return Pair(quantityOfHealth, quantityOfInfected)
+    fun getStatistics(): String {
+        return " "
     }
 }
