@@ -1,6 +1,5 @@
 package homeworks.semester3.homework1.task1.models
 
-import java.lang.Exception
 import kotlin.random.Random
 
 private object Constants {
@@ -21,7 +20,7 @@ class Computer(private val system: OperationSystem, isInfected: Boolean) {
         private set
 
     internal fun tryToInfect(): Boolean {
-        if (isInfected) throw Exception()
+        if (isInfected) throw UnsupportedOperationException("Computer is already infected.")
 
         if (Random.nextDouble() < system.probability) isInfected = true
 

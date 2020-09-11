@@ -54,53 +54,56 @@ private fun generate(): Network {
     return Network(listOf(), listOf())
 }
 
+private fun start() {
+    println("0: Read network from file.")
+    println("1: Generate network.")
+
+    val network = when (readLine()) {
+        "0" -> {
+            println("Path to file:")
+
+            readFromFile(readLine() ?: throw Exception())
+        }
+
+        "1" -> {
+            generate()
+        }
+
+        else -> {
+            throw Exception()
+        }
+    }
+
+    val simulator = Simulator(network)
+
+    println("0: Simulate by quantity of steps")
+    println("1: Simulate step by step")
+
+    when (readLine()) {
+        "0" -> {
+            println("Quantity of steps")
+
+            println(simulator.simulate(readLine()?.toIntOrNull() ?: throw Exception()))
+        }
+
+        "1" -> {
+            while (true) {
+                println(simulator.simulate(1))
+
+                println("0: Continue")
+                println("Else: Stop")
+
+                if (readLine() != "0") break
+            }
+        }
+
+        else -> return
+    }
+}
+
 fun main() {
     try {
-        println("0: Read network from file.")
-        println("1: Generate network.")
-
-        val network = when (readLine()) {
-            "0" -> {
-                println("Path to file:")
-
-                readFromFile(readLine() ?: throw Exception())
-            }
-
-            "1" -> {
-                generate()
-            }
-
-            else -> {
-                throw Exception()
-            }
-        }
-
-        val simulator = Simulator(network)
-
-        println("0: Simulate by quantity of steps")
-        println("1: Simulate step by step")
-
-        when (readLine()) {
-            "0" -> {
-                println("Quantity of steps")
-
-                println(simulator.simulate(readLine()?.toIntOrNull() ?: throw Exception()))
-            }
-
-            "1" -> {
-                while (true) {
-                    println(simulator.simulate(1))
-
-                    println("0: Continue")
-                    println("Else: Stop")
-
-                    if (readLine() != "0") break
-                }
-            }
-
-            else -> return
-        }
-
+        start()
     } catch (e: Exception) {
 
     } catch (e: NullPointerException) {
