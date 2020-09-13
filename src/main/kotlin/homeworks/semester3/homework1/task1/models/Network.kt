@@ -12,7 +12,9 @@ class Network(private val computers: List<Computer>, private val links: List<Lis
 
             it.forEach { i ->
                 if (i > computers.lastIndex) {
-                    throw KotlinNullPointerException("The list of computer neighbors should not contain indexes, large numbers of computers.")
+                    throw KotlinNullPointerException(
+                        "The list neighbors shouldn't contain indexes, large numbers of computers."
+                    )
                 }
 
                 if (i == links.indexOf(it)) {

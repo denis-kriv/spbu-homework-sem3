@@ -7,6 +7,11 @@ import homeworks.semester3.homework1.task1.models.Simulator
 import java.io.File
 import kotlin.random.Random
 
+private object Constants {
+    const val minSizeOfNetwork = 1000
+    const val maxSizeOfNetwork = 10000
+}
+
 private fun parseComputerInfo(info: String): Computer {
     val computerInfo = info.split(" ")
 
@@ -80,9 +85,9 @@ private fun generateLinks(lastIndex: Int): List<List<Int>> {
 }
 
 private fun generate(): Network {
-    val computers = List(Random.nextInt(1000, 10000)) {
-        val isInfected = Random.nextInt(0, 100) < 10
-        val system = OperationSystem.values()[Random.nextInt(0, 3)]
+    val computers = List(Random.nextInt(Constants.minSizeOfNetwork, Constants.maxSizeOfNetwork)) {
+        val isInfected = Random.nextDouble() < 0.2
+        val system = OperationSystem.values()[Random.nextInt(0, OperationSystem.values().size)]
 
         Computer(system, isInfected)
     }
