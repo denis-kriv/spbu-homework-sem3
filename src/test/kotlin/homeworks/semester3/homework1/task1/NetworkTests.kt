@@ -7,548 +7,320 @@ import org.junit.jupiter.api.assertThrows
 import homeworks.semester3.homework1.task1.models.Computer
 import homeworks.semester3.homework1.task1.models.Network
 import homeworks.semester3.homework1.task1.models.OperationSystem
+import homeworks.semester3.homework1.task1.utils.Generator
+import kotlin.random.Random
+
+private object Constants {
+    const val minSizeOfNetwork = 100
+    const val maxSizeOfNetwork = 1000
+    const val infectionProbability = 0.2
+}
 
 internal class NetworkTests {
 
-    /*@Test
-    fun initShouldThrowsExceptionWhenSomeComputersHasInCorrectLinks() {
-        val linksForHealthComputer1 = setOf(0, 1, 2, 3, 4, 5)
-        val linksForHealthComputer2 = setOf(0, 1, 2, 3, 4)
-        val linksForHealthComputer3 = setOf(0, 1, 2, 3)
-        val linksForInfectedComputer1 = setOf(0, 1, 2)
-        val linksForInfectedComputer2 = setOf(0, 1)
-        val linksForInfectedComputer3 = setOf(0, 100)
+    @Test
+    fun initShouldThrowsCloneNotSupportedExceptionWhenListOfComputerNeighborsContainDuplicates() {
+        val computers = MutableList(Random.nextInt(Constants.minSizeOfNetwork, Constants.maxSizeOfNetwork)) {
+            val isInfected = Random.nextDouble() < Constants.infectionProbability
+            val system = OperationSystem.values()[Random.nextInt(0, OperationSystem.values().size)]
 
-        val healthComputer1 = Computer(
-            OperationSystem.Windows,
-            linksForHealthComputer1,
-            false
-        )
-        val healthComputer2 = Computer(
-            OperationSystem.Linux,
-            linksForHealthComputer2,
-            false
-        )
-        val healthComputer3 = Computer(
-            OperationSystem.Mac,
-            linksForHealthComputer3,
-            false
-        )
-        val infectedComputer1 = Computer(
-            OperationSystem.Windows,
-            linksForInfectedComputer1,
-            true
-        )
-        val infectedComputer2 = Computer(
-            OperationSystem.Linux,
-            linksForInfectedComputer2,
-            true
-        )
-        val infectedComputer3 = Computer(
-            OperationSystem.Mac,
-            linksForInfectedComputer3,
-            true
-        )
-
-        val computers = setOf(
-            healthComputer1, healthComputer2, healthComputer3,
-            infectedComputer1, infectedComputer2, infectedComputer3
-        )
-
-        assertThrows<IndexOutOfBoundsException> {
-            Network(
-                computers
-            )
+            Computer(system, isInfected)
         }
+
+        val computer = Computer(OperationSystem.Mac, true)
+
+        assertThrows<CloneNotSupportedException> { Network(computers, listOf(listOf(0, 1, 0))) }
+    }
+
+    @Test
+    fun initShouldThrowsIndexOutOfBoundsExceptionWhenListOfComputerNeighborsContainIndexesLargeNumbersOfComputers() {
+        val computers = List(Random.nextInt(Constants.minSizeOfNetwork, Constants.maxSizeOfNetwork)) {
+            val isInfected = Random.nextDouble() < Constants.infectionProbability
+            val system = OperationSystem.values()[Random.nextInt(0, OperationSystem.values().size)]
+
+            Computer(system, isInfected)
+        }
+
+        assertThrows<IndexOutOfBoundsException> { Network(computers, listOf(listOf(computers.size))) }
+    }
+
+    @Test
+    fun initShouldThrowsIndexOutOfBoundsExceptionWhenListOfComputerNeighborsContainIndexesLessZero() {
+        val computers = List(Random.nextInt(Constants.minSizeOfNetwork, Constants.maxSizeOfNetwork)) {
+            val isInfected = Random.nextDouble() < Constants.infectionProbability
+            val system = OperationSystem.values()[Random.nextInt(0, OperationSystem.values().size)]
+
+            Computer(system, isInfected)
+        }
+
+        assertThrows<IndexOutOfBoundsException> { Network(computers, listOf(listOf(-1))) }
+    }
+
+    @Test
+    fun initShouldThrowsUnsupportedOperationExceptionWhenListOfComputerNeighborsContainItself() {
+        val computers = List(Random.nextInt(Constants.minSizeOfNetwork, Constants.maxSizeOfNetwork)) {
+            val isInfected = Random.nextDouble() < Constants.infectionProbability
+            val system = OperationSystem.values()[Random.nextInt(0, OperationSystem.values().size)]
+
+            Computer(system, isInfected)
+        }
+
+        assertThrows<UnsupportedOperationException> { Network(computers, listOf(listOf(0))) }
     }
 
     @Test
     fun initShouldNotThrowsExceptionWhenDataIsCorrect() {
-        val linksForHealthComputer1 = setOf(0, 1, 2, 3, 4, 5)
-        val linksForHealthComputer2 = setOf(0, 1, 2, 3, 4)
-        val linksForHealthComputer3 = setOf(0, 1, 2, 3)
-        val linksForInfectedComputer1 = setOf(0, 1, 2)
-        val linksForInfectedComputer2 = setOf(0, 1)
-        val linksForInfectedComputer3 = setOf(0)
-
-        val healthComputer1 = Computer(
-            OperationSystem.Windows,
-            linksForHealthComputer1,
-            false
-        )
-        val healthComputer2 = Computer(
-            OperationSystem.Linux,
-            linksForHealthComputer2,
-            false
-        )
-        val healthComputer3 = Computer(
-            OperationSystem.Mac,
-            linksForHealthComputer3,
-            false
-        )
-        val infectedComputer1 = Computer(
-            OperationSystem.Windows,
-            linksForInfectedComputer1,
-            true
-        )
-        val infectedComputer2 = Computer(
-            OperationSystem.Linux,
-            linksForInfectedComputer2,
-            true
-        )
-        val infectedComputer3 = Computer(
-            OperationSystem.Mac,
-            linksForInfectedComputer3,
-            true
-        )
-
-        val computers = setOf(
-            healthComputer1, healthComputer2, healthComputer3,
-            infectedComputer1, infectedComputer2, infectedComputer3
-        )
-
-        assertDoesNotThrow { Network(computers) }
+        assertDoesNotThrow { Generator().generate() }
     }
 
     @Test
     fun getStatisticsShouldReturnsRightValueWhenNetworkHasNotAnyComputers() {
-        val computers = setOf<Computer>()
-
-        val network = Network(computers)
-
-        assertEquals(Pair(0, 0), network.getStatistics())
+        assertEquals("All computers are healthy", Network(listOf(), listOf()).getStatistics())
     }
 
     @Test
     fun getStatisticsShouldReturnsRightValueWhenNetworkHasNotAnyInfectedComputers() {
-        val linksForHealthComputer1 = setOf<Int>()
-        val linksForHealthComputer2 = setOf<Int>()
-        val linksForHealthComputer3 = setOf<Int>()
+        val computers = List(Random.nextInt(Constants.minSizeOfNetwork, Constants.maxSizeOfNetwork)) {
+            val isInfected = false
+            val system = OperationSystem.values()[Random.nextInt(0, OperationSystem.values().size)]
 
-        val healthComputer1 = Computer(
-            OperationSystem.Windows,
-            linksForHealthComputer1,
-            false
-        )
-        val healthComputer2 = Computer(
-            OperationSystem.Linux,
-            linksForHealthComputer2,
-            false
-        )
-        val healthComputer3 = Computer(
-            OperationSystem.Mac,
-            linksForHealthComputer3,
-            false
-        )
+            Computer(system, isInfected)
+        }
 
-        val computers = setOf(healthComputer1, healthComputer2, healthComputer3)
-
-        val network = Network(computers)
-
-        assertEquals(Pair(3, 0), network.getStatistics())
+        assertEquals("All computers are healthy", Network(computers, listOf()).getStatistics())
     }
 
     @Test
     fun getStatisticsShouldReturnsRightValueWhenNetworkHasNotAnyHealthComputers() {
-        val linksForInfectedComputer1 = setOf<Int>()
-        val linksForInfectedComputer2 = setOf<Int>()
-        val linksForInfectedComputer3 = setOf<Int>()
+        val computers = List(4) {
+            val isInfected = true
+            val system = OperationSystem.values()[Random.nextInt(0, OperationSystem.values().size)]
 
-        val infectedComputer1 = Computer(
-            OperationSystem.Windows,
-            linksForInfectedComputer1,
-            true
-        )
-        val infectedComputer2 = Computer(
-            OperationSystem.Linux,
-            linksForInfectedComputer2,
-            true
-        )
-        val infectedComputer3 = Computer(
-            OperationSystem.Mac,
-            linksForInfectedComputer3,
-            true
-        )
+            Computer(system, isInfected)
+        }
 
-        val computers = setOf(infectedComputer1, infectedComputer2, infectedComputer3)
-
-        val network = Network(computers)
-
-        assertEquals(Pair(0, 3), network.getStatistics())
+        assertEquals("Infected computers: 0 1 2 3 ", Network(computers, listOf()).getStatistics())
     }
 
     @Test
     fun getStatisticsShouldReturnsRightValue() {
-        val linksForHealthComputer1 = setOf<Int>()
-        val linksForHealthComputer2 = setOf<Int>()
-        val linksForHealthComputer3 = setOf<Int>()
-        val linksForInfectedComputer1 = setOf<Int>()
-        val linksForInfectedComputer2 = setOf<Int>()
-        val linksForInfectedComputer3 = setOf<Int>()
+        val computers = List(Random.nextInt(Constants.minSizeOfNetwork, Constants.maxSizeOfNetwork)) {
+            val isInfected = it < 3
+            val system = OperationSystem.values()[Random.nextInt(0, OperationSystem.values().size)]
 
-        val healthComputer1 = Computer(
-            OperationSystem.Windows,
-            linksForHealthComputer1,
-            false
-        )
-        val healthComputer2 = Computer(
-            OperationSystem.Linux,
-            linksForHealthComputer2,
-            false
-        )
-        val healthComputer3 = Computer(
-            OperationSystem.Mac,
-            linksForHealthComputer3,
-            false
-        )
-        val infectedComputer1 = Computer(
-            OperationSystem.Windows,
-            linksForInfectedComputer1,
-            true
-        )
-        val infectedComputer2 = Computer(
-            OperationSystem.Linux,
-            linksForInfectedComputer2,
-            true
-        )
-        val infectedComputer3 = Computer(
-            OperationSystem.Mac,
-            linksForInfectedComputer3,
-            true
-        )
+            Computer(system, isInfected)
+        }
 
-        val computers = setOf(
-            healthComputer1, healthComputer2, healthComputer3,
-            infectedComputer1, infectedComputer2, infectedComputer3
-        )
-
-        val network = Network(computers)
-
-        assertEquals(Pair(3, 3), network.getStatistics())
+        assertEquals("Infected computers: 0 1 2 ", Network(computers, listOf()).getStatistics())
     }
 
     @Test
-    fun infectShouldWhenNetworkHasNotAnyComputers() {
-        val computers = setOf<Computer>()
-
-        val network = Network(computers)
-
-        network.infect()
-
-        assertEquals(Pair(0, 0), network.getStatistics())
+    fun infectShouldWorksCorrectlyWhenNetworkHasNotAnyComputers() {
+        assertDoesNotThrow { Network(listOf(), listOf()).infect() }
     }
 
     @Test
     fun infectShouldWorksCorrectlyWhenNetworkHasNotAnyInfectedComputers() {
-        val linksForHealthComputer1 = setOf(0, 1, 2)
-        val linksForHealthComputer2 = setOf(0, 1, 2)
-        val linksForHealthComputer3 = setOf(0, 1, 2)
+        val computers = List(Random.nextInt(Constants.minSizeOfNetwork, Constants.maxSizeOfNetwork)) {
+            val isInfected = false
+            val system = OperationSystem.values()[Random.nextInt(0, OperationSystem.values().size)]
 
-        val healthComputer1 = Computer(
-            OperationSystem.Windows,
-            linksForHealthComputer1,
-            false
-        )
-        val healthComputer2 = Computer(
-            OperationSystem.Linux,
-            linksForHealthComputer2,
-            false
-        )
-        val healthComputer3 = Computer(
-            OperationSystem.Mac,
-            linksForHealthComputer3,
-            false
-        )
+            Computer(system, isInfected)
+        }
 
-        val computers = setOf(healthComputer1, healthComputer2, healthComputer3)
+        val links = mutableListOf<List<Int>>()
 
-        val network = Network(computers)
+        for (i in 0..computers.lastIndex) {
+            val linksInfo = List(Random.nextInt(1, computers.lastIndex / 2)) {
+                var index = Random.nextInt(0, computers.lastIndex)
 
-        network.infect()
+                while (index == i) index = Random.nextInt(0, computers.lastIndex)
 
-        assertEquals(Pair(3, 0), network.getStatistics())
+                index
+            }
+
+            links.add(i, linksInfo.distinct())
+        }
+
+        val network = Network(computers, links)
+
+        for (i in 0..10000) {
+            network.infect()
+        }
+
+        assertEquals("All computers are healthy", network.getStatistics())
     }
 
     @Test
     fun infectShouldWorksCorrectlyWhenNetworkHasNotAnyHealthComputers() {
-        val linksForInfectedComputer1 = setOf(0, 1, 2)
-        val linksForInfectedComputer2 = setOf(0, 1, 2)
-        val linksForInfectedComputer3 = setOf(0, 1, 2)
+        val computers = List(6) {
+            val isInfected = true
+            val system = OperationSystem.values()[Random.nextInt(0, OperationSystem.values().size)]
 
-        val infectedComputer1 = Computer(
-            OperationSystem.Windows,
-            linksForInfectedComputer1,
-            true
-        )
-        val infectedComputer2 = Computer(
-            OperationSystem.Linux,
-            linksForInfectedComputer2,
-            true
-        )
-        val infectedComputer3 = Computer(
-            OperationSystem.Mac,
-            linksForInfectedComputer3,
-            true
-        )
+            Computer(system, isInfected)
+        }
+        val links = mutableListOf<List<Int>>()
 
-        val computers = setOf(infectedComputer1, infectedComputer2, infectedComputer3)
+        for (i in 0..computers.lastIndex) {
+            val linksInfo = List(Random.nextInt(1, computers.lastIndex / 2)) {
+                var index = Random.nextInt(0, computers.lastIndex)
 
-        val network = Network(computers)
+                while (index == i) index = Random.nextInt(0, computers.lastIndex)
 
-        network.infect()
+                index
+            }
 
-        assertEquals(Pair(0, 3), network.getStatistics())
+            links.add(i, linksInfo.distinct())
+        }
+
+        val network = Network(computers, links)
+
+        for (i in 0..10000) {
+            network.infect()
+        }
+
+        assertEquals("Infected computers: 0 1 2 3 4 5 ", network.getStatistics())
     }
 
     @Test
     fun infectShouldWorksCorrectlyWhenNetworkHasOneInfectedComputerAndItHasAllLinks() {
-        val linksForHealthComputer1 = setOf(0, 1, 2, 3)
-        val linksForHealthComputer2 = setOf(0, 1, 2, 3)
-        val linksForHealthComputer3 = setOf(0, 1, 2, 3)
-        val linksForInfectedComputer1 = setOf(0, 1, 2, 3)
+        val computers = List(6) {
+            val isInfected = it == 0
+            val system = OperationSystem.values()[Random.nextInt(0, OperationSystem.values().size)]
 
-        val healthComputer1 = Computer(
-            OperationSystem.Windows,
-            linksForHealthComputer1,
-            false
-        )
-        val healthComputer2 = Computer(
-            OperationSystem.Linux,
-            linksForHealthComputer2,
-            false
-        )
-        val healthComputer3 = Computer(
-            OperationSystem.Mac,
-            linksForHealthComputer3,
-            false
-        )
-        val infectedComputer1 = Computer(
-            OperationSystem.Windows,
-            linksForInfectedComputer1,
-            true
-        )
+            Computer(system, isInfected)
+        }
+        val links = mutableListOf(listOf(1, 2, 3, 4, 5))
 
-        val computers = setOf(healthComputer1, healthComputer2, healthComputer3, infectedComputer1)
+        for (i in 1..computers.lastIndex) {
+            val linksInfo = List(Random.nextInt(1, computers.lastIndex / 2)) {
+                var index = Random.nextInt(0, computers.lastIndex)
 
-        val network = Network(computers)
+                while (index == i) index = Random.nextInt(0, computers.lastIndex)
 
-        for (i in 0..1000000) {
+                index
+            }
+
+            links.add(i, linksInfo.distinct())
+        }
+
+        val network = Network(computers, links)
+
+        for (i in 0..10000) {
             network.infect()
         }
 
-        assertEquals(Pair(0, 4), network.getStatistics())
+        assertEquals("Infected computers: 0 1 2 3 4 5 ", network.getStatistics())
     }
 
     @Test
     fun infectShouldWorksCorrectlyWhenNetworkHasTwoInfectedComputersAndLinksAreNotCross() {
-        val linksForHealthComputer1 = setOf(3)
-        val linksForHealthComputer2 = setOf(4)
-        val linksForHealthComputer3 = setOf(4)
-        val linksForInfectedComputer1 = setOf(0, 4)
-        val linksForInfectedComputer2 = setOf(1, 2, 3)
+        val computers = List(6) {
+            val isInfected = it < 2
+            val system = OperationSystem.values()[Random.nextInt(0, OperationSystem.values().size)]
 
-        val healthComputer1 = Computer(
-            OperationSystem.Windows,
-            linksForHealthComputer1,
-            false
-        )
-        val healthComputer2 = Computer(
-            OperationSystem.Linux,
-            linksForHealthComputer2,
-            false
-        )
-        val healthComputer3 = Computer(
-            OperationSystem.Mac,
-            linksForHealthComputer3,
-            false
-        )
-        val infectedComputer1 = Computer(
-            OperationSystem.Windows,
-            linksForInfectedComputer1,
-            true
-        )
-        val infectedComputer2 = Computer(
-            OperationSystem.Linux,
-            linksForInfectedComputer2,
-            true
-        )
+            Computer(system, isInfected)
+        }
+        val links = mutableListOf(listOf(3, 4), listOf(5))
 
-        val computers = setOf(healthComputer1, healthComputer2, healthComputer3, infectedComputer1, infectedComputer2)
+        for (i in 2..computers.lastIndex) {
+            val linksInfo = List(Random.nextInt(1, computers.lastIndex / 2)) {
+                var index = Random.nextInt(0, computers.lastIndex)
 
-        val network = Network(computers)
+                while (index == i) index = Random.nextInt(0, computers.lastIndex)
 
-        for (i in 0..1000000) {
+                index
+            }
+
+            links.add(i, linksInfo.distinct())
+        }
+
+        val network = Network(computers, links)
+
+        for (i in 0..10000) {
             network.infect()
         }
 
-        assertEquals(Pair(0, 5), network.getStatistics())
+        assertEquals("Infected computers: 0 1 2 3 4 5 ", network.getStatistics())
     }
 
     @Test
     fun infectShouldWorksCorrectlyWhenNetworkHasManyInfectedComputers() {
-        val linksForHealthComputer1 = setOf(1)
-        val linksForHealthComputer2 = setOf(0, 2)
-        val linksForHealthComputer3 = setOf(1, 3)
-        val linksForHealthComputer4 = setOf(2, 4)
-        val linksForHealthComputer5 = setOf(3, 5)
-        val linksForHealthComputer6 = setOf(4, 6)
-        val linksForInfectedComputer1 = setOf(5, 7)
-        val linksForInfectedComputer2 = setOf(6, 8)
-        val linksForInfectedComputer3 = setOf(7, 9)
-        val linksForInfectedComputer4 = setOf(8, 10)
-        val linksForInfectedComputer5 = setOf(9)
+        val computers = List(6) {
+            val isInfected = it < 4
+            val system = OperationSystem.values()[Random.nextInt(0, OperationSystem.values().size)]
 
-        val healthComputer1 = Computer(
-            OperationSystem.Windows,
-            linksForHealthComputer1,
-            false
-        )
-        val healthComputer2 = Computer(
-            OperationSystem.Linux,
-            linksForHealthComputer2,
-            false
-        )
-        val healthComputer3 = Computer(
-            OperationSystem.Mac,
-            linksForHealthComputer3,
-            false
-        )
-        val healthComputer4 = Computer(
-            OperationSystem.Windows,
-            linksForHealthComputer4,
-            false
-        )
-        val healthComputer5 = Computer(
-            OperationSystem.Windows,
-            linksForHealthComputer5,
-            false
-        )
-        val healthComputer6 = Computer(
-            OperationSystem.Windows,
-            linksForHealthComputer6,
-            false
-        )
-        val infectedComputer1 = Computer(
-            OperationSystem.Windows,
-            linksForInfectedComputer1,
-            true
-        )
-        val infectedComputer2 = Computer(
-            OperationSystem.Windows,
-            linksForInfectedComputer2,
-            true
-        )
-        val infectedComputer3 = Computer(
-            OperationSystem.Windows,
-            linksForInfectedComputer3,
-            true
-        )
-        val infectedComputer4 = Computer(
-            OperationSystem.Linux,
-            linksForInfectedComputer4,
-            true
-        )
-        val infectedComputer5 = Computer(
-            OperationSystem.Mac,
-            linksForInfectedComputer5,
-            true
-        )
+            Computer(system, isInfected)
+        }
+        val links = mutableListOf(listOf(3, 4), listOf(5))
 
-        val computers = setOf(
-            healthComputer1, healthComputer2, healthComputer3, healthComputer4, healthComputer5, healthComputer6,
-            infectedComputer1, infectedComputer2, infectedComputer3, infectedComputer4, infectedComputer5
-        )
+        for (i in 2..computers.lastIndex) {
+            val linksInfo = List(Random.nextInt(1, computers.lastIndex / 2)) {
+                var index = Random.nextInt(0, computers.lastIndex)
 
-        val network = Network(computers)
+                while (index == i) index = Random.nextInt(0, computers.lastIndex)
 
-        for (i in 0..1000000) {
+                index
+            }
+
+            links.add(i, linksInfo.distinct())
+        }
+
+        val network = Network(computers, links)
+
+        for (i in 0..10000) {
             network.infect()
         }
 
-        assertEquals(Pair(0, 11), network.getStatistics())
+        assertEquals("Infected computers: 0 1 2 3 4 5 ", network.getStatistics())
     }
 
     @Test
     fun infectShouldWorksCorrectlyWhenNetworkHasOneInfectedComputer() {
-        val linksForHealthComputer1 = setOf<Int>()
-        val linksForHealthComputer2 = setOf(2)
-        val linksForHealthComputer3 = setOf(1, 3)
-        val linksForHealthComputer4 = setOf(2, 4)
-        val linksForHealthComputer5 = setOf(3, 5)
-        val linksForHealthComputer6 = setOf(4, 6)
-        val linksForInfectedComputer1 = setOf(5, 7)
-        val linksForInfectedComputer2 = setOf(6, 8)
-        val linksForInfectedComputer3 = setOf(7, 9)
-        val linksForInfectedComputer4 = setOf(8, 10)
-        val linksForInfectedComputer5 = setOf(9)
+        val computers = List(6) {
+            val isInfected = it == 0
+            val system = OperationSystem.values()[Random.nextInt(0, OperationSystem.values().size)]
 
-        val healthComputer1 = Computer(
-            OperationSystem.Windows,
-            linksForHealthComputer1,
-            false
-        )
-        val healthComputer2 = Computer(
-            OperationSystem.Linux,
-            linksForHealthComputer2,
-            false
-        )
-        val healthComputer3 = Computer(
-            OperationSystem.Mac,
-            linksForHealthComputer3,
-            false
-        )
-        val healthComputer4 = Computer(
-            OperationSystem.Windows,
-            linksForHealthComputer4,
-            false
-        )
-        val healthComputer5 = Computer(
-            OperationSystem.Windows,
-            linksForHealthComputer5,
-            false
-        )
-        val healthComputer6 = Computer(
-            OperationSystem.Windows,
-            linksForHealthComputer6,
-            false
-        )
-        val infectedComputer1 = Computer(
-            OperationSystem.Windows,
-            linksForInfectedComputer1,
-            true
-        )
-        val infectedComputer2 = Computer(
-            OperationSystem.Windows,
-            linksForInfectedComputer2,
-            true
-        )
-        val infectedComputer3 = Computer(
-            OperationSystem.Windows,
-            linksForInfectedComputer3,
-            true
-        )
-        val infectedComputer4 = Computer(
-            OperationSystem.Linux,
-            linksForInfectedComputer4,
-            true
-        )
-        val infectedComputer5 = Computer(
-            OperationSystem.Mac,
-            linksForInfectedComputer5,
-            true
-        )
+            Computer(system, isInfected)
+        }
+        val links = mutableListOf(listOf(1))
 
-        val computers = setOf(
-            healthComputer1, healthComputer2, healthComputer3, healthComputer4, healthComputer5, healthComputer6,
-            infectedComputer1, infectedComputer2, infectedComputer3, infectedComputer4, infectedComputer5
-        )
+        for (i in 1 until computers.lastIndex) {
+            links.add(i, listOf(i - 1, i + 1))
+        }
 
-        val network = Network(computers)
+        links.add(listOf(0))
 
-        for (i in 0..1000000) {
+        val network = Network(computers, links)
+
+        for (i in 0..10000) {
             network.infect()
         }
 
-        assertEquals(Pair(1, 10), network.getStatistics())
-    }*/
+        assertEquals("Infected computers: 0 1 2 3 4 5 ", network.getStatistics())
+    }
+
+    @Test
+    fun infectShouldWorksCorrectly() {
+        val computers = List(6) {
+            val isInfected = it == 0
+            val system = OperationSystem.values()[Random.nextInt(0, OperationSystem.values().size)]
+
+            Computer(system, isInfected)
+        }
+
+        val links = mutableListOf(listOf(1))
+
+        for (i in 1 until computers.lastIndex) {
+            links.add(i, listOf(i - 1, i + 1))
+        }
+
+        val network = Network(computers, links)
+
+        while (!computers[1].isInfected()) network.infect()
+
+        for (i in 0..computers.lastIndex) {
+            assertEquals(i < 2, computers[i].isInfected())
+        }
+    }
 }

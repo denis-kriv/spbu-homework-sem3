@@ -14,10 +14,11 @@ enum class OperationSystem(val probability: Double) {
     Mac(Constants.macProbability)
 }
 
-class Computer(private val system: OperationSystem, isInfected: Boolean) {
+class Computer(private val system: OperationSystem, private var isInfected: Boolean) {
 
-    var isInfected: Boolean = isInfected
-        private set
+    fun isInfected(): Boolean {
+        return isInfected
+    }
 
     fun tryToInfect(): Boolean {
         if (Random.nextDouble() < system.probability) isInfected = true

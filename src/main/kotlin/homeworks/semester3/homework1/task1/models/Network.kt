@@ -12,8 +12,14 @@ class Network(private val computers: List<Computer>, private val links: List<Lis
 
             it.forEach { i ->
                 if (i > computers.lastIndex) {
-                    throw KotlinNullPointerException(
-                        "The list neighbors shouldn't contain indexes, large numbers of computers."
+                    throw IndexOutOfBoundsException(
+                        "The list of computer neighbors shouldn't contain indexes, large numbers of computers."
+                    )
+                }
+
+                if (i < 0) {
+                    throw IndexOutOfBoundsException(
+                        "The list of computer neighbors shouldn't contain indexes, less than zero."
                     )
                 }
 
@@ -23,7 +29,7 @@ class Network(private val computers: List<Computer>, private val links: List<Lis
             }
         }
 
-        computers.forEach { if (it.isInfected) infectedComputers.add(computers.indexOf(it)) }
+        computers.forEach { if (it.isInfected()) infectedComputers.add(computers.indexOf(it)) }
     }
 
     fun infect() {
@@ -33,7 +39,7 @@ class Network(private val computers: List<Computer>, private val links: List<Lis
             links[it].forEach { i ->
                 val computer = computers[i]
 
-                if (!computer.isInfected && computer.tryToInfect()) wasInfected.add(i)
+                if (!computer.isInfected() && computer.tryToInfect()) wasInfected.add(i)
             }
         }
 
@@ -41,11 +47,12 @@ class Network(private val computers: List<Computer>, private val links: List<Lis
     }
 
     fun getStatistics(): String {
+        if (infectedComputers.isEmpty()) return "All computers are healthy"
+
         val result = StringBuilder("Infected computers: ")
 
-        infectedComputers.forEach {
-            result.append(it)
-            result.append(' ')
+        infectedComputers.sorted().forEach {
+            result.append("$it ")
         }
 
         return result.toString()

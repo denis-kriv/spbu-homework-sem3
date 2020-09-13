@@ -6,8 +6,8 @@ import homeworks.semester3.homework1.task1.models.OperationSystem
 import kotlin.random.Random
 
 private object Constants {
-    const val minSizeOfNetwork = 1000
-    const val maxSizeOfNetwork = 10000
+    const val minSizeOfNetwork = 100
+    const val maxSizeOfNetwork = 1000
     const val infectionProbability = 0.2
 }
 

@@ -4,6 +4,8 @@ import homeworks.semester3.homework1.task1.models.Network
 import homeworks.semester3.homework1.task1.utils.Generator
 import homeworks.semester3.homework1.task1.utils.Parser
 import homeworks.semester3.homework1.task1.utils.Simulator
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.io.File
 
 private fun readFromFile(path: String): Network {
@@ -34,15 +36,24 @@ private fun simulate(simulator: Simulator) {
             println("Quantity of steps")
 
             println(
-                simulator.simulate(
-                    readLine()?.toIntOrNull() ?: throw KotlinNullPointerException("The input string must be non-empty.")
-                )
+                runBlocking {
+                    launch {
+                        simulator.simulate(
+                            readLine()?.toIntOrNull()
+                                ?: throw KotlinNullPointerException("The input string must be non-empty.")
+                        )
+                    }
+                }
             )
         }
 
         "1" -> {
             while (true) {
-                println(simulator.simulate(1))
+                runBlocking {
+                    launch {
+                        simulator.simulate(1)
+                    }
+                }
 
                 println("0: Continue")
                 println("Else: Stop")
@@ -73,6 +84,8 @@ fun main() {
     } catch (e: NoSuchFileException) {
         println(e.message)
     } catch (e: NumberFormatException) {
+        println(e.message)
+    } catch (e: IndexOutOfBoundsException) {
         println(e.message)
     } catch (e: CloneNotSupportedException) {
         println(e.message)

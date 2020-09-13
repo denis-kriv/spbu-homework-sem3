@@ -30,7 +30,7 @@ private fun parseLinksInfo(info: String): MutableList<Int> {
     info.split(" ").forEach {
         linksInfo.add(
             it.toIntOrNull()
-                ?: throw NumberFormatException("The list of computer neighbors must contain only natural numbers.")
+                ?: throw NumberFormatException("The list of computer neighbors must contain only numbers.")
         )
     }
 
@@ -47,7 +47,15 @@ class Parser {
             val elements = it.split(" || ")
 
             computers.add(parseComputerInfo(elements[0]))
-            links.add(parseLinksInfo(elements[1]))
+
+            if (elements.size == 1) {
+                val info = elements[0].split(" ")
+
+                if (info.size == 3 && info[2] == "||") links.add(mutableListOf())
+                else throw UnsupportedOperationException("String must be correct.")
+            } else {
+                links.add(parseLinksInfo(elements[1]))
+            }
         }
 
         return Network(computers, links)
