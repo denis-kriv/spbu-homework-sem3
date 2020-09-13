@@ -1,98 +1,17 @@
 package homeworks.semester3.homework1.task1
 
-import homeworks.semester3.homework1.task1.models.Computer
 import homeworks.semester3.homework1.task1.models.Network
-import homeworks.semester3.homework1.task1.models.OperationSystem
-import homeworks.semester3.homework1.task1.models.Simulator
+import homeworks.semester3.homework1.task1.utils.Generator
+import homeworks.semester3.homework1.task1.utils.Parser
+import homeworks.semester3.homework1.task1.utils.Simulator
 import java.io.File
-import kotlin.random.Random
-
-private object Constants {
-    const val minSizeOfNetwork = 1000
-    const val maxSizeOfNetwork = 10000
-}
-
-private fun parseComputerInfo(info: String): Computer {
-    val computerInfo = info.split(" ")
-
-    val system = when (computerInfo[0]) {
-        "Windows" -> OperationSystem.Windows
-        "Linux" -> OperationSystem.Linux
-        "Mac" -> OperationSystem.Mac
-        else -> throw UnsupportedOperationException("Operation system string must be correct.")
-    }
-
-    val isInfected = when (computerInfo[1]) {
-        "true" -> true
-        "false" -> false
-        else -> throw UnsupportedOperationException("IsInfected string must be correct.")
-    }
-
-    return Computer(system, isInfected)
-}
-
-private fun parseLinksInfo(info: String): MutableList<Int> {
-    val linksInfo = mutableListOf<Int>()
-
-    info.split(" ").forEach {
-        linksInfo.add(
-            it.toIntOrNull()
-                ?: throw NumberFormatException("The list of computer neighbors must contain only natural numbers.")
-        )
-    }
-
-    return linksInfo
-}
-
-private fun parseFile(file: File): Network {
-    val computers = mutableListOf<Computer>()
-    val links = mutableListOf<MutableList<Int>>()
-
-    file.forEachLine {
-        val elements = it.split(" || ")
-
-        computers.add(parseComputerInfo(elements[0]))
-        links.add(parseLinksInfo(elements[1]))
-    }
-
-    return Network(computers, links)
-}
 
 private fun readFromFile(path: String): Network {
     val file = File(path)
 
     if (!file.exists()) throw NoSuchFileException(file, null, "The file must exist.")
 
-    return parseFile(file)
-}
-
-private fun generateLinks(lastIndex: Int): List<List<Int>> {
-    val result = mutableListOf<List<Int>>()
-
-    for (i in 0..lastIndex) {
-        val links = List(Random.nextInt(1, lastIndex / 2)) {
-            var index = Random.nextInt(0, lastIndex)
-
-            while (index == i) index = Random.nextInt(0, lastIndex)
-
-            index
-        }
-
-        result.add(i, links.distinct())
-    }
-
-    return result
-}
-
-private fun generate(): Network {
-    val computers = List(Random.nextInt(Constants.minSizeOfNetwork, Constants.maxSizeOfNetwork)) {
-        val isInfected = Random.nextDouble() < 0.2
-        val system = OperationSystem.values()[Random.nextInt(0, OperationSystem.values().size)]
-
-        Computer(system, isInfected)
-    }
-
-    return Network(computers, generateLinks(computers.lastIndex))
+    return Parser().parse(file)
 }
 
 private fun initializeNetwork(): Network {
@@ -103,7 +22,7 @@ private fun initializeNetwork(): Network {
             readFromFile(readLine() ?: throw KotlinNullPointerException("The input string must be non-empty."))
         }
 
-        "1" -> generate()
+        "1" -> Generator().generate()
 
         else -> throw UnsupportedOperationException("The input string must be correct.")
     }

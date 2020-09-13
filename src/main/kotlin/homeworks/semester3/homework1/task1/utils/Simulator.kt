@@ -1,4 +1,6 @@
-package homeworks.semester3.homework1.task1.models
+package homeworks.semester3.homework1.task1.utils
+
+import homeworks.semester3.homework1.task1.models.Network
 
 class Simulator(private val network: Network) {
 
