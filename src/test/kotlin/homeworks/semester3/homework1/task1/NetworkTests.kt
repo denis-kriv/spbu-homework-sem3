@@ -33,7 +33,7 @@ internal class NetworkTests {
     }
 
     @Test
-    fun initShouldThrowsIndexOutOfBoundsExceptionWhenListOfComputerNeighborsContainIndexesLargeNumbersOfComputers() {
+    fun initShouldThrowsArrayIndexOutOfBoundsExceptionWhenListOfComputerNeighborsContainIndexesLargeNumbersOfComputers() {
         val computers = List(Random.nextInt(Constants.minSizeOfNetwork, Constants.maxSizeOfNetwork)) {
             val isInfected = Random.nextDouble() < Constants.infectionProbability
             val system = OperationSystem.values()[Random.nextInt(0, OperationSystem.values().size)]
@@ -41,11 +41,11 @@ internal class NetworkTests {
             Computer(system, isInfected)
         }
 
-        assertThrows<IndexOutOfBoundsException> { Network(computers, listOf(listOf(computers.size))) }
+        assertThrows<ArrayIndexOutOfBoundsException> { Network(computers, listOf(listOf(computers.size))) }
     }
 
     @Test
-    fun initShouldThrowsIndexOutOfBoundsExceptionWhenListOfComputerNeighborsContainIndexesLessZero() {
+    fun initShouldThrowsArrayIndexOutOfBoundsExceptionWhenListOfComputerNeighborsContainIndexesLessZero() {
         val computers = List(Random.nextInt(Constants.minSizeOfNetwork, Constants.maxSizeOfNetwork)) {
             val isInfected = Random.nextDouble() < Constants.infectionProbability
             val system = OperationSystem.values()[Random.nextInt(0, OperationSystem.values().size)]
@@ -53,7 +53,7 @@ internal class NetworkTests {
             Computer(system, isInfected)
         }
 
-        assertThrows<IndexOutOfBoundsException> { Network(computers, listOf(listOf(-1))) }
+        assertThrows<ArrayIndexOutOfBoundsException> { Network(computers, listOf(listOf(-1))) }
     }
 
     @Test
