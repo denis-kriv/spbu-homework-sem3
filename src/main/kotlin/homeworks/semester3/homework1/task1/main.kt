@@ -5,8 +5,39 @@ import homeworks.semester3.homework1.task1.models.Network
 import homeworks.semester3.homework1.task1.models.OperationSystem
 import homeworks.semester3.homework1.task1.models.Simulator
 import java.io.File
-import java.lang.Exception
-import java.lang.NullPointerException
+import kotlin.random.Random
+
+private fun parseComputerInfo(info: String): Computer {
+    val computerInfo = info.split(" ")
+
+    val system = when (computerInfo[0]) {
+        "Windows" -> OperationSystem.Windows
+        "Linux" -> OperationSystem.Linux
+        "Mac" -> OperationSystem.Mac
+        else -> throw UnsupportedOperationException("Operation system string must be correct.")
+    }
+
+    val isInfected = when (computerInfo[1]) {
+        "true" -> true
+        "false" -> false
+        else -> throw UnsupportedOperationException("IsInfected string must be correct.")
+    }
+
+    return Computer(system, isInfected)
+}
+
+private fun parseLinksInfo(info: String): MutableList<Int> {
+    val linksInfo = mutableListOf<Int>()
+
+    info.split(" ").forEach {
+        linksInfo.add(
+            it.toIntOrNull()
+                ?: throw NumberFormatException("The list of computer neighbors must contain only natural numbers.")
+        )
+    }
+
+    return linksInfo
+}
 
 private fun parseFile(file: File): Network {
     val computers = mutableListOf<Computer>()
@@ -14,36 +45,9 @@ private fun parseFile(file: File): Network {
 
     file.forEachLine {
         val elements = it.split(" || ")
-        val computerInfo = elements[0].split(" ")
 
-        val system = when (computerInfo[0]) {
-            "Windows" -> OperationSystem.Windows
-
-            "Linux" -> OperationSystem.Linux
-
-            "Mac" -> OperationSystem.Mac
-
-            else -> throw UnsupportedOperationException("String is not correct.")
-        }
-
-        val isInfected = when (computerInfo[1]) {
-            "true" -> true
-
-            "false" -> false
-
-            else -> throw UnsupportedOperationException("String is not correct.")
-        }
-
-        val linksInfo = mutableListOf<Int>()
-
-        elements[1].split(" ").forEach { i ->
-            linksInfo.add(
-                i.toIntOrNull() ?: throw UnsupportedOperationException("String is not correct.")
-            )
-        }
-
-        computers.add(Computer(system, isInfected))
-        links.add(linksInfo)
+        computers.add(parseComputerInfo(elements[0]))
+        links.add(parseLinksInfo(elements[1]))
     }
 
     return Network(computers, links)
@@ -52,13 +56,38 @@ private fun parseFile(file: File): Network {
 private fun readFromFile(path: String): Network {
     val file = File(path)
 
-    if (!file.exists()) throw NoSuchFileException(file)
+    if (!file.exists()) throw NoSuchFileException(file, null, "The file must exist.")
 
     return parseFile(file)
 }
 
+private fun generateLinks(lastIndex: Int): List<List<Int>> {
+    val result = mutableListOf<List<Int>>()
+
+    for (i in 0..lastIndex) {
+        val links = List(Random.nextInt(1, lastIndex / 2)) {
+            var index = Random.nextInt(0, lastIndex)
+
+            while (index == i) index = Random.nextInt(0, lastIndex)
+
+            index
+        }
+
+        result.add(i, links.distinct())
+    }
+
+    return result
+}
+
 private fun generate(): Network {
-    return Network(listOf(), listOf())
+    val computers = List(Random.nextInt(1000, 10000)) {
+        val isInfected = Random.nextInt(0, 100) < 10
+        val system = OperationSystem.values()[Random.nextInt(0, 3)]
+
+        Computer(system, isInfected)
+    }
+
+    return Network(computers, generateLinks(computers.lastIndex))
 }
 
 private fun initializeNetwork(): Network {
@@ -66,12 +95,12 @@ private fun initializeNetwork(): Network {
         "0" -> {
             println("Path to file:")
 
-            readFromFile(readLine() ?: throw Exception())
+            readFromFile(readLine() ?: throw KotlinNullPointerException("The input string must be non-empty."))
         }
 
         "1" -> generate()
 
-        else -> throw Exception()
+        else -> throw UnsupportedOperationException("The input string must be correct.")
     }
 }
 
@@ -80,7 +109,11 @@ private fun simulate(simulator: Simulator) {
         "0" -> {
             println("Quantity of steps")
 
-            println(simulator.simulate(readLine()?.toIntOrNull() ?: throw Exception()))
+            println(
+                simulator.simulate(
+                    readLine()?.toIntOrNull() ?: throw KotlinNullPointerException("The input string must be non-empty.")
+                )
+            )
         }
 
         "1" -> {
@@ -94,7 +127,7 @@ private fun simulate(simulator: Simulator) {
             }
         }
 
-        else -> return
+        else -> throw UnsupportedOperationException("The input string must be correct.")
     }
 }
 
@@ -109,10 +142,18 @@ fun main() {
         println("1: Simulate step by step")
 
         simulate(Simulator(network))
-    } catch (e: Exception) {
-
-    } catch (e: NullPointerException) {
-
+    } catch (e: UnsupportedOperationException) {
+        println(e.message)
+    } catch (e: KotlinNullPointerException) {
+        println(e.message)
+    } catch (e: NoSuchFileException) {
+        println(e.message)
+    } catch (e: NumberFormatException) {
+        println(e.message)
+    } catch (e: CloneNotSupportedException) {
+        println(e.message)
+    } catch (e: ArithmeticException) {
+        println(e.message)
     } finally {
         println("Program stopped.")
     }

@@ -5,17 +5,19 @@ class Network(private val computers: List<Computer>, private val links: List<Lis
     private val infectedComputers: MutableList<Int> = mutableListOf()
 
     init {
-        if (computers.distinct().size != computers.size) throw CloneNotSupportedException("Computers contains clones.")
-
-        if (links.size > computers.size) throw IndexOutOfBoundsException("Incorrect links matrix.")
-
         links.forEach {
-            if (it.distinct().size != it.size) throw CloneNotSupportedException("Computer links contains clones.")
+            if (it.distinct().size != it.size) {
+                throw CloneNotSupportedException("The list of computer neighbors should not contain duplicates.")
+            }
 
             it.forEach { i ->
-                if (i > computers.lastIndex) throw IndexOutOfBoundsException("Incorrect links matrix.")
+                if (i > computers.lastIndex) {
+                    throw KotlinNullPointerException("The list of computer neighbors should not contain indexes, large numbers of computers.")
+                }
 
-                if (i == links.indexOf(it)) throw UnsupportedOperationException("Incorrect links matrix.")
+                if (i == links.indexOf(it)) {
+                    throw UnsupportedOperationException("The list of computer neighbors should not contain itself.")
+                }
             }
         }
 
@@ -39,7 +41,10 @@ class Network(private val computers: List<Computer>, private val links: List<Lis
     fun getStatistics(): String {
         val result = StringBuilder("Infected computers: ")
 
-        infectedComputers.forEach { result.append(it) }
+        infectedComputers.forEach {
+            result.append(it)
+            result.append(' ')
+        }
 
         return result.toString()
     }
