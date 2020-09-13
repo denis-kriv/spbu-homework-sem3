@@ -85,7 +85,7 @@ fun main() {
         println(e.message)
     } catch (e: NumberFormatException) {
         println(e.message)
-    } catch (e: IndexOutOfBoundsException) {
+    } catch (e: ArrayIndexOutOfBoundsException) {
         println(e.message)
     } catch (e: CloneNotSupportedException) {
         println(e.message)

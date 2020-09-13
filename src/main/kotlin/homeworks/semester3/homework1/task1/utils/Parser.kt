@@ -51,7 +51,7 @@ class Parser {
             if (elements.size == 1) {
                 val info = elements[0].split(" ")
 
-                if (info.size == 3 && info[2] == "||") links.add(mutableListOf())
+                if (info.lastIndex == 2 && info[2] == "||") links.add(mutableListOf())
                 else throw UnsupportedOperationException("String must be correct.")
             } else {
                 links.add(parseLinksInfo(elements[1]))
