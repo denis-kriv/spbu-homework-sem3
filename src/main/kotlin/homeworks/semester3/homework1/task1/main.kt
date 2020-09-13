@@ -8,17 +8,12 @@ import java.io.File
 import java.lang.Exception
 import java.lang.NullPointerException
 
-private fun readFromFile(path: String): Network {
-    val file = File(path)
-
+private fun parseFile(file: File): Network {
     val computers = mutableListOf<Computer>()
     val links = mutableListOf<MutableList<Int>>()
 
-    if (!file.exists()) throw Exception()
-
     file.forEachLine {
         val elements = it.split(" || ")
-
         val computerInfo = elements[0].split(" ")
 
         val system = when (computerInfo[0]) {
@@ -28,7 +23,7 @@ private fun readFromFile(path: String): Network {
 
             "Mac" -> OperationSystem.Mac
 
-            else -> throw Exception()
+            else -> throw UnsupportedOperationException("String is not correct.")
         }
 
         val isInfected = when (computerInfo[1]) {
@@ -36,12 +31,16 @@ private fun readFromFile(path: String): Network {
 
             "false" -> false
 
-            else -> throw Exception()
+            else -> throw UnsupportedOperationException("String is not correct.")
         }
 
         val linksInfo = mutableListOf<Int>()
 
-        elements[1].split(" ").forEach { i -> linksInfo.add(i.toIntOrNull() ?: throw Exception()) }
+        elements[1].split(" ").forEach { i ->
+            linksInfo.add(
+                i.toIntOrNull() ?: throw UnsupportedOperationException("String is not correct.")
+            )
+        }
 
         computers.add(Computer(system, isInfected))
         links.add(linksInfo)
@@ -50,35 +49,33 @@ private fun readFromFile(path: String): Network {
     return Network(computers, links)
 }
 
+private fun readFromFile(path: String): Network {
+    val file = File(path)
+
+    if (!file.exists()) throw NoSuchFileException(file)
+
+    return parseFile(file)
+}
+
 private fun generate(): Network {
     return Network(listOf(), listOf())
 }
 
-private fun start() {
-    println("0: Read network from file.")
-    println("1: Generate network.")
-
-    val network = when (readLine()) {
+private fun initializeNetwork(): Network {
+    return when (readLine()) {
         "0" -> {
             println("Path to file:")
 
             readFromFile(readLine() ?: throw Exception())
         }
 
-        "1" -> {
-            generate()
-        }
+        "1" -> generate()
 
-        else -> {
-            throw Exception()
-        }
+        else -> throw Exception()
     }
+}
 
-    val simulator = Simulator(network)
-
-    println("0: Simulate by quantity of steps")
-    println("1: Simulate step by step")
-
+private fun simulate(simulator: Simulator) {
     when (readLine()) {
         "0" -> {
             println("Quantity of steps")
@@ -103,7 +100,15 @@ private fun start() {
 
 fun main() {
     try {
-        start()
+        println("0: Read network from file.")
+        println("1: Generate network.")
+
+        val network = initializeNetwork()
+
+        println("0: Simulate by quantity of steps")
+        println("1: Simulate step by step")
+
+        simulate(Simulator(network))
     } catch (e: Exception) {
 
     } catch (e: NullPointerException) {

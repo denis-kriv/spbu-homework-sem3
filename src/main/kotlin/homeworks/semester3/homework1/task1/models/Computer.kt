@@ -16,12 +16,10 @@ enum class OperationSystem(val probability: Double) {
 
 class Computer(private val system: OperationSystem, isInfected: Boolean) {
 
-    internal var isInfected: Boolean = isInfected
+    var isInfected: Boolean = isInfected
         private set
 
-    internal fun tryToInfect(): Boolean {
-        if (isInfected) throw UnsupportedOperationException("Computer is already infected.")
-
+    fun tryToInfect(): Boolean {
         if (Random.nextDouble() < system.probability) isInfected = true
 
         return isInfected
