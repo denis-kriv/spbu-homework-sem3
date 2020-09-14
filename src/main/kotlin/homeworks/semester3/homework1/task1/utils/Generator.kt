@@ -6,15 +6,15 @@ import homeworks.semester3.homework1.task1.models.OperationSystem
 import kotlin.random.Random
 
 private object Constants {
-    const val minSizeOfNetwork = 100
-    const val maxSizeOfNetwork = 1000
+    const val minSizeOfNetwork = 10
+    const val maxSizeOfNetwork = 100
     const val infectionProbability = 0.2
 }
 
 private fun generateLinks(lastIndex: Int): List<List<Int>> {
     val result = mutableListOf<List<Int>>()
 
-    for (i in 0..lastIndex) {
+    for (i in 0 until lastIndex) {
         val links = List(Random.nextInt(1, lastIndex / 2)) {
             var index = Random.nextInt(0, lastIndex)
 
@@ -25,6 +25,9 @@ private fun generateLinks(lastIndex: Int): List<List<Int>> {
 
         result.add(i, links.distinct())
     }
+
+    val links = List(lastIndex) { it }
+    result.add(lastIndex, links)
 
     return result
 }

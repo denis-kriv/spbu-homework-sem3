@@ -35,23 +35,23 @@ private fun simulate(simulator: Simulator) {
         "0" -> {
             println("Quantity of steps")
 
-            println(
-                runBlocking {
-                    launch {
+            runBlocking {
+                launch {
+                    println(
                         simulator.simulate(
                             readLine()?.toIntOrNull()
                                 ?: throw KotlinNullPointerException("The input string must be non-empty.")
                         )
-                    }
+                    )
                 }
-            )
+            }
         }
 
         "1" -> {
             while (true) {
                 runBlocking {
                     launch {
-                        simulator.simulate(1)
+                        println(simulator.simulate(1))
                     }
                 }
 
