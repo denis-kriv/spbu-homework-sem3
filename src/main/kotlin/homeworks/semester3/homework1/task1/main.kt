@@ -85,11 +85,11 @@ fun main() {
         println(e.message)
     } catch (e: NumberFormatException) {
         println(e.message)
-    } catch (e: ArrayIndexOutOfBoundsException) {
-        println(e.message)
     } catch (e: CloneNotSupportedException) {
         println(e.message)
     } catch (e: ArithmeticException) {
+        println(e.message)
+    } catch (e: ArrayIndexOutOfBoundsException) {
         println(e.message)
     } finally {
         println("Program stopped.")
