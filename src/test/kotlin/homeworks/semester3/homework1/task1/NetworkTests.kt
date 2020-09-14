@@ -41,7 +41,7 @@ internal class NetworkTests {
             Computer(system, isInfected)
         }
 
-        assertThrows<ArrayIndexOutOfBoundsException> { Network(computers, listOf(listOf(computers.size))) }
+        assertThrows<ArithmeticException> { Network(computers, listOf(listOf(computers.size))) }
     }
 
     @Test
@@ -53,7 +53,7 @@ internal class NetworkTests {
             Computer(system, isInfected)
         }
 
-        assertThrows<ArrayIndexOutOfBoundsException> { Network(computers, listOf(listOf(-1))) }
+        assertThrows<NumberFormatException> { Network(computers, listOf(listOf(-1))) }
     }
 
     @Test

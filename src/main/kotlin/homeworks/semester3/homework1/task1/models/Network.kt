@@ -12,13 +12,13 @@ class Network(private val computers: List<Computer>, private val links: List<Lis
 
             it.forEach { i ->
                 if (i > computers.lastIndex) {
-                    throw ArrayIndexOutOfBoundsException(
+                    throw ArithmeticException(
                         "The list of computer neighbors shouldn't contain indexes, large numbers of computers."
                     )
                 }
 
                 if (i < 0) {
-                    throw ArrayIndexOutOfBoundsException(
+                    throw NumberFormatException(
                         "The list of computer neighbors shouldn't contain indexes, less than zero."
                     )
                 }

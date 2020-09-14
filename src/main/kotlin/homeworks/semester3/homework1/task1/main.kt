@@ -89,9 +89,7 @@ fun main() {
         println(e.message)
     } catch (e: ArithmeticException) {
         println(e.message)
-    } catch (e: ArrayIndexOutOfBoundsException) {
-        println(e.message)
-    } finally {
+    }finally {
         println("Program stopped.")
     }
 }
