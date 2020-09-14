@@ -11,16 +11,28 @@ class SimulatorTests {
 
     @Test
     fun simulateShouldThrowsArithmeticExceptionWhenStepsQuantityIsLessThanZero() {
-        assertThrows<ArithmeticException> { Simulator(Generator().generate()).simulate(-1) }
+        assertThrows<ArithmeticException> {
+            Simulator(Generator("src/test/kotlin/homeworks/semester3/homework1/task1/config/config")
+                .generate())
+                .simulate(-1)
+        }
     }
 
     @Test
     fun simulateShouldWorksCorrectlyWhenStepsQuantityIsZero() {
-        assertDoesNotThrow { Simulator(Generator().generate()).simulate(0) }
+        assertDoesNotThrow {
+            Simulator(Generator("src/test/kotlin/homeworks/semester3/homework1/task1/config/config")
+                .generate())
+                .simulate(0)
+        }
     }
 
     @Test
     fun simulateShouldWorksCorrectlyWhenStepsQuantityIsLargeThanZero() {
-        assertDoesNotThrow { Simulator(Generator().generate()).simulate(100) }
+        assertDoesNotThrow {
+            Simulator(Generator("src/test/kotlin/homeworks/semester3/homework1/task1/config/config")
+                .generate())
+                .simulate(100)
+        }
     }
 }

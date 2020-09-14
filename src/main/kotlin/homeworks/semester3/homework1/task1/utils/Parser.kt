@@ -6,8 +6,7 @@ import homeworks.semester3.homework1.task1.models.OperationSystem
 import homeworks.semester3.homework1.task1.models.getConfigInfo
 import java.io.File
 
-private fun parseComputerInfo(info: List<String>): Computer {
-    val probabilities = getConfigInfo()
+private fun parseComputerInfo(info: List<String>, probabilities: Map<String, Double>): Computer {
 
     val system = when (info[0]) {
         "Windows" -> OperationSystem("Windows", probabilities["Windows"]!!)
@@ -38,36 +37,28 @@ private fun parseLinksInfo(info: List<String>): MutableList<Int> {
     return result
 }
 
-class Parser {
+class Parser(private val pathToConfig: String) {
 
     fun parse(file: File): Network {
         val computers = mutableListOf<Computer>()
         val links = mutableListOf<MutableList<Int>>()
 
+        val probabilities = getConfigInfo(pathToConfig)
+
         file.forEachLine {
             val elements = it.split("||")
 
-            when (elements.size) {
-                2 -> {
-                    val info = elements[0].split(" ")
+            if (elements.size != 2) throw UnsupportedOperationException("String must be correct.")
 
-                    if (info.lastIndex != 1) throw UnsupportedOperationException("String must be correct.")
+            val info = elements[0].trim().split(" ")
+            if (info.lastIndex != 1) throw UnsupportedOperationException("String must be correct.")
 
-                    computers.add(parseComputerInfo(info))
-                    links.add(parseLinksInfo(elements[1].split(" ")))
-                }
+            computers.add(parseComputerInfo(info, probabilities))
 
-                1 -> {
-                    val info = elements[0].split(" ")
+            val linksInfo =
+                if (elements[1].trim() != "") parseLinksInfo(elements[1].trim().split(" ")) else mutableListOf()
 
-                    if (info.lastIndex != 1) throw UnsupportedOperationException("String must be correct.")
-
-                    computers.add(parseComputerInfo(info))
-                    links.add(mutableListOf())
-                }
-
-                else -> throw UnsupportedOperationException("String must be correct.")
-            }
+            links.add(linksInfo)
         }
 
         return Network(computers, links)

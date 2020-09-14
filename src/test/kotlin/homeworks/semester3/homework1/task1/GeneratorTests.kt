@@ -8,7 +8,7 @@ class GeneratorTests {
 
     @Test
     fun generateShouldNotThrowsExceptionWhenGenerateNetwork() {
-        val generator = Generator()
+        val generator = Generator("src/test/kotlin/homeworks/semester3/homework1/task1/config/config")
 
         for (i in 0..20) {
             assertDoesNotThrow { generator.generate() }

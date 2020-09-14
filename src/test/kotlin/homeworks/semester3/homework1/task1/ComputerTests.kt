@@ -10,21 +10,21 @@ class ComputerTests {
 
     @Test
     fun isInfectedShouldReturnsTrueWhenComputerIsInfected() {
-        val computer = Computer(OperationSystem.Mac, false)
+        val computer = Computer(OperationSystem("Mac", 0.3), false)
 
         assertFalse(computer.isInfected())
     }
 
     @Test
     fun isInfectedShouldReturnsFalseWhenComputerIsNotInfected() {
-        val computer = Computer(OperationSystem.Mac, true)
+        val computer = Computer(OperationSystem("Windows", 0.7), true)
 
         assertTrue(computer.isInfected())
     }
 
     @Test
     fun tryToInfectShouldReturnsTrueWhenComputerIsInfected() {
-        val computer = Computer(OperationSystem.Mac, false)
+        val computer = Computer(OperationSystem("Linux", 0.5), false)
         var result = false
 
         while (!computer.isInfected()) result = computer.tryToInfect()

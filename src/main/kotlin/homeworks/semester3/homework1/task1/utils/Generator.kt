@@ -34,13 +34,14 @@ private fun generateLinks(lastIndex: Int): List<List<Int>> {
     return result
 }
 
-class Generator {
+class Generator(private val pathToConfig: String) {
 
     fun generate(): Network {
-        val probabilities = getConfigInfo()
+        val probabilities = getConfigInfo(pathToConfig)
 
         val computers = List(Random.nextInt(Constants.minSizeOfNetwork, Constants.maxSizeOfNetwork)) {
             val isInfected = Random.nextDouble() < Constants.infectionProbability
+
             val system = when (Random.nextInt(0, Constants.systemTypesQuantity)) {
                 0 -> OperationSystem("Windows", probabilities["Windows"]!!)
                 1 -> OperationSystem("Linux", probabilities["Linux"]!!)

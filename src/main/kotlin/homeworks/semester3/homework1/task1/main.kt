@@ -8,23 +8,26 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.io.File
 
-private fun readFromFile(path: String): Network {
+private fun readFromFile(path: String, pathToConfig: String): Network {
     val file = File(path)
 
     if (!file.exists()) throw NoSuchFileException(file, null, "The file must exist.")
 
-    return Parser().parse(file)
+    return Parser(pathToConfig).parse(file)
 }
 
-private fun initializeNetwork(): Network {
+private fun initializeNetwork(pathToConfig: String): Network {
     return when (readLine()) {
         "0" -> {
             println("Path to file:")
 
-            readFromFile(readLine() ?: throw KotlinNullPointerException("The input string must be non-empty."))
+            readFromFile(
+                readLine() ?: throw KotlinNullPointerException("The input string must be non-empty."),
+                pathToConfig
+            )
         }
 
-        "1" -> Generator().generate()
+        "1" -> Generator(pathToConfig).generate()
 
         else -> throw UnsupportedOperationException("The input string must be correct.")
     }
@@ -67,11 +70,13 @@ private fun simulate(simulator: Simulator) {
 }
 
 fun main() {
+    val pathToConfig = "src/main/kotlin/homeworks/semester3/homework1/task1/data/config"
+
     try {
         println("0: Read network from file.")
         println("1: Generate network.")
 
-        val network = initializeNetwork()
+        val network = initializeNetwork(pathToConfig)
 
         println("0: Simulate by quantity of steps")
         println("1: Simulate step by step")

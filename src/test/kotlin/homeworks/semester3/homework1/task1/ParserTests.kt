@@ -10,47 +10,78 @@ class ParserTests {
 
     @Test
     fun parseShouldThrowsUnsupportedOperationExceptionWhenStringIsIncorrect() {
-        val file = File("src/test/kotlin/homeworks/semester3/homework1/task1/data/fileWithIncorrectString")
+        val file = File(
+            "src/test/kotlin/homeworks/semester3/homework1/task1/data/testNetworks/fileWithIncorrectString"
+        )
 
-        assertThrows<UnsupportedOperationException> { Parser().parse(file) }
+        assertThrows<UnsupportedOperationException> {
+            Parser("src/test/kotlin/homeworks/semester3/homework1/task1/config/config").parse(file)
+        }
     }
 
     @Test
     fun parseShouldThrowsUnsupportedOperationExceptionWhenOperationSystemStringIsIncorrect() {
-        val file = File("src/test/kotlin/homeworks/semester3/homework1/task1/data/fileWithIncorrectOS")
+        val file = File(
+            "src/test/kotlin/homeworks/semester3/homework1/task1/data/testNetworks/fileWithIncorrectOS"
+        )
 
-        assertThrows<UnsupportedOperationException> { Parser().parse(file) }
+        assertThrows<UnsupportedOperationException> {
+            Parser("src/test/kotlin/homeworks/semester3/homework1/task1/config/config").parse(file)
+        }
     }
 
     @Test
     fun parseShouldThrowsUnsupportedOperationExceptionWhenIsInfectedStringIsIncorrect() {
-        val file = File("src/test/kotlin/homeworks/semester3/homework1/task1/data/fileWithIncorrectIsInfected")
+        val file = File(
+            "src/test/kotlin/homeworks/semester3/homework1/task1/data/testNetworks/fileWithIncorrectIsInfected"
+        )
 
-        assertThrows<UnsupportedOperationException> { Parser().parse(file) }
+        assertThrows<UnsupportedOperationException> {
+            Parser("src/test/kotlin/homeworks/semester3/homework1/task1/config/config").parse(file)
+        }
     }
 
     @Test
     fun parseShouldThrowsNumberFormatExceptionWhenComputerNeighborsStringIsIncorrect() {
-        val file = File("src/test/kotlin/homeworks/semester3/homework1/task1/data/fileWithIncorrectLinks")
+        val file = File(
+            "src/test/kotlin/homeworks/semester3/homework1/task1/data/testNetworks/fileWithIncorrectLinks"
+        )
 
-        assertThrows<NumberFormatException> { Parser().parse(file) }
+        assertThrows<NumberFormatException> {
+            Parser("src/test/kotlin/homeworks/semester3/homework1/task1/config/config").parse(file)
+        }
+    }
+
+    @Test
+    fun parseShouldThrowsUnsupportedOperationExceptionWhenSomeStringsIsEmpty() {
+        val file = File(
+            "src/test/kotlin/homeworks/semester3/homework1/task1/data/testNetworks/fileWithSomeEmptyStrings"
+        )
+
+        assertThrows<UnsupportedOperationException> {
+            Parser("src/test/kotlin/homeworks/semester3/homework1/task1/config/config").parse(file)
+        }
     }
 
     @Test
     fun parseShouldWorksCorrectlyWhenDataIsCorrectAndAllStringsIsNotEmpty() {
         val file = File(
-            "src/test/kotlin/homeworks/semester3/homework1/task1/data/fileWithCorrectDataAndNotEmptyStrings"
+            "src/test/kotlin/homeworks/semester3/homework1/task1/data/testNetworks/fileWithCorrectDataAndNotEmptyStrings"
         )
 
-        assertDoesNotThrow { Parser().parse(file) }
+        assertDoesNotThrow {
+            Parser("src/test/kotlin/homeworks/semester3/homework1/task1/config/config").parse(file)
+        }
     }
 
     @Test
     fun parseShouldWorksCorrectlyWhenDataIsCorrectAndSomeLinksStringsIsEmpty() {
         val file = File(
-            "src/test/kotlin/homeworks/semester3/homework1/task1/data/fileWithCorrectDataAndSomeEmptyLinksStrings"
+            "src/test/kotlin/homeworks/semester3/homework1/task1/data/testNetworks/fileWithCorrectDataAndSomeEmptyLinksStrings"
         )
 
-        assertDoesNotThrow { Parser().parse(file) }
+        assertDoesNotThrow {
+            Parser("src/test/kotlin/homeworks/semester3/homework1/task1/config/config").parse(file)
+        }
     }
 }

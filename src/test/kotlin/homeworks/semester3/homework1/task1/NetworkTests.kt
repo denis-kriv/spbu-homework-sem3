@@ -14,6 +14,7 @@ private object Constants {
     const val minSizeOfNetwork = 100
     const val maxSizeOfNetwork = 1000
     const val infectionProbability = 0.2
+    const val systemTypesQuantity = 3
 }
 
 internal class NetworkTests {
@@ -22,12 +23,15 @@ internal class NetworkTests {
     fun initShouldThrowsCloneNotSupportedExceptionWhenListOfComputerNeighborsContainDuplicates() {
         val computers = MutableList(Random.nextInt(Constants.minSizeOfNetwork, Constants.maxSizeOfNetwork)) {
             val isInfected = Random.nextDouble() < Constants.infectionProbability
-            val system = OperationSystem.values()[Random.nextInt(0, OperationSystem.values().size)]
+
+            val system = when (Random.nextInt(0, Constants.systemTypesQuantity)) {
+                0 -> OperationSystem("Windows", 0.7)
+                1 -> OperationSystem("Linux", 0.5)
+                else -> OperationSystem("Mac", 0.3)
+            }
 
             Computer(system, isInfected)
         }
-
-        val computer = Computer(OperationSystem.Mac, true)
 
         assertThrows<CloneNotSupportedException> { Network(computers, listOf(listOf(0, 1, 0))) }
     }
@@ -36,7 +40,12 @@ internal class NetworkTests {
     fun initShouldThrowsArrayIndexOutOfBoundsExceptionWhenListOfComputerNeighborsContainIndexesLargeNumbersOfComputers() {
         val computers = List(Random.nextInt(Constants.minSizeOfNetwork, Constants.maxSizeOfNetwork)) {
             val isInfected = Random.nextDouble() < Constants.infectionProbability
-            val system = OperationSystem.values()[Random.nextInt(0, OperationSystem.values().size)]
+
+            val system = when (Random.nextInt(0, Constants.systemTypesQuantity)) {
+                0 -> OperationSystem("Windows", 0.7)
+                1 -> OperationSystem("Linux", 0.5)
+                else -> OperationSystem("Mac", 0.3)
+            }
 
             Computer(system, isInfected)
         }
@@ -48,7 +57,12 @@ internal class NetworkTests {
     fun initShouldThrowsArrayIndexOutOfBoundsExceptionWhenListOfComputerNeighborsContainIndexesLessZero() {
         val computers = List(Random.nextInt(Constants.minSizeOfNetwork, Constants.maxSizeOfNetwork)) {
             val isInfected = Random.nextDouble() < Constants.infectionProbability
-            val system = OperationSystem.values()[Random.nextInt(0, OperationSystem.values().size)]
+
+            val system = when (Random.nextInt(0, Constants.systemTypesQuantity)) {
+                0 -> OperationSystem("Windows", 0.7)
+                1 -> OperationSystem("Linux", 0.5)
+                else -> OperationSystem("Mac", 0.3)
+            }
 
             Computer(system, isInfected)
         }
@@ -60,7 +74,12 @@ internal class NetworkTests {
     fun initShouldThrowsUnsupportedOperationExceptionWhenListOfComputerNeighborsContainItself() {
         val computers = List(Random.nextInt(Constants.minSizeOfNetwork, Constants.maxSizeOfNetwork)) {
             val isInfected = Random.nextDouble() < Constants.infectionProbability
-            val system = OperationSystem.values()[Random.nextInt(0, OperationSystem.values().size)]
+
+            val system = when (Random.nextInt(0, Constants.systemTypesQuantity)) {
+                0 -> OperationSystem("Windows", 0.7)
+                1 -> OperationSystem("Linux", 0.5)
+                else -> OperationSystem("Mac", 0.3)
+            }
 
             Computer(system, isInfected)
         }
@@ -70,7 +89,9 @@ internal class NetworkTests {
 
     @Test
     fun initShouldNotThrowsExceptionWhenDataIsCorrect() {
-        assertDoesNotThrow { Generator().generate() }
+        assertDoesNotThrow {
+            Generator("src/test/kotlin/homeworks/semester3/homework1/task1/config/config").generate()
+        }
     }
 
     @Test
@@ -82,7 +103,12 @@ internal class NetworkTests {
     fun getStatisticsShouldReturnsRightValueWhenNetworkHasNotAnyInfectedComputers() {
         val computers = List(Random.nextInt(Constants.minSizeOfNetwork, Constants.maxSizeOfNetwork)) {
             val isInfected = false
-            val system = OperationSystem.values()[Random.nextInt(0, OperationSystem.values().size)]
+
+            val system = when (Random.nextInt(0, Constants.systemTypesQuantity)) {
+                0 -> OperationSystem("Windows", 0.7)
+                1 -> OperationSystem("Linux", 0.5)
+                else -> OperationSystem("Mac", 0.3)
+            }
 
             Computer(system, isInfected)
         }
@@ -94,7 +120,12 @@ internal class NetworkTests {
     fun getStatisticsShouldReturnsRightValueWhenNetworkHasNotAnyHealthComputers() {
         val computers = List(4) {
             val isInfected = true
-            val system = OperationSystem.values()[Random.nextInt(0, OperationSystem.values().size)]
+
+            val system = when (Random.nextInt(0, Constants.systemTypesQuantity)) {
+                0 -> OperationSystem("Windows", 0.7)
+                1 -> OperationSystem("Linux", 0.5)
+                else -> OperationSystem("Mac", 0.3)
+            }
 
             Computer(system, isInfected)
         }
@@ -106,7 +137,12 @@ internal class NetworkTests {
     fun getStatisticsShouldReturnsRightValue() {
         val computers = List(Random.nextInt(Constants.minSizeOfNetwork, Constants.maxSizeOfNetwork)) {
             val isInfected = it < 3
-            val system = OperationSystem.values()[Random.nextInt(0, OperationSystem.values().size)]
+
+            val system = when (Random.nextInt(0, Constants.systemTypesQuantity)) {
+                0 -> OperationSystem("Windows", 0.7)
+                1 -> OperationSystem("Linux", 0.5)
+                else -> OperationSystem("Mac", 0.3)
+            }
 
             Computer(system, isInfected)
         }
@@ -123,7 +159,12 @@ internal class NetworkTests {
     fun infectShouldWorksCorrectlyWhenNetworkHasNotAnyInfectedComputers() {
         val computers = List(Random.nextInt(Constants.minSizeOfNetwork, Constants.maxSizeOfNetwork)) {
             val isInfected = false
-            val system = OperationSystem.values()[Random.nextInt(0, OperationSystem.values().size)]
+
+            val system = when (Random.nextInt(0, Constants.systemTypesQuantity)) {
+                0 -> OperationSystem("Windows", 0.7)
+                1 -> OperationSystem("Linux", 0.5)
+                else -> OperationSystem("Mac", 0.3)
+            }
 
             Computer(system, isInfected)
         }
@@ -155,7 +196,12 @@ internal class NetworkTests {
     fun infectShouldWorksCorrectlyWhenNetworkHasNotAnyHealthComputers() {
         val computers = List(6) {
             val isInfected = true
-            val system = OperationSystem.values()[Random.nextInt(0, OperationSystem.values().size)]
+
+            val system = when (Random.nextInt(0, Constants.systemTypesQuantity)) {
+                0 -> OperationSystem("Windows", 0.7)
+                1 -> OperationSystem("Linux", 0.5)
+                else -> OperationSystem("Mac", 0.3)
+            }
 
             Computer(system, isInfected)
         }
@@ -186,7 +232,12 @@ internal class NetworkTests {
     fun infectShouldWorksCorrectlyWhenNetworkHasOneInfectedComputerAndItHasAllLinks() {
         val computers = List(6) {
             val isInfected = it == 0
-            val system = OperationSystem.values()[Random.nextInt(0, OperationSystem.values().size)]
+
+            val system = when (Random.nextInt(0, Constants.systemTypesQuantity)) {
+                0 -> OperationSystem("Windows", 0.7)
+                1 -> OperationSystem("Linux", 0.5)
+                else -> OperationSystem("Mac", 0.3)
+            }
 
             Computer(system, isInfected)
         }
@@ -217,13 +268,17 @@ internal class NetworkTests {
     fun infectShouldWorksCorrectlyWhenNetworkHasTwoInfectedComputersAndLinksAreNotCross() {
         val computers = List(6) {
             val isInfected = it < 2
-            val system = OperationSystem.values()[Random.nextInt(0, OperationSystem.values().size)]
+
+            val system = when (Random.nextInt(0, Constants.systemTypesQuantity)) {
+                0 -> OperationSystem("Windows", 0.7)
+                else -> OperationSystem("Linux", 0.5)
+            }
 
             Computer(system, isInfected)
         }
         val links = mutableListOf(listOf(3, 4), listOf(5))
 
-        for (i in 2..computers.lastIndex) {
+        for (i in 2 until computers.lastIndex) {
             val linksInfo = List(Random.nextInt(1, computers.lastIndex / 2)) {
                 var index = Random.nextInt(0, computers.lastIndex)
 
@@ -234,6 +289,8 @@ internal class NetworkTests {
 
             links.add(i, linksInfo.distinct())
         }
+
+        links.add(computers.lastIndex, listOf(0, 1, 2, 3, 4))
 
         val network = Network(computers, links)
 
@@ -248,7 +305,12 @@ internal class NetworkTests {
     fun infectShouldWorksCorrectlyWhenNetworkHasManyInfectedComputers() {
         val computers = List(6) {
             val isInfected = it < 4
-            val system = OperationSystem.values()[Random.nextInt(0, OperationSystem.values().size)]
+
+            val system = when (Random.nextInt(0, Constants.systemTypesQuantity)) {
+                0 -> OperationSystem("Windows", 0.7)
+                1 -> OperationSystem("Linux", 0.5)
+                else -> OperationSystem("Mac", 0.3)
+            }
 
             Computer(system, isInfected)
         }
@@ -279,7 +341,12 @@ internal class NetworkTests {
     fun infectShouldWorksCorrectlyWhenNetworkHasOneInfectedComputer() {
         val computers = List(6) {
             val isInfected = it == 0
-            val system = OperationSystem.values()[Random.nextInt(0, OperationSystem.values().size)]
+
+            val system = when (Random.nextInt(0, Constants.systemTypesQuantity)) {
+                0 -> OperationSystem("Windows", 0.7)
+                1 -> OperationSystem("Linux", 0.5)
+                else -> OperationSystem("Mac", 0.3)
+            }
 
             Computer(system, isInfected)
         }
@@ -304,7 +371,12 @@ internal class NetworkTests {
     fun infectShouldWorksCorrectly() {
         val computers = List(6) {
             val isInfected = it == 0
-            val system = OperationSystem.values()[Random.nextInt(0, OperationSystem.values().size)]
+
+            val system = when (Random.nextInt(0, Constants.systemTypesQuantity)) {
+                0 -> OperationSystem("Windows", 0.7)
+                1 -> OperationSystem("Linux", 0.5)
+                else -> OperationSystem("Mac", 0.3)
+            }
 
             Computer(system, isInfected)
         }
