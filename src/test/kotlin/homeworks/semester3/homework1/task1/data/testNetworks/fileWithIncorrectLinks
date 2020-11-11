@@ -1,0 +1,3 @@
+Windows true || 1 2 example
+Linux false || 0
+Mac true || 0 1
