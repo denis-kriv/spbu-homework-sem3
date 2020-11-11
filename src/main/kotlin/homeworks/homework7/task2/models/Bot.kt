@@ -78,7 +78,7 @@ private fun moveVertical(sign: String): Boolean {
     return false
 }
 
-private fun moveDiagonal(sign: String): Boolean {
+private fun moveFirstDiagonal(sign: String): Boolean {
     var location = Pair(0, 0)
     var quantityOfSigns = 0
     var quantityOfEmptyButtons = 0
@@ -101,13 +101,17 @@ private fun moveDiagonal(sign: String): Boolean {
         return true
     }
 
-    location = Pair(0, 0)
-    quantityOfSigns = 0
-    quantityOfEmptyButtons = 0
+    return false
+}
+
+private fun moveSecondDiagonal(sign: String): Boolean {
+    var location = Pair(0, 0)
+    var quantityOfSigns = 0
+    var quantityOfEmptyButtons = 0
 
     loop@ for (i in 0..2) {
         when (Game.buttons[i][2 - i]) {
-            Game.botSign -> quantityOfSigns++
+            sign -> quantityOfSigns++
 
             " " -> {
                 location = Pair(i, 2 - i)
@@ -126,15 +130,19 @@ private fun moveDiagonal(sign: String): Boolean {
     return false
 }
 
+private fun doCleverMove(): Boolean {
+    return moveContour(Game.botSign) ||
+            moveVertical(Game.botSign) ||
+            moveFirstDiagonal(Game.botSign) ||
+            moveSecondDiagonal(Game.botSign) ||
+            moveContour(Game.playerSign) ||
+            moveVertical(Game.playerSign) ||
+            moveFirstDiagonal(Game.playerSign) ||
+            moveSecondDiagonal(Game.playerSign)
+}
+
 private fun hardMove(buttons: List<Pair<Int, Int>>) {
-    if (
-        moveContour(Game.botSign) ||
-        moveVertical(Game.botSign) ||
-        moveDiagonal(Game.botSign) ||
-        moveContour(Game.playerSign) ||
-        moveVertical(Game.playerSign) ||
-        moveDiagonal(Game.playerSign)
-    ) return
+    if (doCleverMove()) return
 
     if (buttons.contains(Pair(1, 1))) Game.updateButton(Pair(1, 1), Game.botSign) else easyMove(buttons)
 }
