@@ -1,0 +1,11 @@
+Windows true || 1 2 3
+Linux false || 0 4 5
+Mac true || 3 4 9
+Windows true || 0
+Windows false example
+Linux false || 2 3
+Mac true || 1 8
+Windows true || 9
+Linux false || 9 8
+Mac true || 6 1 2
+Windows true || 1 2 3
