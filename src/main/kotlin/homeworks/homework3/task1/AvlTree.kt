@@ -8,65 +8,6 @@ class AvlTree<K : Comparable<K>, T>(key: K, value: T) : Map<K, T> {
     override var values: Collection<T> = listOf(value)
     private var head: AvlTreeItem<K, T>? = AvlTreeItem(key, value)
 
-    private fun getValueByKey(key: K, item: AvlTreeItem<K, T>?): T? {
-        if (item == null) return null
-
-        return when {
-            key > item.key -> getValueByKey(key, item.rightChild)
-            key < item.key -> getValueByKey(key, item.leftChild)
-            else -> item.value
-        }
-    }
-
-    private fun insert(treeHead: AvlTreeItem<K, T>?, insertingItem: Pair<K, T>): AvlTreeItem<K, T> {
-        if (treeHead == null) return AvlTreeItem(
-            insertingItem.first,
-            insertingItem.second
-        )
-
-        if (insertingItem.first < treeHead.key) {
-            treeHead.leftChild = insert(treeHead.leftChild, insertingItem)
-        } else {
-            treeHead.rightChild = insert(treeHead.rightChild, insertingItem)
-        }
-
-        return treeHead.balance()
-    }
-
-    private fun findMinKey(item: AvlTreeItem<K, T>): AvlTreeItem<K, T> {
-        return if (item.leftChild == null) item else findMinKey(item.leftChild!!)
-    }
-
-    private fun removeMinKey(item: AvlTreeItem<K, T>): AvlTreeItem<K, T>? {
-        if (item.leftChild == null) return item.rightChild
-
-        item.leftChild = removeMinKey(item.leftChild!!)
-
-        return item.balance()
-    }
-
-    private fun remove(item: AvlTreeItem<K, T>?, key: K): AvlTreeItem<K, T>? {
-        if (item == null) throw NoSuchElementException("Element with this key does not exist.")
-
-        return when {
-            key < item.key -> {
-                item.leftChild = remove(item.leftChild, key)
-                item.balance()
-            }
-            key > item.key -> {
-                item.rightChild = remove(item.rightChild, key)
-                item.balance()
-            }
-            else -> {
-                if (item.rightChild == null) return item.leftChild
-                val minKey = findMinKey(item.rightChild!!)
-                minKey.rightChild = removeMinKey(item.rightChild!!)
-                minKey.leftChild = item.leftChild
-                minKey.balance()
-            }
-        }
-    }
-
     override fun containsKey(key: K): Boolean {
         return this.keys.contains(key)
     }
@@ -76,7 +17,7 @@ class AvlTree<K : Comparable<K>, T>(key: K, value: T) : Map<K, T> {
     }
 
     override fun get(key: K): T? {
-        return getValueByKey(key, this.head)
+        return head?.getValueByKey(key)
     }
 
     override fun isEmpty(): Boolean {
@@ -88,7 +29,7 @@ class AvlTree<K : Comparable<K>, T>(key: K, value: T) : Map<K, T> {
             throw CloneNotSupportedException("Element with this key is already exist.")
         }
 
-        this.head = insert(this.head, insertingItem)
+        this.head = this.head?.insert(insertingItem) ?: AvlTreeItem(insertingItem.first, insertingItem.second)
 
         this.keys = this.keys.plus(insertingItem.first)
         this.values = this.values.plus(insertingItem.second)
@@ -99,7 +40,7 @@ class AvlTree<K : Comparable<K>, T>(key: K, value: T) : Map<K, T> {
     fun minus(key: K) {
         if (this.head == null) throw NullPointerException("Head is null.")
 
-        this.head = remove(this.head, key)
+        this.head = this.head?.remove(key) ?: throw NoSuchElementException("Element with this key does not exist.")
 
         this.entries.forEach {
             if (it.key == key) {

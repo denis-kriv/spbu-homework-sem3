@@ -1,10 +1,28 @@
 package homeworks.homework3.task1
 
-class AvlTreeItem<K : Comparable<K>, T>(val key: K, val value: T) {
+class AvlTreeItem<K : Comparable<K>, T>(private val key: K, private val value: T) {
 
     var height = 1
     var leftChild: AvlTreeItem<K, T>? = null
     var rightChild: AvlTreeItem<K, T>? = null
+
+    fun getValueByKey(key: K): T? {
+        return when {
+            key > this.key -> this.rightChild?.getValueByKey(key)
+            key < this.key -> this.leftChild?.getValueByKey(key)
+            else -> this.value
+        }
+    }
+
+    private fun findMinKey(): AvlTreeItem<K, T> {
+        return this.leftChild?.findMinKey() ?: this
+    }
+
+    private fun removeMinKey(): AvlTreeItem<K, T>? {
+        this.leftChild = this.leftChild?.removeMinKey() ?: return this.rightChild
+
+        return this.balance()
+    }
 
     private fun balanceFactor(): Int {
         return (this.rightChild?.height ?: 0) - (this.leftChild?.height ?: 0)
@@ -36,6 +54,46 @@ class AvlTreeItem<K : Comparable<K>, T>(val key: K, val value: T) {
         item.fixHeight()
 
         return item
+    }
+
+    fun insert(insertingItem: Pair<K, T>): AvlTreeItem<K, T> {
+        if (insertingItem.first < this.key) {
+            this.leftChild = this.leftChild?.insert(insertingItem)
+                ?: return AvlTreeItem(insertingItem.first, insertingItem.second)
+        } else {
+            this.rightChild = this.rightChild?.insert(insertingItem)
+                ?: return AvlTreeItem(insertingItem.first, insertingItem.second)
+        }
+
+        return this.balance()
+    }
+
+    fun remove(key: K): AvlTreeItem<K, T>? {
+        return when {
+            key < this.key -> {
+                this.leftChild =
+                    this.leftChild?.remove(key)
+                        ?: throw NoSuchElementException("Element with this key does not exist.")
+
+                this.balance()
+            }
+            key > this.key -> {
+                this.rightChild =
+                    this.rightChild?.remove(key)
+                        ?: throw NoSuchElementException("Element with this key does not exist.")
+
+                this.balance()
+            }
+            else -> {
+                if (this.rightChild == null) return this.leftChild
+
+                val minKey = this.rightChild!!.findMinKey()
+
+                minKey.rightChild = this.rightChild!!.removeMinKey()
+                minKey.leftChild = this.leftChild
+                minKey.balance()
+            }
+        }
     }
 
     fun balance(): AvlTreeItem<K, T> {
