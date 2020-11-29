@@ -38,9 +38,7 @@ class AvlTree<K : Comparable<K>, T>(key: K, value: T) : Map<K, T> {
     }
 
     fun minus(key: K) {
-        if (this.head == null) throw NullPointerException("Head is null.")
-
-        this.head = this.head?.remove(key) ?: throw NoSuchElementException("Element with this key does not exist.")
+        if (this.head == null) throw NullPointerException("Head is null.") else this.head = this.head?.remove(key)
 
         this.entries.forEach {
             if (it.key == key) {

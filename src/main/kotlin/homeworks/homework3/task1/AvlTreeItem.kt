@@ -19,7 +19,7 @@ class AvlTreeItem<K : Comparable<K>, T>(private val key: K, private val value: T
     }
 
     private fun removeMinKey(): AvlTreeItem<K, T>? {
-        this.leftChild = this.leftChild?.removeMinKey() ?: return this.rightChild
+        this.leftChild = this.leftChild?.removeMinKey() ?: this.rightChild
 
         return this.balance()
     }
@@ -59,10 +59,10 @@ class AvlTreeItem<K : Comparable<K>, T>(private val key: K, private val value: T
     fun insert(insertingItem: Pair<K, T>): AvlTreeItem<K, T> {
         if (insertingItem.first < this.key) {
             this.leftChild = this.leftChild?.insert(insertingItem)
-                ?: return AvlTreeItem(insertingItem.first, insertingItem.second)
+                ?: AvlTreeItem(insertingItem.first, insertingItem.second)
         } else {
             this.rightChild = this.rightChild?.insert(insertingItem)
-                ?: return AvlTreeItem(insertingItem.first, insertingItem.second)
+                ?: AvlTreeItem(insertingItem.first, insertingItem.second)
         }
 
         return this.balance()
