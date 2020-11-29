@@ -36,7 +36,7 @@ private fun <T : Comparable<T>> partition(array: Array<T>, indexBegin: Int, inde
     return topIndex
 }
 
-private fun <T : Comparable<T>> simpleQuickSort(array: Array<T>, indexBegin: Int, indexEnd: Int) {
+fun <T : Comparable<T>> simpleQuickSort(array: Array<T>, indexBegin: Int, indexEnd: Int) {
     if (indexBegin < indexEnd) {
         val index = partition(array, indexBegin, indexEnd)
 
@@ -45,7 +45,7 @@ private fun <T : Comparable<T>> simpleQuickSort(array: Array<T>, indexBegin: Int
     }
 }
 
-private suspend fun <T : Comparable<T>> asyncQuickSort(array: Array<T>, indexBegin: Int, indexEnd: Int) {
+suspend fun <T : Comparable<T>> asyncQuickSort(array: Array<T>, indexBegin: Int, indexEnd: Int) {
     if (indexBegin < indexEnd) {
         val index = partition(array, indexBegin, indexEnd)
 
