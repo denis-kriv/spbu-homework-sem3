@@ -1,6 +1,7 @@
 package homeworks.homework5.task1
 
 import homeworks.homework5.task1.interfaces.ITrie
+import homeworks.homework5.task1.models.TrieItem
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
@@ -9,12 +10,10 @@ import java.util.Scanner
 
 class Trie : ITrie, Serializable {
 
-    private val head: homeworks.homework5.task1.models.TrieItem = homeworks.homework5.task1.models.TrieItem("")
+    private val head = TrieItem("")
 
     private fun clear() {
-        head.children.clear()
-        head.isTerminal = false
-        head.size = 0
+        head.clear()
     }
 
     override fun add(element: String): Boolean {
@@ -30,7 +29,7 @@ class Trie : ITrie, Serializable {
     }
 
     override fun size(): Int {
-        return head.size
+        return head.size()
     }
 
     override fun howManyStartWithPrefix(prefix: String): Int {
@@ -40,7 +39,7 @@ class Trie : ITrie, Serializable {
     fun serialize(output: OutputStream) {
         val words = head.getAllWords("")
 
-        if (words.isEmpty()) throw IOException("Tree is empty.")
+        if (words.isEmpty()) throw IOException("Trie is empty.")
 
         output.write((words.joinToString(" ") { "'$it'" }).toByteArray())
         output.close()

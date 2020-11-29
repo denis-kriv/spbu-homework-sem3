@@ -2,9 +2,9 @@ package homeworks.homework5.task1.models
 
 class TrieItem(private val value: String) {
 
-    val children: MutableList<TrieItem> = mutableListOf()
-    var isTerminal: Boolean = false
-    var size = 0
+    private val children: MutableList<TrieItem> = mutableListOf()
+    private var isTerminal: Boolean = false
+    private var size = 0
 
     fun plus(element: String): Boolean {
         if (element == this.value) {
@@ -104,5 +104,15 @@ class TrieItem(private val value: String) {
         }
 
         return result
+    }
+
+    fun clear() {
+        this.children.clear()
+        this.isTerminal = false
+        this.size = 0
+    }
+
+    fun size(): Int {
+        return this.size
     }
 }
