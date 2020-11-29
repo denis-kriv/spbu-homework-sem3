@@ -2,6 +2,7 @@ package homeworks.homework4.task1
 
 import homeworks.homework4.task1.enums.Actions
 import java.lang.IllegalArgumentException
+import java.lang.NumberFormatException
 
 private fun readNumberOfAction(): Actions {
     println("Enter:")
@@ -122,12 +123,28 @@ private fun actionPlusFromFile(table: HashTable) {
 private fun actionChooseHashFunction(table: HashTable) {
     try {
         println("Enter:")
-        println("Hash3: for choose hash function with key 3.")
-        println("Hash5: for choose hash function with key 3.")
-        println("Hash7: for choose hash function with key 3.")
-        println("Hash11: for choose hash function with key 3.")
+        println("PolynomialHashFunction: for choose Polynomial hash function.")
+        println("AdjacentCharactersHashFunction: for choose adjacent characters hash function.")
+        println("QuadraticHashFunction: for choose quadratic hash function.")
 
-        table.chooseHashFunction(readLine())
+        when (readLine()) {
+            "PolynomialHashFunction" -> {
+                println("Enter a key for hash function.")
+                val key = readLine()?.toIntOrNull() ?: throw NumberFormatException("Key must be a natural number.")
+
+                if (key <= 0) throw NumberFormatException("Key must be a natural number.")
+
+                table.chooseHashFunction(PolynomialHashFunction(key))
+            }
+
+            "AdjacentCharactersHashFunction" -> {
+                table.chooseHashFunction(AdjacentCharactersHashFunction())
+            }
+
+            "QuadraticHashFunction" -> {
+                table.chooseHashFunction(QuadraticHashFunction())
+            }
+        }
 
         println("Successful.")
     } catch (ex: KotlinNullPointerException) {
@@ -141,9 +158,11 @@ private fun actionChooseHashFunction(table: HashTable) {
 }
 
 fun main() {
-    val table = HashTable()
-    var isStopped = false
+    println("Input table size.")
 
+    val table = HashTable(readLine()?.toIntOrNull() ?: throw NumberFormatException("Size must be a number."))
+
+    var isStopped = false
     while (!isStopped) {
         val input = handleInputData() ?: continue
 

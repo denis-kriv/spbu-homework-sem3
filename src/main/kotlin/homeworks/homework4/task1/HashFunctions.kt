@@ -1,54 +1,46 @@
 package homeworks.homework4.task1
 
-import homeworks.homework4.task1.enums.HashKeys
+interface IHashFunction {
+    fun getHash(value: String, tableSize: Int): Int
+}
 
-class HashFunctions(value: HashKeys) {
+class PolynomialHashFunction(private val key: Int) : IHashFunction {
+    override fun getHash(value: String, tableSize: Int): Int {
+        var result = 0
+        var deg = 1
 
-    var key = value.key
-
-    var getHash = when (value) {
-        HashKeys.Hash3 -> fun(value: String): Int {
-            var result = 0
-            var deg = 1
-            value.forEach {
-                result += (it.hashCode() * deg) % Companion.module
-                deg *= HashKeys.Hash3.key
-            }
-            return result % Companion.module
+        value.forEach {
+            result += (it.hashCode() * deg) % tableSize
+            deg *= key
         }
 
-        HashKeys.Hash5 -> fun(value: String): Int {
-            var result = 0
-            var deg = 1
-            value.forEach {
-                result += it.hashCode() * deg % Companion.module
-                deg *= HashKeys.Hash5.key
-            }
-            return result % Companion.module
-        }
-
-        HashKeys.Hash7 -> fun(value: String): Int {
-            var result = 0
-            var deg = 1
-            value.forEach {
-                result += it.hashCode() * deg % Companion.module
-                deg *= HashKeys.Hash7.key
-            }
-            return result % Companion.module
-        }
-
-        HashKeys.Hash11 -> fun(value: String): Int {
-            var result = 0
-            var deg = 1
-            value.forEach {
-                result += it.hashCode() * deg % Companion.module
-                deg *= HashKeys.Hash11.key
-            }
-            return result % Companion.module
-        }
-    }
-
-    companion object {
-        const val module: Int = 2048
+        return result % tableSize
     }
 }
+
+class AdjacentCharactersHashFunction : IHashFunction {
+    override fun getHash(value: String, tableSize: Int): Int {
+        var result = 0
+
+        for (i in 0 until value.length / 2 + value.length % 2) {
+            result += value[i].hashCode() + value[value.lastIndex - i].hashCode()
+            result %= tableSize
+        }
+
+        return result % tableSize
+    }
+}
+
+class QuadraticHashFunction : IHashFunction {
+    override fun getHash(value: String, tableSize: Int): Int {
+        var result = 0
+
+        for (i in 0 until value.length / 2 + value.length % 2) {
+            result += value[i].hashCode() + value[value.lastIndex - i].hashCode()
+            result %= tableSize
+        }
+
+        return result % tableSize
+    }
+}
+
