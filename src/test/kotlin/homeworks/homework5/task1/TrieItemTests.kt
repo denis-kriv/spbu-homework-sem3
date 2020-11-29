@@ -67,15 +67,6 @@ class TrieItemTests {
     }
 
     @Test
-    fun minusShouldReturnsTrueWhenStringIsEmptyAndWordExist() {
-        val item = TrieItem("e")
-
-        item.plus("")
-
-        assertTrue(item.minus(""))
-    }
-
-    @Test
     fun minusShouldReturnsTrueWhenStringIsNotEmptyAndWordExist() {
         val item = TrieItem("e")
 
