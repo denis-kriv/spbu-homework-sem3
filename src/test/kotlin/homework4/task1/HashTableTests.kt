@@ -1,161 +1,166 @@
 package homework4.task1
 
 import homeworks.homework4.task1.HashTable
-import org.junit.jupiter.api.Assertions.*
+import homeworks.homework4.task1.hashFunctions.PolynomialHashFunction
+import homeworks.homework4.task1.hashFunctions.QuadraticHashFunction
+import homeworks.homework4.task1.models.Statistics
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
-import java.lang.IllegalArgumentException
+import kotlin.random.Random
 
 internal class HashTableTests {
 
-    private val testTable: HashTable = HashTable(10)
-
-    init {
-        testTable.items[testTable.hashFunction.getHash("Plus")].add("Plus")
-        testTable.items[testTable.hashFunction.getHash("Minus")].add("Minus")
-        testTable.items[testTable.hashFunction.getHash("GetIndex")].add("GetIndex")
-        testTable.items[testTable.hashFunction.getHash("PlusFromFile")].add("PlusFromFile")
+    @Test
+    fun initShouldThrowExceptionWhenArraySizeIsNotNaturalNumber() {
+        assertThrows<ArithmeticException> { HashTable(-1) }
     }
 
     @Test
-    fun plusShouldThrowsKotlinNullPointerExceptionWhenInputStringIsBlank() {
-        assertThrows<KotlinNullPointerException> { testTable.plus("   ") }
+    fun initShouldCreateTableWhenDataIsCorrect() {
+        assertDoesNotThrow { HashTable(Random.nextInt(10, 100)) }
     }
 
     @Test
-    fun plusShouldThrowsKotlinNullPointerExceptionWhenInputStringIsNull() {
-        assertThrows<KotlinNullPointerException> { testTable.plus(null) }
+    fun getItemsShouldReturnAllItems() {
+        val table = HashTable(123)
+
+        val expected = mutableListOf<String>()
+        for (i in 0..10) {
+            table.plus("Example$i")
+            expected.add("Example$i")
+        }
+
+        table.getItems().forEach { assertTrue(expected.contains(it)) }
     }
 
     @Test
-    fun plusShouldThrowsCloneNotSupportedExceptionWhenInputValueIsAlreadyExist() {
-        assertThrows<CloneNotSupportedException> { testTable.plus("Plus") }
+    fun plusShouldThrowExceptionWhenValueIsNull() {
+        val table = HashTable(10)
+
+        assertThrows<KotlinNullPointerException> { table.plus(null) }
     }
 
     @Test
-    fun plusShouldAddItemWhenInputStringIsCorrect() {
-        testTable.plus("Plus1")
+    fun plusShouldThrowExceptionWhenValueIsExist() {
+        val table = HashTable(10)
 
-        assertTrue(testTable.items[testTable.hashFunction.getHash("Plus1")].contains("Plus1"))
+        table.plus("Example")
+
+        assertThrows<CloneNotSupportedException> { table.plus("Example") }
     }
 
     @Test
-    fun minusShouldThrowsKotlinNullPointerExceptionWhenInputStringIsBlank() {
-        assertThrows<KotlinNullPointerException> { testTable.minus("   ") }
+    fun plusShouldAddValueWhenDataIsCorrect() {
+        val table = HashTable(10)
+
+        table.plus("Example")
+
+        assertTrue(table.getItems().contains("Example"))
     }
 
     @Test
-    fun minusShouldThrowsKotlinNullPointerExceptionWhenInputStringIsNull() {
-        assertThrows<KotlinNullPointerException> { testTable.minus(null) }
+    fun minusShouldThrowExceptionWhenValueIsBlank() {
+        val table = HashTable(100)
+
+        assertThrows<KotlinNullPointerException> { table.minus("  ") }
     }
 
     @Test
-    fun minusShouldThrowsNoSuchElementExceptionWhenInputValueIsNotExist() {
-        assertThrows<NoSuchElementException> { testTable.minus("Minus1") }
+    fun minusShouldThrowExceptionWhenValueDoesNotExist() {
+        val table = HashTable(10)
+
+        assertThrows<NoSuchElementException> { table.minus("Example") }
     }
 
     @Test
-    fun minusShouldRemoveItemWhenInputStringIsCorrect() {
-        testTable.minus("Minus")
+    fun minusShouldRemoveElementWhenDataIsCorrect() {
+        val table = HashTable(5)
 
-        assertFalse(testTable.items[testTable.hashFunction.getHash("Minus")].contains("Minus"))
+        table.plus("Example")
+        table.minus("Example")
+
+        assertEquals(0, table.getItems().size)
     }
 
     @Test
-    fun getIndexShouldThrowsKotlinNullPointerExceptionWhenInputStringIsBlank() {
-        assertThrows<KotlinNullPointerException> { testTable.getIndex("   ") }
+    fun getIndexShouldThrowExceptionWhenInputValueDoesNotCorrect() {
+        val table = HashTable(100)
+
+        assertThrows<KotlinNullPointerException> { table.getIndex(" ") }
     }
 
     @Test
-    fun getIndexShouldThrowsKotlinNullPointerExceptionWhenInputStringIsNull() {
-        assertThrows<KotlinNullPointerException> { testTable.getIndex(null) }
+    fun getIndexShouldThrowExceptionWhenElementDoesNotExist() {
+        val table = HashTable(100)
+
+        assertThrows<NoSuchElementException> { table.getIndex("Example") }
     }
 
     @Test
-    fun getIndexShouldThrowsNoSuchElementExceptionWhenInputValueIsNotExist() {
-        assertThrows<NoSuchElementException> { testTable.getIndex("GetIndex1") }
+    fun getIndexShouldWorkCorrectlyWhenDataIsCorrect() {
+        val table = HashTable(100)
+
+        table.plus("Example")
+
+        assertEquals(table.getIndex("Example"), QuadraticHashFunction().getHash("Example", 100))
     }
 
     @Test
-    fun getIndexShouldReturnsItemIndexWhenInputStringIsCorrect() {
-        assertEquals(testTable.getIndex("GetIndex"), testTable.hashFunction.getHash("GetIndex"))
-    }
+    fun getStatisticsShouldReturnRightData() {
+        val table = HashTable(19)
 
-    @Test
-    fun getStatisticsShouldReturnsStatistics() {
-        val table = HashTable()
         table.plus("Statistics")
-        val result = table.getStatistics()
+        val expected = Statistics(19, 0, 1, 0.05263157894736842)
 
-        assertEquals(2048, result.size)
-        assertEquals(0, result.conflicts)
-        assertEquals(1, result.maxLength)
-        assertEquals(0.0, result.loadFactor)
+        assertEquals(expected, table.getStatistics())
     }
 
     @Test
-    fun plusFromFileShouldThrowsKotlinNullPointerExceptionWhenInputStringIsBlank() {
-        assertThrows<KotlinNullPointerException> { testTable.plusFromFile("   ") }
+    fun plusFromFileShouldThrowExceptionWhenFilePathIsBlank() {
+        val table = HashTable(100)
+
+        assertThrows<KotlinNullPointerException> { table.plusFromFile("") }
     }
 
     @Test
-    fun plusFromFileShouldThrowsKotlinNullPointerExceptionWhenInputStringIsNull() {
-        assertThrows<KotlinNullPointerException> { testTable.plusFromFile(null) }
+    fun plusFromFileShouldThrowExceptionWhenFileDoesNotExist() {
+        val table = HashTable(17)
+
+        assertThrows<NoSuchFileException> { table.plusFromFile("Example") }
     }
 
     @Test
-    fun plusFromFileShouldThrowsNoSuchFIleExceptionWhenFileIsNotExist() {
-        assertThrows<NoSuchFileException> { testTable.plusFromFile("NotExistingFile") }
-    }
+    fun plusFromFileShouldThrowExceptionWhenDataInFileIsIncorrect() {
+        val table = HashTable(18)
 
-    @Test
-    fun plusFromFileShouldThrowsKotlinNullPointerExceptionWhenElementInFileIsEmpty() {
         val path = "src/test/kotlin/homework4/task1/Data/FileWithEmptyLines.txt"
 
-        assertThrows<KotlinNullPointerException> { testTable.plusFromFile(path) }
+        assertThrows<KotlinNullPointerException> { table.plusFromFile(path) }
     }
 
     @Test
-    fun plusFromFileShouldThrowsCloneNotSupportedExceptionWhenElementInFileIsAlreadyExist() {
-        val path = "src/test/kotlin/homework4/task1/Data/FileWithExistingItems.txt"
+    fun plusFromFileShouldAddItemsExceptionWhenDataIsCorrect() {
+        val table = HashTable(1000)
 
-        assertThrows<CloneNotSupportedException> { testTable.plusFromFile(path) }
-    }
-
-    @Test
-    fun plusFromFileShouldFillsTableWhenInputPathIsCorrectAndElementsInFileIsCorrect() {
         val path = "src/test/kotlin/homework4/task1/Data/FileWithCorrectElements.txt"
-        testTable.plusFromFile(path)
+        table.plusFromFile(path)
+        val items = table.getItems()
 
-        for (it in 1 .. 5) {
-            assertTrue(testTable.items[testTable.hashFunction.getHash("plusFromFile$it")].contains("plusFromFile$it"))
+        for (it in 1..5) {
+            assertTrue(items.contains("plusFromFile$it"))
         }
     }
 
     @Test
-    fun chooseHashFunctionShouldThrowsKotlinNullPointerExceptionWhenInputStringIsBlank() {
-        assertThrows<KotlinNullPointerException> { testTable.chooseHashFunction("   ") }
-    }
+    fun chooseHashFunctionShouldChangeFunction() {
+        val table = HashTable(99)
 
-    @Test
-    fun chooseHashFunctionShouldThrowsKotlinNullPointerExceptionWhenInputStringIsNull() {
-        assertThrows<KotlinNullPointerException> { testTable.chooseHashFunction(null) }
-    }
+        table.plus("Example")
+        table.chooseHashFunction(PolynomialHashFunction(17))
 
-    @Test
-    fun chooseHashFunctionShouldThrowsIllegalArgumentExceptionWhenInputStringISNotCorrect() {
-        assertThrows<IllegalArgumentException> { testTable.chooseHashFunction("Hash1") }
-    }
-
-    @Test
-    fun chooseHashFunctionShouldChangeHashFunctionWhenInputStringIsCorrect() {
-        testTable.chooseHashFunction("Hash5")
-
-        testTable.items.forEach {
-            for (i in it) {
-                assertEquals(testTable.hashFunction.getHash(i), testTable.items.indexOf(it))
-            }
-        }
-        assertEquals(5, testTable.hashFunction.key)
+        assertEquals(table.getIndex("Example"), PolynomialHashFunction(17).getHash("Example", 99))
     }
 }

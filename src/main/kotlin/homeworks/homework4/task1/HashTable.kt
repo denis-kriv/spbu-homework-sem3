@@ -16,6 +16,16 @@ class HashTable(arraySize: Int) : IHashTable {
         throw ArithmeticException("Table size must be a natural number.")
     }
 
+    override fun getItems(): List<String> {
+        val result = mutableListOf<String>()
+
+        items.forEach {
+            it.forEach { i -> result.add(i) }
+        }
+
+        return result
+    }
+
     override fun plus(value: String?) {
         if (value.isNullOrBlank()) throw KotlinNullPointerException("Element is empty.")
 

@@ -1,6 +1,9 @@
 package homeworks.homework4.task1
 
 import homeworks.homework4.task1.enums.Actions
+import homeworks.homework4.task1.hashFunctions.AdjacentCharactersHashFunction
+import homeworks.homework4.task1.hashFunctions.PolynomialHashFunction
+import homeworks.homework4.task1.hashFunctions.QuadraticHashFunction
 import java.lang.IllegalArgumentException
 import java.lang.NumberFormatException
 

@@ -4,6 +4,7 @@ import homeworks.homework4.task1.hashFunctions.interfaces.IHashFunction
 import homeworks.homework4.task1.models.Statistics
 
 interface IHashTable {
+    fun getItems(): List<String>
     fun plus(value: String?)
     fun minus(value: String?)
     fun getIndex(value: String?): Int
