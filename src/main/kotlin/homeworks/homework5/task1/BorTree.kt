@@ -8,106 +8,6 @@ import java.io.OutputStream
 import java.io.Serializable
 import java.util.Scanner
 
-private fun plus(item: TreeItem, element: String): Boolean {
-    if (element == item.value) {
-        if (!item.isTerminal) item.size++
-
-        val isExist = item.isTerminal
-        item.isTerminal = true
-
-        return !isExist
-    }
-
-    var currentItem: TreeItem? = null
-    val index = if (item.value == "") 0 else 1
-
-    for (i in item.children) {
-        if (i.value == element[index].toString()) {
-            currentItem = i
-            break
-        }
-    }
-
-    if (currentItem == null) {
-        currentItem = TreeItem(element[index].toString())
-        item.children.add(currentItem)
-    }
-
-    val result = plus(currentItem, element.substring(index))
-    if (result) item.size++
-
-    return result
-}
-
-private fun isExist(item: TreeItem, element: String): Boolean {
-    if (item.value == element) return item.isTerminal
-
-    var result = false
-    val index = if (item.value == "") 0 else 1
-
-    for (i in item.children) {
-        if (i.value == element[index].toString()) result = isExist(i, element.substring(index))
-    }
-
-    return result
-}
-
-private fun minus(item: TreeItem, element: String): Boolean {
-    if (item.value == element) {
-        if (item.isTerminal) item.size--
-
-        val isExist = item.isTerminal
-        item.isTerminal = false
-
-        return isExist
-    }
-
-    var currentItem: TreeItem? = null
-    val index = if (item.value == "") 0 else 1
-
-    for (i in item.children) {
-        if (i.value == element[index].toString()) {
-            currentItem = i
-            break
-        }
-    }
-
-    return if (currentItem != null) {
-        val result = minus(currentItem, element.substring(index))
-        if (result) item.size--
-
-        result
-    } else false
-}
-
-private fun quantityWithThisPrefix(item: TreeItem, prefix: String): Int {
-    if (prefix == item.value) {
-        return item.size
-    }
-
-    var currentItem: TreeItem? = null
-    val index = if (item.value == "") 0 else 1
-
-    for (i in item.children) {
-        if (i.value == prefix[index].toString()) {
-            currentItem = i
-            break
-        }
-    }
-
-    return if (currentItem == null) 0 else quantityWithThisPrefix(currentItem, prefix.substring(index))
-}
-
-private fun getAllWords(item: TreeItem, prefix: String): MutableList<String> {
-    val result = if (item.isTerminal) mutableListOf("$prefix${item.value}") else mutableListOf()
-
-    item.children.forEach {
-        result.addAll(getAllWords(it, "$prefix${item.value}"))
-    }
-
-    return result
-}
-
 class BorTree : IBorTree, Serializable {
 
     private val head: TreeItem = TreeItem("")
@@ -119,15 +19,15 @@ class BorTree : IBorTree, Serializable {
     }
 
     override fun add(element: String): Boolean {
-        return plus(head, element)
+        return head.plus(element)
     }
 
     override fun contains(element: String): Boolean {
-        return isExist(head, element)
+        return head.isExist(element)
     }
 
     override fun remove(element: String): Boolean {
-        return minus(head, element)
+        return head.minus(element)
     }
 
     override fun size(): Int {
@@ -135,11 +35,11 @@ class BorTree : IBorTree, Serializable {
     }
 
     override fun howManyStartWithPrefix(prefix: String): Int {
-        return quantityWithThisPrefix(head, prefix)
+        return head.quantityWithThisPrefix(prefix)
     }
 
     fun serialize(output: OutputStream) {
-        val words = getAllWords(head, "")
+        val words = head.getAllWords("")
 
         if (words.isEmpty()) throw IOException("Tree is empty.")
 
