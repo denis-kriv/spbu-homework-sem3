@@ -1,6 +1,6 @@
 package homeworks.homework4.task1.interfaces
 
-import homeworks.homework4.task1.IHashFunction
+import homeworks.homework4.task1.hashFunctions.interfaces.IHashFunction
 import homeworks.homework4.task1.models.Statistics
 
 interface IHashTable {

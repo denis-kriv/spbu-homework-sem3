@@ -8,7 +8,7 @@ import java.lang.IllegalArgumentException
 
 internal class HashTableTests {
 
-    private val testTable: HashTable = HashTable()
+    private val testTable: HashTable = HashTable(10)
 
     init {
         testTable.items[testTable.hashFunction.getHash("Plus")].add("Plus")

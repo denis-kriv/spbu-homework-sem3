@@ -1,7 +1,5 @@
 package homework4.task1
 
-import homeworks.homework4.task1.HashFunctions
-import homeworks.homework4.task1.enums.HashKeys
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Test

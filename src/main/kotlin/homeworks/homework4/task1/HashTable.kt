@@ -1,5 +1,7 @@
 package homeworks.homework4.task1
 
+import homeworks.homework4.task1.hashFunctions.interfaces.IHashFunction
+import homeworks.homework4.task1.hashFunctions.QuadraticHashFunction
 import homeworks.homework4.task1.interfaces.IHashTable
 import java.io.File
 import java.util.NoSuchElementException
