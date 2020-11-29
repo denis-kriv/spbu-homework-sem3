@@ -61,7 +61,7 @@ class Tree(path: String?) {
 
         return input.split(" ")
     }
-    
+
     fun print() {
         println(head)
     }
