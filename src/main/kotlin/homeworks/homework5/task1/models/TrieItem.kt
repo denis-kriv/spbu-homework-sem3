@@ -1,8 +1,8 @@
 package homeworks.homework5.task1.models
 
-class TreeItem(val value: String) {
+class TrieItem(private val value: String) {
 
-    val children: MutableList<TreeItem> = mutableListOf()
+    val children: MutableList<TrieItem> = mutableListOf()
     var isTerminal: Boolean = false
     var size = 0
 
@@ -16,7 +16,7 @@ class TreeItem(val value: String) {
             return !isExist
         }
 
-        var currentItem: TreeItem? = null
+        var currentItem: TrieItem? = null
         val index = if (this.value == "") 0 else 1
 
         for (i in this.children) {
@@ -27,7 +27,7 @@ class TreeItem(val value: String) {
         }
 
         if (currentItem == null) {
-            currentItem = TreeItem(element[index].toString())
+            currentItem = TrieItem(element[index].toString())
             this.children.add(currentItem)
         }
 
@@ -49,7 +49,7 @@ class TreeItem(val value: String) {
 
         return result
     }
-    
+
     fun minus(element: String): Boolean {
         if (this.value == element) {
             if (this.isTerminal) this.size--
@@ -60,7 +60,7 @@ class TreeItem(val value: String) {
             return isExist
         }
 
-        var currentItem: TreeItem? = null
+        var currentItem: TrieItem? = null
         val index = if (this.value == "") 0 else 1
 
         for (i in this.children) {
@@ -83,7 +83,7 @@ class TreeItem(val value: String) {
             return this.size
         }
 
-        var currentItem: TreeItem? = null
+        var currentItem: TrieItem? = null
         val index = if (this.value == "") 0 else 1
 
         for (i in this.children) {

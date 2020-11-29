@@ -5,25 +5,25 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.io.*
 
-class BorTreeTests {
+class TrieTests {
 
     @Test
     fun addShouldReturnsTrueWhenStringIsEmptyAndWordDoesNotExist() {
-        val tree = BorTree()
+        val tree = Trie()
 
         assertTrue(tree.add(""))
     }
 
     @Test
     fun addShouldReturnsTrueWhenStringIsNotEmptyAndWordDoesNotExist() {
-        val tree = BorTree()
+        val tree = Trie()
 
         assertTrue(tree.add("example"))
     }
 
     @Test
     fun addShouldReturnsTrueWhenAFewDifferentWordsAreAdded() {
-        val tree = BorTree()
+        val tree = Trie()
 
         assertTrue(tree.add(""))
         assertTrue(tree.add("e"))
@@ -39,7 +39,7 @@ class BorTreeTests {
 
     @Test
     fun addShouldReturnsFalseWhenStringIsEmptyAndWordExist() {
-        val tree = BorTree()
+        val tree = Trie()
 
         tree.add("")
 
@@ -48,7 +48,7 @@ class BorTreeTests {
 
     @Test
     fun addShouldReturnsFalseWhenStringIsNotEmptyAndWordExist() {
-        val tree = BorTree()
+        val tree = Trie()
 
         tree.add("example")
 
@@ -57,7 +57,7 @@ class BorTreeTests {
 
     @Test
     fun containsShouldReturnsTrueWhenStringIsEmptyAndWordExist() {
-        val tree = BorTree()
+        val tree = Trie()
 
         tree.add("")
 
@@ -66,14 +66,14 @@ class BorTreeTests {
 
     @Test
     fun containsShouldReturnsFalseWhenStringIsEmptyAndWordDoesNotExist() {
-        val tree = BorTree()
+        val tree = Trie()
 
         assertFalse(tree.contains(""))
     }
 
     @Test
     fun containsShouldReturnsTrueWhenStringIsNotEmptyAndWordExist() {
-        val tree = BorTree()
+        val tree = Trie()
 
         tree.add("example")
 
@@ -82,28 +82,28 @@ class BorTreeTests {
 
     @Test
     fun containsShouldReturnsFalseWhenStringIsNotEmptyAndWordDoesNotExist() {
-        val tree = BorTree()
+        val tree = Trie()
 
         assertFalse(tree.contains("example"))
     }
 
     @Test
     fun removeShouldReturnsFalseWhenStringIsEmptyAndWordDoesNotExist() {
-        val tree = BorTree()
+        val tree = Trie()
 
         assertFalse(tree.remove(""))
     }
 
     @Test
     fun removeShouldReturnsFalseWhenStringIsNotEmptyAndWordDoesNotExist() {
-        val tree = BorTree()
+        val tree = Trie()
 
         assertFalse(tree.remove("example"))
     }
 
     @Test
     fun removeShouldReturnsTrueWhenStringIsEmptyAndWordExist() {
-        val tree = BorTree()
+        val tree = Trie()
 
         tree.add("")
 
@@ -112,7 +112,7 @@ class BorTreeTests {
 
     @Test
     fun removeShouldReturnsTrueWhenStringIsNotEmptyAndWordExist() {
-        val tree = BorTree()
+        val tree = Trie()
 
         tree.add("example")
 
@@ -121,7 +121,7 @@ class BorTreeTests {
 
     @Test
     fun removeShouldReturnsTrueAndThanFalseWhenTheSameWordIsDeletedSeveralTimes() {
-        val tree = BorTree()
+        val tree = Trie()
 
         tree.add("example")
 
@@ -131,14 +131,14 @@ class BorTreeTests {
 
     @Test
     fun sizeShouldReturnsZeroWhenTreeIsEmpty() {
-        val tree = BorTree()
+        val tree = Trie()
 
         assertEquals(0, tree.size())
     }
 
     @Test
     fun sizeShouldReturnsRightValueWhenTreeIsNotEmptyAndEmptyWordExist() {
-        val tree = BorTree()
+        val tree = Trie()
 
         tree.add("")
         tree.add("e")
@@ -156,7 +156,7 @@ class BorTreeTests {
 
     @Test
     fun sizeShouldReturnsRightValueWhenTreeIsNotEmptyAndEmptyWordDoesNotExist() {
-        val tree = BorTree()
+        val tree = Trie()
 
         tree.add("e")
         tree.add("exa")
@@ -173,14 +173,14 @@ class BorTreeTests {
 
     @Test
     fun howManyStartWithPrefixShouldReturnsZeroWhenTreeIsEmpty() {
-        val tree = BorTree()
+        val tree = Trie()
 
         assertEquals(0, tree.howManyStartWithPrefix("prefix"))
     }
 
     @Test
     fun howManyStartWithPrefixShouldReturnsRightValueWhenPrefixIsEmpty() {
-        val tree = BorTree()
+        val tree = Trie()
 
         tree.add("")
         tree.add("e")
@@ -198,7 +198,7 @@ class BorTreeTests {
 
     @Test
     fun howManyStartWithPrefixShouldReturnsRightValueWhenWordsWithThisPrefixDoesNotExist() {
-        val tree = BorTree()
+        val tree = Trie()
 
         tree.add("")
         tree.add("e")
@@ -216,7 +216,7 @@ class BorTreeTests {
 
     @Test
     fun howManyStartWithPrefixShouldReturnsRightValueWhenWordsWithThisPrefixExist() {
-        val tree = BorTree()
+        val tree = Trie()
 
         tree.add("")
         tree.add("e")
@@ -234,7 +234,7 @@ class BorTreeTests {
 
     @Test
     fun serializeShouldThrowsIOExceptionWhenTreeIsEmpty() {
-        val tree = BorTree()
+        val tree = Trie()
         val stream = FileOutputStream("src/test/kotlin/homeworks/homework5/task1/data/serializeFile.txt")
 
         assertThrows<IOException> { tree.serialize(stream) }
@@ -242,7 +242,7 @@ class BorTreeTests {
 
     @Test
     fun serializeShouldFillStreamWhenTreeIsNotEmpty() {
-        val tree = BorTree()
+        val tree = Trie()
         val stream = FileOutputStream("src/test/kotlin/homeworks/homework5/task1/data/serializeFile.txt")
 
         tree.add("")
@@ -261,7 +261,7 @@ class BorTreeTests {
 
     @Test
     fun deserializeShouldThrowsKotlinNullPointerExceptionWhenTreeIsEmpty() {
-        val tree = BorTree()
+        val tree = Trie()
         val stream = FileInputStream("src/test/kotlin/homeworks/homework5/task1/data/deserializeEmptyFile.txt")
 
         assertThrows<KotlinNullPointerException> { tree.deserialize(stream) }
@@ -269,7 +269,7 @@ class BorTreeTests {
 
     @Test
     fun deserializeShouldThrowsIOExceptionWhenStringIsNotCorrect() {
-        val tree = BorTree()
+        val tree = Trie()
         val stream = FileInputStream("src/test/kotlin/homeworks/homework5/task1/data/deserializeIncorrectFile.txt")
 
         assertThrows<IOException> { tree.deserialize(stream) }
@@ -277,7 +277,7 @@ class BorTreeTests {
 
     @Test
     fun deserializeShouldFillTreeWhenFileIsCorrect() {
-        val tree = BorTree()
+        val tree = Trie()
         val stream = FileInputStream("src/test/kotlin/homeworks/homework5/task1/data/deserializeCorrectFile.txt")
 
         assertDoesNotThrow { tree.deserialize(stream) }

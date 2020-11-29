@@ -1,16 +1,15 @@
 package homeworks.homework5.task1
 
-import homeworks.homework5.task1.interfaces.IBorTree
-import homeworks.homework5.task1.models.TreeItem
+import homeworks.homework5.task1.interfaces.ITrie
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
 import java.io.Serializable
 import java.util.Scanner
 
-class BorTree : IBorTree, Serializable {
+class Trie : ITrie, Serializable {
 
-    private val head: TreeItem = TreeItem("")
+    private val head: homeworks.homework5.task1.models.TrieItem = homeworks.homework5.task1.models.TrieItem("")
 
     private fun clear() {
         head.children.clear()

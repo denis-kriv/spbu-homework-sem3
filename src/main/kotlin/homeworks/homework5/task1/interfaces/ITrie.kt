@@ -1,6 +1,6 @@
 package homeworks.homework5.task1.interfaces
 
-interface IBorTree {
+interface ITrie {
     fun add(element: String): Boolean
     fun contains(element: String): Boolean
     fun remove(element: String): Boolean
