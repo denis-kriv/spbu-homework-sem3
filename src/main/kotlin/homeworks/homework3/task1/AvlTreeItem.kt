@@ -6,14 +6,6 @@ class AvlTreeItem<K : Comparable<K>, T>(private val key: K, private val value: T
     var leftChild: AvlTreeItem<K, T>? = null
     var rightChild: AvlTreeItem<K, T>? = null
 
-    fun getValueByKey(key: K): T? {
-        return when {
-            key > this.key -> this.rightChild?.getValueByKey(key)
-            key < this.key -> this.leftChild?.getValueByKey(key)
-            else -> this.value
-        }
-    }
-
     private fun findMinKey(): AvlTreeItem<K, T> {
         return this.leftChild?.findMinKey() ?: this
     }
@@ -56,6 +48,14 @@ class AvlTreeItem<K : Comparable<K>, T>(private val key: K, private val value: T
         return item
     }
 
+    fun getValueByKey(key: K): T? {
+        return when {
+            key > this.key -> this.rightChild?.getValueByKey(key)
+            key < this.key -> this.leftChild?.getValueByKey(key)
+            else -> this.value
+        }
+    }
+
     fun insert(insertingItem: Pair<K, T>): AvlTreeItem<K, T> {
         if (insertingItem.first < this.key) {
             this.leftChild = this.leftChild?.insert(insertingItem)
@@ -71,16 +71,14 @@ class AvlTreeItem<K : Comparable<K>, T>(private val key: K, private val value: T
     fun remove(key: K): AvlTreeItem<K, T>? {
         return when {
             key < this.key -> {
-                this.leftChild =
-                    this.leftChild?.remove(key)
-                        ?: throw NoSuchElementException("Element with this key does not exist.")
+                if (this.leftChild == null) throw NoSuchElementException("Element with this key does not exist.")
+                this.leftChild = this.leftChild?.remove(key)
 
                 this.balance()
             }
             key > this.key -> {
-                this.rightChild =
-                    this.rightChild?.remove(key)
-                        ?: throw NoSuchElementException("Element with this key does not exist.")
+                if (this.rightChild == null) throw NoSuchElementException("Element with this key does not exist.")
+                this.rightChild = this.rightChild?.remove(key)
 
                 this.balance()
             }
