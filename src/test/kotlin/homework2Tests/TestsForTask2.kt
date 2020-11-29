@@ -4,7 +4,7 @@ import homeworks.homework2.task2.deleteRepeatElements
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 
-internal class TestsForTask1 {
+internal class TestsForTask2 {
 
     @Test
     fun testWhenFirstElementAndLastElementIsEquals() {

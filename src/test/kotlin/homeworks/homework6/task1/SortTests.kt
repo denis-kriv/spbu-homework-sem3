@@ -1,5 +1,5 @@
-import homeworks.homework6.task1.asyncQuickSort
-import homeworks.homework6.task1.simpleQuickSort
+package homeworks.homework6.task1
+
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertArrayEquals
