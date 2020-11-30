@@ -131,4 +131,22 @@ class VectorTests {
 
         assertTrue(vector.isZero())
     }
+
+    @Test
+    fun `clone should works correctly when data is correct`() {
+        val coordinates = listOf(ExampleValue(0), ExampleValue(0), ExampleValue(0))
+
+        val vector = Vector(coordinates)
+
+        assertIterableEquals(coordinates, vector.clone().getCoordinates())
+    }
+
+    @Test
+    fun `getCoordinates should works correctly when data is correct`() {
+        val coordinates = listOf(ExampleValue(0), ExampleValue(0), ExampleValue(0))
+
+        val vector = Vector(coordinates)
+
+        assertIterableEquals(coordinates, vector.getCoordinates())
+    }
 }

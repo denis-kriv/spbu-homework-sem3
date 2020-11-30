@@ -17,18 +17,14 @@ class Vector<T : Ordered<T>>(private val coordinates: List<T>) {
         return coordinates.size
     }
 
-    fun getCoordinates(): List<T> {
-        return coordinates
-    }
-
     operator fun plus(vector: Vector<T>): Vector<T> {
         if (vector.getSize() != getSize()) throw ArithmeticException("Size of vectors must be equals.")
 
-        val vectorCoords = vector.getCoordinates()
+        val vectorCoordinates = vector.getCoordinates()
         val result = mutableListOf<T>()
 
         for (i in coordinates.indices) {
-            result.add(coordinates[i] + vectorCoords[i])
+            result.add(coordinates[i] + vectorCoordinates[i])
         }
 
         return Vector(result)
@@ -37,11 +33,11 @@ class Vector<T : Ordered<T>>(private val coordinates: List<T>) {
     operator fun minus(vector: Vector<T>): Vector<T> {
         if (vector.getSize() != getSize()) throw ArithmeticException("Size of vectors must be equals.")
 
-        val vectorCoords = vector.getCoordinates()
+        val vectorCoordinates = vector.getCoordinates()
         val result = mutableListOf<T>()
 
         for (i in coordinates.indices) {
-            result.add(coordinates[i] - vectorCoords[i])
+            result.add(coordinates[i] - vectorCoordinates[i])
         }
 
         return Vector(result)
@@ -50,15 +46,19 @@ class Vector<T : Ordered<T>>(private val coordinates: List<T>) {
     operator fun times(vector: Vector<T>): T {
         if (vector.getSize() != getSize()) throw ArithmeticException("Size of vectors must be equals.")
 
-        val vectorCoords = vector.getCoordinates()
+        val vectorCoordinates = vector.getCoordinates()
 
-        var result = coordinates[coordinates.lastIndex] * vectorCoords[vectorCoords.lastIndex]
+        var result = coordinates[coordinates.lastIndex] * vectorCoordinates[vectorCoordinates.lastIndex]
 
         for (i in 0 until coordinates.lastIndex) {
-            result += coordinates[i] * vectorCoords[i]
+            result += coordinates[i] * vectorCoordinates[i]
         }
 
         return result
+    }
+
+    fun getCoordinates(): List<T> {
+        return coordinates
     }
 
     fun norma(): T {
