@@ -1,4 +1,4 @@
-package homeworks.homework7.task2.models
+package homeworks.homework8.task1.offline.models
 
 import kotlin.random.Random
 
@@ -19,7 +19,10 @@ private fun easyMove(buttons: List<Pair<Int, Int>>) {
 
     val location = buttons[index]
 
-    Game.updateButton(location, Game.botSign)
+    Game.updateButton(
+        location,
+        Game.botSign
+    )
 }
 
 private fun moveContour(sign: String): Boolean {
@@ -42,7 +45,10 @@ private fun moveContour(sign: String): Boolean {
         }
 
         if (quantityOfEmptyButtons == 1 && quantityOfSigns == 2) {
-            Game.updateButton(location, Game.botSign)
+            Game.updateButton(
+                location,
+                Game.botSign
+            )
             return true
         }
     }
@@ -70,7 +76,10 @@ private fun moveVertical(sign: String): Boolean {
         }
 
         if (quantityOfEmptyButtons == 1 && quantityOfSigns == 2) {
-            Game.updateButton(location, Game.botSign)
+            Game.updateButton(
+                location,
+                Game.botSign
+            )
             return true
         }
     }
@@ -97,7 +106,10 @@ private fun moveFirstDiagonal(sign: String): Boolean {
     }
 
     if (quantityOfEmptyButtons == 1 && quantityOfSigns == 2) {
-        Game.updateButton(location, Game.botSign)
+        Game.updateButton(
+            location,
+            Game.botSign
+        )
         return true
     }
 
@@ -123,7 +135,10 @@ private fun moveSecondDiagonal(sign: String): Boolean {
     }
 
     if (quantityOfEmptyButtons == 1 && quantityOfSigns == 2) {
-        Game.updateButton(location, Game.botSign)
+        Game.updateButton(
+            location,
+            Game.botSign
+        )
         return true
     }
 
@@ -144,13 +159,18 @@ private fun doCleverMove(): Boolean {
 private fun hardMove(buttons: List<Pair<Int, Int>>) {
     if (doCleverMove()) return
 
-    if (buttons.contains(Pair(1, 1))) Game.updateButton(Pair(1, 1), Game.botSign) else easyMove(buttons)
+    if (buttons.contains(Pair(1, 1))) Game.updateButton(
+        Pair(1, 1),
+        Game.botSign
+    ) else easyMove(buttons)
 }
 
 class Bot {
 
     fun move() {
-        if (Game.difficulty == "Easy") easyMove(getEmptyButtons()) else hardMove(getEmptyButtons())
+        if (Game.difficulty == "Easy") easyMove(
+            getEmptyButtons()
+        ) else hardMove(getEmptyButtons())
 
         Game.checkResult()
     }

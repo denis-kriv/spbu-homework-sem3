@@ -1,6 +1,6 @@
-package homeworks.homework7.task2.models
+package homeworks.homework8.task1.offline.models
 
-import homeworks.homework7.task2.views.GameView
+import homeworks.homework8.task1.online.OnlineGameView
 import javafx.beans.property.SimpleObjectProperty
 import tornadofx.find
 import tornadofx.text
@@ -94,7 +94,9 @@ object Game {
     var difficulty: String = "Easy"
     var status: SimpleObjectProperty<String> = SimpleObjectProperty("In Progress")
     var isEnd: Boolean = false
-    var buttons: Array<Array<String>> = Array(size) { Array(size) { " " } }
+    var buttons: Array<Array<String>> = Array(size) { Array(
+        size
+    ) { " " } }
 
     fun checkResult() {
         isEnd = checkDiagonal() || checkVertical() || checkContour() || checkIfDraw()
@@ -103,7 +105,7 @@ object Game {
     fun updateButton(location: Pair<Int, Int>, value: String) {
         buttons[location.first][location.second] = value
 
-        val button = find<GameView>().root.lookup("#${location.first}-${location.second}")
+        val button = find<OnlineGameView>().root.lookup("#${location.first}-${location.second}")
         button.text(value)
     }
 }

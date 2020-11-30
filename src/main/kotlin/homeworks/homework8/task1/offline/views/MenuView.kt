@@ -1,7 +1,8 @@
-package homeworks.homework7.task2.views
+package homeworks.homework8.task1.offline.views
 
-import homeworks.homework7.task2.controllers.TicTacToeController
-import homeworks.homework7.task2.styles.MenuStyle
+import homeworks.homework8.task1.offline.controllers.TicTacToeController
+import homeworks.homework8.task1.online.OnlineGameView
+import homeworks.homework8.task1.offline.styles.MenuStyle
 import javafx.beans.property.SimpleObjectProperty
 import tornadofx.View
 import tornadofx.vbox
@@ -42,7 +43,7 @@ class MenuView : View("Menu") {
             action {
                 controller.startGame(sign.value, difficulty.value)
 
-                replaceWith<GameView>()
+                replaceWith<OnlineGameView>()
             }
         }
     }
