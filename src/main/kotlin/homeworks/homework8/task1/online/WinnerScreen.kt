@@ -1,7 +1,6 @@
 package homeworks.homework8.task1.online
 
 import homeworks.homework8.task1.GameModeChoiceMenu
-import homeworks.homework8.task1.offline.styles.GameFieldStyle
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.View
 import tornadofx.addClass

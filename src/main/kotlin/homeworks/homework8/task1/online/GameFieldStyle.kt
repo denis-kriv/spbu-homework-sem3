@@ -1,4 +1,4 @@
-package homeworks.homework8.task1.offline.styles
+package homeworks.homework8.task1.online
 
 import javafx.geometry.Pos
 import javafx.scene.text.Font
