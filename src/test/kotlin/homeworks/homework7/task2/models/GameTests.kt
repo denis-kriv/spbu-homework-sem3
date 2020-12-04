@@ -1,5 +1,6 @@
 package homeworks.homework7.task2.models
 
+import homeworks.homework8.task1.offline.models.Game
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test

@@ -1,8 +1,9 @@
-package homeworks.homework7.task2.views
+package homeworks.homework8.task1.online
 
-import homeworks.homework7.task2.controllers.TicTacToeController
-import homeworks.homework7.task2.models.Game
-import homeworks.homework7.task2.styles.GameStyle
+import homeworks.homework8.task1.GameModeChoiceMenu
+import homeworks.homework8.task1.offline.models.Game
+import homeworks.homework8.task1.offline.styles.GameStyle
+import io.ktor.util.KtorExperimentalAPI
 import tornadofx.View
 import tornadofx.addClass
 import tornadofx.label
@@ -11,13 +12,19 @@ import tornadofx.button
 import tornadofx.hbox
 import tornadofx.action
 
-class GameView : View() {
+class OnlineGameView : View() {
 
     companion object {
         private const val size = 3
     }
 
-    private val controller: TicTacToeController by inject()
+    private val controller: OnlineModeController by inject()
+
+    @KtorExperimentalAPI
+    override fun onDock() {
+        controller.newGameHandling()
+        super.onDock()
+    }
 
     override val root = vbox {
         addClass(GameStyle.mainBlock)
@@ -35,7 +42,7 @@ class GameView : View() {
                         button {
                             id = "$i-$j"
 
-                            action { controller.playerMove(Pair(i, j)) }
+                            action { controller.playerMoveHandling(id) }
                         }
                     }
                 }
@@ -43,9 +50,7 @@ class GameView : View() {
         }
 
         button("Menu") {
-            action {
-                replaceWith<MenuView>()
-            }
+            action { replaceWith<GameModeChoiceMenu>() }
         }
     }
 }

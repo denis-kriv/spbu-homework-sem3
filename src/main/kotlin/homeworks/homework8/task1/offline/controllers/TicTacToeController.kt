@@ -1,7 +1,7 @@
-package homeworks.homework7.task2.controllers
+package homeworks.homework8.task1.offline.controllers
 
-import homeworks.homework7.task2.handlers.PlayerMoveHandler
-import homeworks.homework7.task2.handlers.StartGameHandler
+import homeworks.homework8.task1.offline.handlers.PlayerMoveHandler
+import homeworks.homework8.task1.offline.handlers.StartGameHandler
 import tornadofx.Controller
 
 class TicTacToeController : Controller() {

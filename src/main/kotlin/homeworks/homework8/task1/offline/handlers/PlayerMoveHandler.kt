@@ -1,7 +1,7 @@
-package homeworks.homework7.task2.handlers
+package homeworks.homework8.task1.offline.handlers
 
-import homeworks.homework7.task2.models.Bot
-import homeworks.homework7.task2.models.Game
+import homeworks.homework8.task1.offline.models.Bot
+import homeworks.homework8.task1.offline.models.Game
 
 class PlayerMoveHandler {
 

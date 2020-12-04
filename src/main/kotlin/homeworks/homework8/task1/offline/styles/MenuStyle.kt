@@ -1,4 +1,4 @@
-package homeworks.homework7.task2.styles
+package homeworks.homework8.task1.offline.styles
 
 import javafx.geometry.Pos
 import tornadofx.Stylesheet
